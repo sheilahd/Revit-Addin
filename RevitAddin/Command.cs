@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Windows.Forms;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
@@ -14,44 +15,31 @@ namespace RevitAddin
     [Transaction(TransactionMode.Manual)]
     public class Command : IExternalCommand
     {
-        public Result Execute(
-          ExternalCommandData commandData,
-          ref string message,
-          ElementSet elements)
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            UIApplication uiapp = commandData.Application;
-            UIDocument uidoc = uiapp.ActiveUIDocument;
-            Application app = uiapp.Application;
-            Document doc = uidoc.Document;
-
-            // Access current selection
-
-            Selection sel = uidoc.Selection;
-
-            // Retrieve elements from database
-
-            FilteredElementCollector col
-              = new FilteredElementCollector(doc)
-                .WhereElementIsNotElementType()
-                .OfCategory(BuiltInCategory.INVALID)
-                .OfClass(typeof(Wall));
-
-            // Filtered element collector is iterable
-
-            foreach (Element e in col)
+            try
             {
-                Debug.Print(e.Name);
+                var buildingManager = new BuildingManager(commandData);
+
+                DialogResult result = DialogResult.None;
+                using (frmBuildingCreationData form = new frmBuildingCreationData(buildingManager))
+                {
+                    result = form.ShowDialog();
+                }
+
+                if (result == DialogResult.OK)
+                {
+                    return Result.Succeeded;
+                }
+
+                return Result.Cancelled;
             }
-
-            // Modify document within a transaction
-
-            using (Transaction tx = new Transaction(doc))
+            catch (Exception ex)
             {
-                tx.Start("Transaction Name");
-                tx.Commit();
-            }
+                message = ex.Message;
 
-            return Result.Succeeded;
+                return Result.Failed;
+            }
         }
     }
 }
