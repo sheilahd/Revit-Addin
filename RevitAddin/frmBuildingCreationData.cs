@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace RevitAddin
 {
-    public partial class frmBuildingCreationData : Form
+    public partial class frmBuildingCreationData : System.Windows.Forms.Form
     {
         private readonly BuildingManager buildingManager;
 
