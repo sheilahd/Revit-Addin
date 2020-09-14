@@ -22,7 +22,7 @@ namespace RevitAddin
         
         public Double m_width { get; set; }
         public Double m_height { get; set; }
-        public Double m_lengtn { get; set; }
+        public Double m_length { get; set; }
         public Double m_dimX { get; set; }
         public Double m_dimY { get; set; }
         public Double m_dimZ { get; set; }

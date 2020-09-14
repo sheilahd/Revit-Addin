@@ -30,10 +30,12 @@ namespace RevitAddin
         {
             this.cbRoofType.DataSource = buildingManager.RoofTypes;
             this.cbRoofType.DisplayMember = "Name";
+            this.cbRoofType.ValueMember = "Id";
             this.cbRoofType.DropDownStyle = ComboBoxStyle.DropDownList;
 
             this.cbWallType.DataSource = buildingManager.WallTypes;
             this.cbWallType.DisplayMember = "Name";
+            this.cbRoofType.ValueMember = "Id";
             this.cbWallType.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
@@ -48,19 +50,12 @@ namespace RevitAddin
             buildingManager.m_dimY = Convert.ToDouble(tbY.Text);
             buildingManager.m_dimZ = Convert.ToDouble(tbZ.Text);
 
-            buildingManager.m_lengtn = Convert.ToDouble(tbLength.Text);
+            buildingManager.m_length = Convert.ToDouble(tbLength.Text);
             buildingManager.m_width = Convert.ToDouble(tbWidth.Text);
             buildingManager.m_height = Convert.ToDouble(tbHeight.Text);
 
             buildingManager.m_wallTypeSelect = cbWallType.SelectedValue;
             buildingManager.m_roofTypeSelect = cbRoofType.SelectedValue;
-
-            ExternalCommandData commandData = null;
-            string message = string.Empty;
-            ElementSet elements = null;
-
-            Command nw = new Command();
-            var resultado = nw.Execute(commandData, ref message, elements);
             //buildingManager.m_floorTypeSelect = Convert.ToDouble(TextBox.Text);
             
             //TaskDialog.Show("Building creation", "Hello world!");
