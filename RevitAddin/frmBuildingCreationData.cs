@@ -43,7 +43,19 @@ namespace RevitAddin
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            TaskDialog.Show("Building creation", "Hello world!");
+            buildingManager.m_dimX = Convert.ToDouble(tbX.Text);
+            buildingManager.m_dimY = Convert.ToDouble(tbY.Text);
+            buildingManager.m_dimZ = Convert.ToDouble(tbZ.Text);
+
+            buildingManager.m_lengtn = Convert.ToDouble(tbX.Text);
+            buildingManager.m_width = Convert.ToDouble(tbX.Text);
+            buildingManager.m_height = Convert.ToDouble(tbX.Text);
+
+            buildingManager.m_wallTypeSelect = cbWallType.SelectedValue;
+            buildingManager.m_roofTypeSelect = cbRoofType.SelectedValue;
+            //buildingManager.m_floorTypeSelect = Convert.ToDouble(TextBox.Text);
+
+            //TaskDialog.Show("Building creation", "Hello world!");
         }
     }
 }
