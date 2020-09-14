@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,14 +48,21 @@ namespace RevitAddin
             buildingManager.m_dimY = Convert.ToDouble(tbY.Text);
             buildingManager.m_dimZ = Convert.ToDouble(tbZ.Text);
 
-            buildingManager.m_lengtn = Convert.ToDouble(tbX.Text);
-            buildingManager.m_width = Convert.ToDouble(tbX.Text);
-            buildingManager.m_height = Convert.ToDouble(tbX.Text);
+            buildingManager.m_lengtn = Convert.ToDouble(tbLength.Text);
+            buildingManager.m_width = Convert.ToDouble(tbWidth.Text);
+            buildingManager.m_height = Convert.ToDouble(tbHeight.Text);
 
             buildingManager.m_wallTypeSelect = cbWallType.SelectedValue;
             buildingManager.m_roofTypeSelect = cbRoofType.SelectedValue;
-            //buildingManager.m_floorTypeSelect = Convert.ToDouble(TextBox.Text);
 
+            ExternalCommandData commandData = null;
+            string message = string.Empty;
+            ElementSet elements = null;
+
+            Command nw = new Command();
+            var resultado = nw.Execute(commandData, ref message, elements);
+            //buildingManager.m_floorTypeSelect = Convert.ToDouble(TextBox.Text);
+            
             //TaskDialog.Show("Building creation", "Hello world!");
         }
     }
