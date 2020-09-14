@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Assembly>Hazen.dll</Assembly>
+    <FullClassName>Hazen.App</FullClassName>
+    <ClientId>66b06569-8e4f-495b-8cec-77ca660932f7</ClientId>
+    <Name>HAZEN CORPORATE BIM TOOLS</Name>
+    <VendorId>LME</VendorId>
+    <VendorDescription>Lester, Independent</VendorDescription>
+  </AddIn>
+</RevitAddIns>
