@@ -81,29 +81,17 @@
     <Content Include="Hazen.addin">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Images\HazenIcon.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\HazenIcon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\HazenIcon1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\HazenIcon32x32.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\HazenIcon64x64.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\HazenIcon96x96.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\NewSheetIcon96x96.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Images\HazenIcon.jpg" />
+    <Content Include="Images\HazenIcon.png" />
+    <Content Include="Images\HazenIcon1.png" />
+    <Content Include="Images\HazenIcon32x32.png" />
+    <Content Include="Images\HazenIcon64x64.png" />
+    <Content Include="Images\HazenIcon96x96.png" />
+    <Content Include="Images\NewSheetIcon96x96.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Hazen.chm" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\frmNewProj.resx">
       <DependentUpon>frmNewProj.cs</DependentUpon>
@@ -114,7 +102,9 @@
     <PostBuildEvent>if exist "$(AppData)\Autodesk\REVIT\Addins\2019" copy "$(ProjectDir)*.addin" "$(AppData)\Autodesk\REVIT\Addins\2019"
 if exist "$(AppData)\Autodesk\REVIT\Addins\2019" copy "$(ProjectDir)$(OutputPath)*.dll" "$(AppData)\Autodesk\REVIT\Addins\2019"
 if not exist "$(AppData)\Autodesk\REVIT\Addins\2019\Images" mkdir "$(AppData)\Autodesk\REVIT\Addins\2019\Images"
-copy "$(ProjectDir)$(OutputPath)Images" "$(AppData)\Autodesk\REVIT\Addins\2019\Images"</PostBuildEvent>
+copy "$(ProjectDir)Images" "$(AppData)\Autodesk\REVIT\Addins\2019\Images"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2019" copy "$(ProjectDir)*.chm" "$(AppData)\Autodesk\REVIT\Addins\2019"
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
