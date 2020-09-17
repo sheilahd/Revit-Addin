@@ -96,16 +96,10 @@ namespace RevitAddin
             double depthParam = buildingManager.m_length * Constants.MeterToFeet;
             double heightParam = buildingManager.m_height * Constants.MeterToFeet;
 
-            //List<XYZ> corners = new List<XYZ>(4);
-
             corners.Add(new XYZ(buildingManager.m_dimX, buildingManager.m_dimY, buildingManager.m_dimZ));
             corners.Add(new XYZ(widthParam, buildingManager.m_dimY, buildingManager.m_dimZ));
             corners.Add(new XYZ(widthParam, depthParam, buildingManager.m_dimZ));
             corners.Add(new XYZ(buildingManager.m_dimX, depthParam, buildingManager.m_dimZ));
-
-            // Determine the levels where the walls will be located:
-            //Level levelBottom = null;
-            //Level levelTop = null;
 
             if (!Utils.GetBottomAndTopLevels(doc, ref levelBottom, ref levelTop))
             {
@@ -134,9 +128,6 @@ namespace RevitAddin
             for (int i = 0; i < 4; ++i)
             {
                 Line line = Line.CreateBound(corners[i], corners[3 == i ? 0 : i + 1]);
-                //geomLine.Add(line);
-                //Wall wall = createDoc.NewWall( line, levelBottom, false ); // 2012
-
                 Wall wall = Wall.Create(doc, line, levelBottomId, false); // 2013
                 Parameter param = wall.get_Parameter(topLevelParam);
                 param.Set(topLevelId);
@@ -163,24 +154,17 @@ namespace RevitAddin
                 CurveArray profile = new CurveArray();
                 for (int i = 0; i < 4; ++i)
                 {
-                    //Line line = createApp.NewLineBound( // 2013
-
                     Line line = Line.CreateBound( // 2014
                       corners[i], corners[3 == i ? 0 : i + 1]);
 
                     profile.Append(line);
                 }
 
-                // Add a floor, a roof and the roof slope:                    
                 List<Element> floorTypes = new List<Element>(Utils.GetElementsOfType(doc, typeof(FloorType), BuiltInCategory.OST_Floors));
 
                 Debug.Assert(0 < floorTypes.Count, "expected at least one floor type" + " to be loaded into project");
 
-                //FloorType floorTypeSelect = buildingManager.m_floorTypeSelect as FloorType;
                 FloorType floorType = floorTypes.Cast<FloorType>().FirstOrDefault(); //First<Element>(ft => ft.Id == floorTypeSelect.Id) as FloorType;
-
-                //Level levelFloor = Level.Create(doc, DimZ);
-                //levelFloor.Name = "Level Floor";
 
                 XYZ normal = XYZ.BasisZ;
 
@@ -207,12 +191,6 @@ namespace RevitAddin
                 TaskDialog.Show("Add roof", "Cannot find (" + roofTypeSelect + "). Maybe you use a different template? Try with DefaultMetric.rte.");
             }
 
-            // Wall thickness to adjust the footprint of the walls 
-            // to the outer most lines. 
-            // Note: this may not be the best way, 
-            // but we will live with this for this exercise. 
-
-            //double wallThickness = walls[0].WallType.CompoundStructure.Layers.get_Item(0).Thickness; // 2011
             double wallThickness = walls[0].Width;
 
             double dt = wallThickness / 2.0;
@@ -222,8 +200,6 @@ namespace RevitAddin
             dts.Add(new XYZ(dt, dt, 0.0));
             dts.Add(new XYZ(-dt, dt, 0.0));
             dts.Add(dts[0]);
-
-            // Set the profile from four walls 
 
             CurveArray footPrint = new CurveArray();
             for (int i = 0; i <= 3; i++)
@@ -241,11 +217,7 @@ namespace RevitAddin
             //Level level2 = (Level)_doc.get_Element(idLevel2); // 2012
             Level level2 = (Level)doc.GetElement(idLevel2); // since 2013
 
-            // Footprint to model curve mapping 
-
             ModelCurveArray mapping = new ModelCurveArray();
-
-            // Create a roof. 
 
             FootPrintRoof aRoof = doc.Create.NewFootPrintRoof(
               footPrint, level2, roofType, out mapping);

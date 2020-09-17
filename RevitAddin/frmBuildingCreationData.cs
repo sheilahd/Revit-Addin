@@ -56,9 +56,6 @@ namespace RevitAddin
 
             buildingManager.m_wallTypeSelect = cbWallType.SelectedValue;
             buildingManager.m_roofTypeSelect = cbRoofType.SelectedValue;
-            //buildingManager.m_floorTypeSelect = Convert.ToDouble(TextBox.Text);
-            
-            //TaskDialog.Show("Building creation", "Hello world!");
         }
     }
 }
