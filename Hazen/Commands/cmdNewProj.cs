@@ -65,33 +65,14 @@ namespace Hazen.Commands
                 walls = CreateWalls(doc, data, ref corners, ref levelBottom, ref levelTop);
 
                 double wallThickness = walls[0].WallType.Width;
-
-                //
-                // Add door and windows to the first wall;
-                //
-
-                XYZ midpoint = Utils.Midpoint(corners[0], corners[1]);
-                XYZ p = Utils.Midpoint(corners[0], midpoint);
-                XYZ q = Utils.Midpoint(midpoint, corners[1]);
-                double tagOffset = 3 * wallThickness;
-
-                //double windowHeight = 1 * LabConstants.MeterToFeet;
-                double windowHeight = levelBottom.Elevation + 0.3 * (
-                  levelTop.Elevation - levelBottom.Elevation);
-
-                p = new XYZ(p.X, p.Y, windowHeight);
-                q = new XYZ(q.X, q.Y, windowHeight);
-                Autodesk.Revit.DB.View view = doc.ActiveView;
-
-                midpoint += tagOffset * XYZ.BasisY;
-
-                p += tagOffset * XYZ.BasisY;
-                q += tagOffset * XYZ.BasisY;
-
+                
                 CreateFloor(doc, data, levelBottom, wallThickness, ref corners);
 
-                AddRoof(doc, data, walls);
-
+                if (data.drawingRoof)
+                {
+                    AddRoof(doc, data, walls);
+                } 
+                
                 t.Commit();
             }
         }

@@ -19,5 +19,7 @@ namespace Hazen.FormData
         public double Width { get; set; }
 
         public double Height { get; set; }
+
+        public bool drawingRoof { get; set; }
     }
 }

@@ -103,7 +103,8 @@ namespace Hazen.Forms
                 Z = z,
                 Length = length,
                 Width = width,
-                Height = height
+                Height = height,
+                drawingRoof = chbRoofType.Checked
             };
 
             DialogResult = DialogResult.OK;
