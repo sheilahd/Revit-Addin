@@ -1,10 +1,12 @@
-﻿namespace Hazen.FormData
+﻿using Autodesk.Revit.DB;
+
+namespace Hazen.FormData
 {
     public class NewProjData
     {
-        public string WallType { get; set; }
+        public WallType WallType { get; set; }
 
-        public string RoofType { get; set; }
+        public RoofType RoofType { get; set; }
 
         public double X { get; set; }
 
