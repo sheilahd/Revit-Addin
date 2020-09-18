@@ -19,6 +19,18 @@ namespace RevitAddin
 
         // To store the wall types info in the Revit.
         private List<WallType> m_wallTypes;
+        
+        public Double m_width { get; set; }
+        public Double m_height { get; set; }
+        public Double m_length { get; set; }
+        public Double m_dimX { get; set; }
+        public Double m_dimY { get; set; }
+        public Double m_dimZ { get; set; }
+
+        public object m_wallTypeSelect { get; set; }
+        public object m_roofTypeSelect { get; set; }
+        public object m_floorTypeSelect { get; set; }
+
 
         public BuildingManager(ExternalCommandData commandData)
         {
@@ -33,12 +45,12 @@ namespace RevitAddin
 
             // Search all the roof types in the Revit
             FilteredElementCollector roofTypesElementCollector = new FilteredElementCollector(doc);
-            roofTypesElementCollector.OfClass(typeof(RoofType));
+            roofTypesElementCollector.OfCategory(BuiltInCategory.OST_Roofs).OfClass(typeof(RoofType));
             m_roofTypes = roofTypesElementCollector.Cast<RoofType>().ToList();
 
             // Search all the wall types in the Revit
             FilteredElementCollector wallTypesElementCollector = new FilteredElementCollector(doc);
-            wallTypesElementCollector.OfClass(typeof(WallType));
+            wallTypesElementCollector.OfCategory(BuiltInCategory.OST_Walls).OfClass(typeof(WallType));
             m_wallTypes = wallTypesElementCollector.Cast<WallType>().ToList();
         }
 
@@ -56,6 +68,7 @@ namespace RevitAddin
             {
                 return new ReadOnlyCollection<WallType>(m_wallTypes);
             }
-        }
+        }   
+        
     }
 }

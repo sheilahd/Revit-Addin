@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,10 +30,12 @@ namespace RevitAddin
         {
             this.cbRoofType.DataSource = buildingManager.RoofTypes;
             this.cbRoofType.DisplayMember = "Name";
+            this.cbRoofType.ValueMember = "Id";
             this.cbRoofType.DropDownStyle = ComboBoxStyle.DropDownList;
 
             this.cbWallType.DataSource = buildingManager.WallTypes;
             this.cbWallType.DisplayMember = "Name";
+            this.cbRoofType.ValueMember = "Id";
             this.cbWallType.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
@@ -43,7 +46,16 @@ namespace RevitAddin
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            TaskDialog.Show("Building creation", "Hello world!");
+            buildingManager.m_dimX = Convert.ToDouble(tbX.Text);
+            buildingManager.m_dimY = Convert.ToDouble(tbY.Text);
+            buildingManager.m_dimZ = Convert.ToDouble(tbZ.Text);
+
+            buildingManager.m_length = Convert.ToDouble(tbLength.Text);
+            buildingManager.m_width = Convert.ToDouble(tbWidth.Text);
+            buildingManager.m_height = Convert.ToDouble(tbHeight.Text);
+
+            buildingManager.m_wallTypeSelect = cbWallType.SelectedValue;
+            buildingManager.m_roofTypeSelect = cbRoofType.SelectedValue;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using Hazen.FormData;
 using Hazen.Managers;
 using System;
@@ -95,8 +96,8 @@ namespace Hazen.Forms
 
             FormData = new NewProjData
             {
-                WallType = cbWallType.SelectedValue.ToString(),
-                RoofType = cbRoofType.SelectedValue.ToString(),
+                WallType = cbWallType.SelectedValue as WallType,
+                RoofType = cbRoofType.SelectedValue as RoofType,
                 X = x,
                 Y = y,
                 Z = z,

@@ -30,18 +30,18 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.chbRoofType = new System.Windows.Forms.CheckBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.tbHeight = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.tbWidth = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.tbLength = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.tbZ = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tbY = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbX = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.cbRoofType = new System.Windows.Forms.ComboBox();
@@ -60,18 +60,18 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.chbRoofType);
-            this.panel1.Controls.Add(this.textBox4);
+            this.panel1.Controls.Add(this.tbHeight);
             this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.textBox5);
+            this.panel1.Controls.Add(this.tbWidth);
             this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.textBox6);
+            this.panel1.Controls.Add(this.tbLength);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label10);
-            this.panel1.Controls.Add(this.textBox3);
+            this.panel1.Controls.Add(this.tbZ);
             this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.textBox2);
+            this.panel1.Controls.Add(this.tbY);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.tbX);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.cbRoofType);
@@ -95,12 +95,12 @@
             this.chbRoofType.UseVisualStyleBackColor = true;
             this.chbRoofType.CheckedChanged += new System.EventHandler(this.chbRoofType_CheckedChanged);
             // 
-            // textBox4
+            // tbHeight
             // 
-            this.textBox4.Location = new System.Drawing.Point(512, 165);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 20);
-            this.textBox4.TabIndex = 36;
+            this.tbHeight.Location = new System.Drawing.Point(512, 165);
+            this.tbHeight.Name = "tbHeight";
+            this.tbHeight.Size = new System.Drawing.Size(100, 20);
+            this.tbHeight.TabIndex = 36;
             // 
             // label7
             // 
@@ -111,12 +111,12 @@
             this.label7.TabIndex = 35;
             this.label7.Text = "HEIGHT";
             // 
-            // textBox5
+            // tbWidth
             // 
-            this.textBox5.Location = new System.Drawing.Point(356, 165);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 20);
-            this.textBox5.TabIndex = 34;
+            this.tbWidth.Location = new System.Drawing.Point(356, 165);
+            this.tbWidth.Name = "tbWidth";
+            this.tbWidth.Size = new System.Drawing.Size(100, 20);
+            this.tbWidth.TabIndex = 34;
             // 
             // label8
             // 
@@ -127,12 +127,12 @@
             this.label8.TabIndex = 33;
             this.label8.Text = "WIDTH";
             // 
-            // textBox6
+            // tbLength
             // 
-            this.textBox6.Location = new System.Drawing.Point(204, 165);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(100, 20);
-            this.textBox6.TabIndex = 32;
+            this.tbLength.Location = new System.Drawing.Point(204, 165);
+            this.tbLength.Name = "tbLength";
+            this.tbLength.Size = new System.Drawing.Size(100, 20);
+            this.tbLength.TabIndex = 32;
             // 
             // label9
             // 
@@ -152,12 +152,12 @@
             this.label10.TabIndex = 30;
             this.label10.Text = "BUILDING DIMENSIONS";
             // 
-            // textBox3
+            // tbZ
             // 
-            this.textBox3.Location = new System.Drawing.Point(421, 117);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 29;
+            this.tbZ.Location = new System.Drawing.Point(421, 117);
+            this.tbZ.Name = "tbZ";
+            this.tbZ.Size = new System.Drawing.Size(100, 20);
+            this.tbZ.TabIndex = 29;
             // 
             // label6
             // 
@@ -168,12 +168,12 @@
             this.label6.TabIndex = 28;
             this.label6.Text = "Z";
             // 
-            // textBox2
+            // tbY
             // 
-            this.textBox2.Location = new System.Drawing.Point(295, 117);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 27;
+            this.tbY.Location = new System.Drawing.Point(295, 117);
+            this.tbY.Name = "tbY";
+            this.tbY.Size = new System.Drawing.Size(100, 20);
+            this.tbY.TabIndex = 27;
             // 
             // label5
             // 
@@ -184,12 +184,12 @@
             this.label5.TabIndex = 26;
             this.label5.Text = "Y";
             // 
-            // textBox1
+            // tbX
             // 
-            this.textBox1.Location = new System.Drawing.Point(169, 116);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 25;
+            this.tbX.Location = new System.Drawing.Point(169, 116);
+            this.tbX.Name = "tbX";
+            this.tbX.Size = new System.Drawing.Size(100, 20);
+            this.tbX.TabIndex = 25;
             // 
             // label4
             // 
@@ -296,18 +296,18 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox chbRoofType;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox tbHeight;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox tbWidth;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox tbLength;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox tbZ;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tbY;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbX;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbRoofType;
