@@ -310,7 +310,12 @@
             this.ClientSize = new System.Drawing.Size(629, 265);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmNewProj";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "BEVA - MODEL CREATION FORM";
             this.Load += new System.EventHandler(this.frmNewProj_Load);
             this.panel1.ResumeLayout(false);
