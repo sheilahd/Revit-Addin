@@ -65,10 +65,13 @@ namespace Hazen.Commands
                 walls = CreateWalls(doc, data, ref corners, ref levelBottom, ref levelTop);
 
                 double wallThickness = walls[0].WallType.Width;
-                
-                CreateFloor(doc, data, levelBottom, wallThickness, ref corners);
 
-                if (data.drawingRoof)
+                if (data.DrawingSlab)
+                {
+                    CreateFloor(doc, data, levelBottom, wallThickness, ref corners);
+                }
+
+                if (data.DrawingRoof)
                 {
                     AddRoof(doc, data, walls);
                 } 

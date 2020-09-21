@@ -104,7 +104,8 @@ namespace Hazen.Forms
                 Length = length,
                 Width = width,
                 Height = height,
-                drawingRoof = chbRoofType.Checked
+                DrawingRoof = chbRoofType.Checked,
+                DrawingSlab = chbSlab.Checked
             };
 
             DialogResult = DialogResult.OK;
