@@ -76,19 +76,19 @@ namespace Hazen.Forms
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtLength.Text) || !double.TryParse(txtLength.Text, out double length))
+            if (string.IsNullOrWhiteSpace(txtLength.Text) || !double.TryParse(txtLength.Text, out double length) || length < 0)
             {
                 TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values.");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtWidth.Text) || !double.TryParse(txtWidth.Text, out double width))
+            if (string.IsNullOrWhiteSpace(txtWidth.Text) || !double.TryParse(txtWidth.Text, out double width) || width < 0)
             {
                 TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values.");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtHeight.Text) || !double.TryParse(txtHeight.Text, out double height))
+            if (string.IsNullOrWhiteSpace(txtHeight.Text) || !double.TryParse(txtHeight.Text, out double height) || height < 0)
             {
                 TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values.");
                 return;
