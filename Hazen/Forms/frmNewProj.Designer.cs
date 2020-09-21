@@ -287,7 +287,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
             this.Name = "frmNewProj";
-            this.Text = "Data to create the project";
+            this.Text = "BEVA - MODEL CREATION FORM";
             this.Load += new System.EventHandler(this.frmNewProj_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
