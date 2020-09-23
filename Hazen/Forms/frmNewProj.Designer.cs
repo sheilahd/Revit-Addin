@@ -287,6 +287,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
             this.Name = "frmNewProj";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Data to create the project";
             this.Load += new System.EventHandler(this.frmNewProj_Load);
             this.panel1.ResumeLayout(false);
