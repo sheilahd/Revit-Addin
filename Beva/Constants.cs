@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hazen
+namespace Beva
 {
     public static class Constants
     {

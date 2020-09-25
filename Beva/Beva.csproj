@@ -13,8 +13,8 @@
     <ProjectGuid>{A6D27272-3DE4-438E-9554-E47FBBEEC8B3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hazen</RootNamespace>
-    <AssemblyName>Hazen</AssemblyName>
+    <RootNamespace>Beva</RootNamespace>
+    <AssemblyName>Beva</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -80,7 +80,7 @@
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Hazen.addin">
+    <Content Include="Beva.addin">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Images\HazenIcon.jpg" />
@@ -92,7 +92,7 @@
     <Content Include="Images\NewSheetIcon96x96.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Hazen.chm" />
+    <None Include="Beva.chm" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\frmNewProj.resx">

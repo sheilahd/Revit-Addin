@@ -1,7 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Hazen.FormData;
-using Hazen.Managers;
+using Beva.FormData;
+using Beva.Managers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Hazen.Forms
+namespace Beva.Forms
 {
     public partial class frmNewProj : System.Windows.Forms.Form
     {

@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Hazen corporate BIM tools")]
-[assembly: AssemblyDescription("Hazen corporate BIM tools is a set of Revit built-in commands aimed to boost Hazen & Sawyer's productivity.")]
+[assembly: AssemblyTitle("BIM tools")]
+[assembly: AssemblyDescription("BIM tools is a set of Revit built-in commands aimed to boost productivity.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Hazen & Sawyer")]
+[assembly: AssemblyCompany("Beva")]
 [assembly: AssemblyProduct("Revit C# .NET Add-In")]
 [assembly: AssemblyCopyright("Copyright 2020 (C)")]
 [assembly: AssemblyTrademark("")]
