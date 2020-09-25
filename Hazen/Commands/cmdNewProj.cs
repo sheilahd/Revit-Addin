@@ -32,6 +32,8 @@ namespace Hazen.Commands
 
                         CreateHouse(commandData, data);
 
+                        GetSetProjectLocation(commandData, data);
+
                         return Result.Succeeded;
                     }
                 }
@@ -62,7 +64,10 @@ namespace Hazen.Commands
                 // Determine the levels where the walls will be located:
                 Level levelBottom = null;
                 Level levelTop = null;
-                walls = CreateWalls(doc, data, ref corners, ref levelBottom, ref levelTop);
+
+                walls = CreateWalls(doc, ref corners, data, ref levelBottom, ref levelTop);
+
+                ChangeOrientationWall(doc, walls);
 
                 double wallThickness = walls[0].WallType.Width;
 
@@ -74,23 +79,14 @@ namespace Hazen.Commands
                 if (data.DrawingRoof)
                 {
                     AddRoof(doc, data, walls);
-                } 
-                
+                }
+
                 t.Commit();
             }
         }
 
-        private List<Wall> CreateWalls(Document doc, NewProjData formData, ref List<XYZ> corners, ref Level levelBottom, ref Level levelTop)
+        private List<Wall> CreateWalls(Document doc, ref List<XYZ> corners, NewProjData formData, ref Level levelBottom, ref Level levelTop)
         {
-            double widthParam = formData.Width * Constants.MeterToFeet;
-            double depthParam = formData.Length * Constants.MeterToFeet;
-            double heightParam = formData.Height * Constants.MeterToFeet;
-
-            corners.Add(new XYZ(formData.X, formData.Y, formData.Z));
-            corners.Add(new XYZ(widthParam, formData.Y, formData.Z));
-            corners.Add(new XYZ(widthParam, depthParam, formData.Z));
-            corners.Add(new XYZ(formData.X, depthParam, formData.Z));
-
             if (!Utils.GetBottomAndTopLevels(doc, ref levelBottom, ref levelTop))
             {
                 TaskDialog.Show("Create walls", "Unable to determine wall bottom and top levels");
@@ -100,6 +96,7 @@ namespace Hazen.Commands
             List<Element> wallsTypes = new List<Element>(Utils.GetElementsOfType(doc, typeof(WallType), BuiltInCategory.OST_Walls));
             Debug.Assert(0 < wallsTypes.Count, "expected at least one wall type" + " to be loaded into project");
             WallType wallType = wallsTypes.Cast<WallType>().First<Element>(ft => ft.Id == formData.WallType.Id) as WallType;
+            double wallThickness = wallType.Width / 2;
 
             if (wallType == null)
             {
@@ -107,8 +104,22 @@ namespace Hazen.Commands
                 return null;
             }
 
+            double widthParam = formData.Width; //* Constants.MeterToFeet;
+            double depthParam = formData.Length; //* Constants.MeterToFeet;
+            double heightParam = formData.Height; //* Constants.MeterToFeet;
+            double xParam = wallThickness;
+            double yParam = wallThickness;
+            double zParam = 0;
+
+            corners.Add(new XYZ(xParam, yParam, zParam));
+            corners.Add(new XYZ(xParam, (widthParam + yParam), zParam));
+            corners.Add(new XYZ((depthParam + xParam), (widthParam + yParam), zParam));
+            corners.Add(new XYZ((depthParam + xParam), yParam, zParam));            
+            
             BuiltInParameter topLevelParam = BuiltInParameter.WALL_HEIGHT_TYPE;
+            //levelBottom.Elevation = formData.Z;
             ElementId levelBottomId = levelBottom.Id;
+            levelTop.Elevation = heightParam; //UnitUtils.Convert(heightParam, DisplayUnitType.DUT_METERS, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES);
             ElementId topLevelId = levelTop.Id;
             List<Wall> walls = new List<Wall>(4);
 
@@ -118,9 +129,10 @@ namespace Hazen.Commands
             {
                 Line line = Line.CreateBound(corners[i], corners[3 == i ? 0 : i + 1]);
                 Wall wall = Wall.Create(doc, line, levelBottomId, false); // 2013
+                
                 Parameter param = wall.get_Parameter(topLevelParam);
                 param.Set(topLevelId);
-                wall.get_Parameter(BuiltInParameter.WALL_BASE_OFFSET).Set(formData.Z);
+                //wall.get_Parameter(BuiltInParameter.WALL_BASE_OFFSET).Set(formData.Z);
                 wall.WallType = wallType;
 
                 walls.Add(wall);
@@ -137,9 +149,10 @@ namespace Hazen.Commands
 
                 double w = 0.5 * wallThickness;
                 corners[0] -= w * (XYZ.BasisX + XYZ.BasisY);
-                corners[1] += w * (XYZ.BasisX - XYZ.BasisY);
+                corners[1] -= w * (XYZ.BasisX - XYZ.BasisY);
                 corners[2] += w * (XYZ.BasisX + XYZ.BasisY);
-                corners[3] -= w * (XYZ.BasisX - XYZ.BasisY);
+                corners[3] += w * (XYZ.BasisX - XYZ.BasisY);
+                                
                 CurveArray profile = new CurveArray();
                 for (int i = 0; i < 4; ++i)
                 {
@@ -159,8 +172,8 @@ namespace Hazen.Commands
 
                 bool structural = false;
                 Floor floor = createDoc.NewFloor(profile, floorType, levelBottom, structural, normal);
-                Parameter p1 = floor.get_Parameter(BuiltInParameter.FLOOR_HEIGHTABOVELEVEL_PARAM);
-                p1.Set(formData.Z);
+                //Parameter p1 = floor.get_Parameter(BuiltInParameter.FLOOR_HEIGHTABOVELEVEL_PARAM);
+                //p1.Set(formData.Z);
             }
             catch (Exception ex)
             {
@@ -183,9 +196,9 @@ namespace Hazen.Commands
             double dt = wallThickness / 2.0;
             List<XYZ> dts = new List<XYZ>(5);
             dts.Add(new XYZ(-dt, -dt, 0.0));
-            dts.Add(new XYZ(dt, -dt, 0.0));
-            dts.Add(new XYZ(dt, dt, 0.0));
             dts.Add(new XYZ(-dt, dt, 0.0));
+            dts.Add(new XYZ(dt, dt, 0.0));
+            dts.Add(new XYZ(dt, -dt, 0.0));           
             dts.Add(dts[0]);
 
             CurveArray footPrint = new CurveArray();
@@ -213,6 +226,45 @@ namespace Hazen.Commands
             {
                 aRoof.set_DefinesSlope(modelCurve, true);
                 aRoof.set_SlopeAngle(modelCurve, 0.8);
+            }
+        }
+
+        private void ChangeOrientationWall(Document doc, List<Wall> walls)
+        {
+            foreach (var item in walls)
+            {
+                item.get_Parameter(BuiltInParameter.WALL_KEY_REF_PARAM).Set(2);
+            }
+        }
+
+        private void GetSetProjectLocation(ExternalCommandData commandData, NewProjData data)
+        {
+            UIApplication app = commandData.Application;
+            Document doc = app.ActiveUIDocument.Document;
+
+            using (Transaction t = new Transaction(doc))
+            {
+                t.Start("Create Basic House");
+
+                ProjectLocation currentLocation = doc.ActiveProjectLocation;
+
+                XYZ newOrigin = new XYZ(0, 0, 0);
+                //const double angleRatio = Math.PI / 180;
+
+                ProjectPosition projectPosition = currentLocation.GetProjectPosition(newOrigin);
+
+                double angle = 0.0;
+                double eastWest = data.X;
+                double northSouth = data.Y;
+                double elevation = data.Z;
+
+                ProjectPosition newPosition = doc.Application.Create.NewProjectPosition(eastWest, northSouth, elevation, angle);
+                if (null != newPosition)
+                {
+                    currentLocation.SetProjectPosition(newOrigin, newPosition);
+                }
+
+                t.Commit();
             }
         }
     }
