@@ -51,6 +51,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.chbSlab = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -59,6 +61,8 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.chbSlab);
+            this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.chbRoofType);
             this.panel1.Controls.Add(this.txtHeight);
             this.panel1.Controls.Add(this.label7);
@@ -279,6 +283,26 @@
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(467, 71);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(34, 13);
+            this.label11.TabIndex = 38;
+            this.label11.Text = "SLAB";
+            // 
+            // chbSlab
+            // 
+            this.chbSlab.AutoSize = true;
+            this.chbSlab.Checked = true;
+            this.chbSlab.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chbSlab.Location = new System.Drawing.Point(507, 70);
+            this.chbSlab.Name = "chbSlab";
+            this.chbSlab.Size = new System.Drawing.Size(15, 14);
+            this.chbSlab.TabIndex = 39;
+            this.chbSlab.UseVisualStyleBackColor = true;
+            // 
             // frmNewProj
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -286,9 +310,13 @@
             this.ClientSize = new System.Drawing.Size(629, 265);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmNewProj";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Data to create the project";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "BEVA - MODEL CREATION FORM";
             this.Load += new System.EventHandler(this.frmNewProj_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -322,5 +350,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.CheckBox chbSlab;
+        private System.Windows.Forms.Label label11;
     }
 }
