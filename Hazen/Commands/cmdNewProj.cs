@@ -52,34 +52,51 @@ namespace Hazen.Commands
         {
             UIApplication app = commandData.Application;
             Document doc = app.ActiveUIDocument.Document;
-            Autodesk.Revit.Creation.Application createApp = app.Application.Create;
-            Autodesk.Revit.Creation.Document createDoc = doc.Create;
+            UIDocument uidoc = app.ActiveUIDocument;
+
+            ViewFamilyType viewFamilyType = GetViewFamiliyType(doc);
 
             using (Transaction t = new Transaction(doc))
             {
-                t.Start("Create Basic House");
-
-                List<XYZ> corners = new List<XYZ>(4);
-                List<Wall> walls = new List<Wall>();
-                // Determine the levels where the walls will be located:
-                Level levelBottom = null;
-                Level levelTop = null;
-
-                walls = CreateWalls(doc, ref corners, data, ref levelBottom, ref levelTop);
-
-                ChangeOrientationWall(doc, walls);
-
-                double wallThickness = walls[0].WallType.Width;
-
-                CreateFloor(doc, data, levelBottom, wallThickness, ref corners);
-
-                if (data.drawingRoof)
+                if (t.Start("Create Basic House") == TransactionStatus.Started)
                 {
-                    AddRoof(doc, data, walls);
-                }
+                    View3D view3d = View3D.CreateIsometric(doc, viewFamilyType.Id);
+                    view3d.get_Parameter(BuiltInParameter.VIEW_DETAIL_LEVEL).Set(3);
+                    view3d.get_Parameter(BuiltInParameter.MODEL_GRAPHICS_STYLE).Set(6);
 
-                t.Commit();
+                    CreateLevel(doc, data.Height);
+
+                    List<XYZ> corners = new List<XYZ>(4);
+                    List<Wall> walls = new List<Wall>();
+                    // Determine the levels where the walls will be located:
+                    Level levelBottom = null;
+                    Level levelTop = null;
+
+                    walls = CreateWalls(doc, ref corners, data, ref levelBottom, ref levelTop);
+
+                    ChangeOrientationWall(doc, walls);
+
+                    double wallThickness = walls[0].WallType.Width;
+
+                    CreateFloor(doc, data, levelBottom, wallThickness, ref corners);
+
+                    if (data.drawingRoof)
+                    {
+                        AddRoof(doc, data, walls);
+                    }                    
+
+                    if (TransactionStatus.Committed != t.Commit())
+                    {
+                        TaskDialog.Show("Failure", "Transaction could not be commited");
+                    }
+                    
+                } else
+                {
+                    t.RollBack();
+                }
             }
+
+            SetActiveView3D(uidoc, doc);            
         }
 
         private List<Wall> CreateWalls(Document doc, ref List<XYZ> corners, NewProjData formData, ref Level levelBottom, ref Level levelTop)
@@ -120,6 +137,7 @@ namespace Hazen.Commands
             ElementId topLevelId = levelTop.Id;
             List<Wall> walls = new List<Wall>(4);
 
+            
             List<Curve> geomLine = new List<Curve>();
 
             for (int i = 0; i < 4; ++i)
@@ -263,6 +281,48 @@ namespace Hazen.Commands
 
                 t.Commit();
             }
+        }
+
+        private View3D Get3dView(Document doc)
+        {
+            FilteredElementCollector collector = new FilteredElementCollector(doc).OfClass(typeof(View3D));
+            foreach (View3D v in collector)
+            {
+                if (!v.IsTemplate)
+                {
+                    return v;
+                }
+            }
+
+            return null;
+        }
+                
+        private void SetActiveView3D(UIDocument uidoc, Document doc)
+        {            
+            View3D view = Get3dView(doc);
+            if (null == view)
+            {
+                TaskDialog.Show("View 3D", "Sorry, not suitable 3D view found");               
+            }
+            else
+            {
+                uidoc.ActiveView = view;                
+            }
+        }
+
+        private ViewFamilyType GetViewFamiliyType(Document doc)
+        {
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector = collector.OfClass(typeof(ViewFamilyType));
+            ViewFamilyType viewFamilyType = collector.Cast<ViewFamilyType>().FirstOrDefault(vfp => vfp.ViewFamily == ViewFamily.ThreeDimensional);
+
+            return viewFamilyType;
+        }
+
+        private void CreateLevel(Document doc, double elevation)
+        {
+            Level level = Level.Create(doc, elevation);
+            level.Name = "Level 2";
         }
     }
 }
