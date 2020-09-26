@@ -83,12 +83,7 @@
     <Content Include="Beva.addin">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Images\HazenIcon.jpg" />
-    <Content Include="Images\HazenIcon.png" />
-    <Content Include="Images\HazenIcon1.png" />
-    <Content Include="Images\HazenIcon32x32.png" />
-    <Content Include="Images\HazenIcon64x64.png" />
-    <Content Include="Images\HazenIcon96x96.png" />
+    <Content Include="Images\NewProjectIcon96x96.png" />
     <Content Include="Images\NewSheetIcon96x96.png" />
   </ItemGroup>
   <ItemGroup>
