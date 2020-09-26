@@ -103,10 +103,14 @@
   <PropertyGroup>
     <PostBuildEvent>if exist "$(AppData)\Autodesk\REVIT\Addins\2019" copy "$(ProjectDir)*.addin" "$(AppData)\Autodesk\REVIT\Addins\2019"
 if exist "$(AppData)\Autodesk\REVIT\Addins\2019" copy "$(ProjectDir)$(OutputPath)*.dll" "$(AppData)\Autodesk\REVIT\Addins\2019"
-if not exist "$(AppData)\Autodesk\REVIT\Addins\2019\Images" mkdir "$(AppData)\Autodesk\REVIT\Addins\2019\Images"
-copy "$(ProjectDir)Images" "$(AppData)\Autodesk\REVIT\Addins\2019\Images"
 if exist "$(AppData)\Autodesk\REVIT\Addins\2019" copy "$(ProjectDir)*.chm" "$(AppData)\Autodesk\REVIT\Addins\2019"
-</PostBuildEvent>
+if exist "$(AppData)\Autodesk\REVIT\Addins\2019" if not exist "$(AppData)\Autodesk\REVIT\Addins\2019\Images" mkdir "$(AppData)\Autodesk\REVIT\Addins\2019\Images"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2019\Images" copy "$(ProjectDir)Images" "$(AppData)\Autodesk\REVIT\Addins\2019\Images"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020" copy "$(ProjectDir)*.addin" "$(AppData)\Autodesk\REVIT\Addins\2020"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020" copy "$(ProjectDir)$(OutputPath)*.dll" "$(AppData)\Autodesk\REVIT\Addins\2020"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020" copy "$(ProjectDir)*.chm" "$(AppData)\Autodesk\REVIT\Addins\2020"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020" if not exist "$(AppData)\Autodesk\REVIT\Addins\2020\Images" mkdir "$(AppData)\Autodesk\REVIT\Addins\2020\Images"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020\Images" copy "$(ProjectDir)Images" "$(AppData)\Autodesk\REVIT\Addins\2020\Images"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
