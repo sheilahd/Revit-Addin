@@ -67,12 +67,11 @@ namespace Hazen.Commands
                     CreateLevel(doc, data.Height);
 
                     List<XYZ> corners = new List<XYZ>(4);
-                    List<Wall> walls = new List<Wall>();
                     // Determine the levels where the walls will be located:
                     Level levelBottom = null;
                     Level levelTop = null;
 
-                    walls = CreateWalls(doc, ref corners, data, ref levelBottom, ref levelTop);
+                    List<Wall> walls = CreateWalls(doc, ref corners, data, ref levelBottom, ref levelTop);
 
                     ChangeOrientationWall(doc, walls);
 
@@ -321,8 +320,20 @@ namespace Hazen.Commands
 
         private void CreateLevel(Document doc, double elevation)
         {
-            Level level = Level.Create(doc, elevation);
-            level.Name = "Level 2";
+            FilteredElementCollector levels = Utils.GetElementsOfType(doc, typeof(Level), BuiltInCategory.OST_Levels);
+            int levelsCount = levels.Cast<Level>().ToList().Count();
+            if (levelsCount == 0)
+            {
+                Level level = Level.Create(doc, 0.0);
+                level.Name = "Level 1";
+
+                Level level2 = Level.Create(doc, elevation);
+                level2.Name = "Level 2";
+            } else if (levelsCount == 1)
+            {
+                Level level = Level.Create(doc, elevation);
+                level.Name = "Level 2";
+            }
         }
     }
 }
