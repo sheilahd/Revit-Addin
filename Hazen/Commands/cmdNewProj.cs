@@ -79,7 +79,7 @@ namespace Hazen.Commands
 
                     CreateFloor(doc, data, levelBottom, wallThickness, ref corners);
 
-                    if (data.drawingRoof)
+                    if (data.DrawingRoof)
                     {
                         AddRoof(doc, data, walls);
                     }                    
