@@ -77,25 +77,28 @@ namespace Beva.Commands
 
                     double wallThickness = walls[0].WallType.Width;
 
-                    CreateFloor(doc, data, levelBottom, wallThickness, ref corners);
+                    if (data.DrawingSlab)
+                    {
+                        CreateFloor(doc, data, levelBottom, wallThickness, ref corners);
+                    }
 
                     if (data.DrawingRoof)
                     {
                         AddRoof(doc, data, walls);
-                    }                    
+                    }
 
                     if (TransactionStatus.Committed != t.Commit())
                     {
                         TaskDialog.Show("Failure", "Transaction could not be commited");
                     }
-                    
-                } else
+                }
+                else
                 {
                     t.RollBack();
                 }
             }
 
-            SetActiveView3D(uidoc, doc);            
+            SetActiveView3D(uidoc, doc);
         }
 
         private List<Wall> CreateWalls(Document doc, ref List<XYZ> corners, NewProjData formData, ref Level levelBottom, ref Level levelTop)
@@ -127,8 +130,8 @@ namespace Beva.Commands
             corners.Add(new XYZ(xParam, yParam, zParam));
             corners.Add(new XYZ(xParam, (widthParam + yParam), zParam));
             corners.Add(new XYZ((depthParam + xParam), (widthParam + yParam), zParam));
-            corners.Add(new XYZ((depthParam + xParam), yParam, zParam));            
-            
+            corners.Add(new XYZ((depthParam + xParam), yParam, zParam));
+
             BuiltInParameter topLevelParam = BuiltInParameter.WALL_HEIGHT_TYPE;
             //levelBottom.Elevation = formData.Z;
             ElementId levelBottomId = levelBottom.Id;
@@ -136,14 +139,14 @@ namespace Beva.Commands
             ElementId topLevelId = levelTop.Id;
             List<Wall> walls = new List<Wall>(4);
 
-            
+
             List<Curve> geomLine = new List<Curve>();
 
             for (int i = 0; i < 4; ++i)
             {
                 Line line = Line.CreateBound(corners[i], corners[3 == i ? 0 : i + 1]);
                 Wall wall = Wall.Create(doc, line, levelBottomId, false); // 2013
-                
+
                 Parameter param = wall.get_Parameter(topLevelParam);
                 param.Set(topLevelId);
                 //wall.get_Parameter(BuiltInParameter.WALL_BASE_OFFSET).Set(formData.Z);
@@ -166,7 +169,7 @@ namespace Beva.Commands
                 corners[1] -= w * (XYZ.BasisX - XYZ.BasisY);
                 corners[2] += w * (XYZ.BasisX + XYZ.BasisY);
                 corners[3] += w * (XYZ.BasisX - XYZ.BasisY);
-                                
+
                 CurveArray profile = new CurveArray();
                 for (int i = 0; i < 4; ++i)
                 {
@@ -212,7 +215,7 @@ namespace Beva.Commands
             dts.Add(new XYZ(-dt, -dt, 0.0));
             dts.Add(new XYZ(-dt, dt, 0.0));
             dts.Add(new XYZ(dt, dt, 0.0));
-            dts.Add(new XYZ(dt, -dt, 0.0));           
+            dts.Add(new XYZ(dt, -dt, 0.0));
             dts.Add(dts[0]);
 
             CurveArray footPrint = new CurveArray();
@@ -295,17 +298,17 @@ namespace Beva.Commands
 
             return null;
         }
-                
+
         private void SetActiveView3D(UIDocument uidoc, Document doc)
-        {            
+        {
             View3D view = Get3dView(doc);
             if (null == view)
             {
-                TaskDialog.Show("View 3D", "Sorry, not suitable 3D view found");               
+                TaskDialog.Show("View 3D", "Sorry, not suitable 3D view found");
             }
             else
             {
-                uidoc.ActiveView = view;                
+                uidoc.ActiveView = view;
             }
         }
 
@@ -329,7 +332,8 @@ namespace Beva.Commands
 
                 Level level2 = Level.Create(doc, elevation);
                 level2.Name = "Level 2";
-            } else if (levelsCount == 1)
+            }
+            else if (levelsCount == 1)
             {
                 Level level = Level.Create(doc, elevation);
                 level.Name = "Level 2";
