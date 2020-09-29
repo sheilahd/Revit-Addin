@@ -30,11 +30,11 @@ namespace Hazen.Managers
 
             // Search all the roof types in the Revit
             FilteredElementCollector roofTypesElementCollector = Utils.GetElementsOfType(doc, typeof(RoofType), BuiltInCategory.OST_Roofs);
-            m_roofTypes = roofTypesElementCollector.Cast<RoofType>().ToList();
+            m_roofTypes = roofTypesElementCollector.Cast<RoofType>().OrderBy(rt => rt.FamilyName).ToList();
 
             // Search all the wall types in the Revit
             FilteredElementCollector wallTypesElementCollector = Utils.GetElementsOfType(doc, typeof(WallType), BuiltInCategory.OST_Walls);
-            m_wallTypes = wallTypesElementCollector.Cast<WallType>().ToList();
+            m_wallTypes = wallTypesElementCollector.Cast<WallType>().OrderBy(wt => wt.FamilyName).ToList();
         }
 
         public ReadOnlyCollection<RoofType> RoofTypes
