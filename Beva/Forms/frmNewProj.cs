@@ -76,19 +76,21 @@ namespace Beva.Forms
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtLength.Text) || !double.TryParse(txtLength.Text, out double length) || length < 0)
+            var docUnits = newProjManager.CommandData.Application.ActiveUIDocument.Document.GetUnits();
+
+            if (!TryParse(docUnits, txtLength.Text, out double length))
             {
                 TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values.");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtWidth.Text) || !double.TryParse(txtWidth.Text, out double width) || width < 0)
+            if (!TryParse(docUnits, txtWidth.Text, out double width))
             {
                 TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values.");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtHeight.Text) || !double.TryParse(txtHeight.Text, out double height) || height < 0)
+            if (!TryParse(docUnits, txtHeight.Text, out double height))
             {
                 TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values.");
                 return;
@@ -110,6 +112,23 @@ namespace Beva.Forms
 
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private bool TryParse(Units units, string stringToParse, out double value)
+        {
+            value = 0;
+
+            if (string.IsNullOrWhiteSpace(stringToParse))
+            {
+                return false;
+            }
+
+            var valueParsingOptions = new ValueParsingOptions()
+            {
+                AllowedValues = AllowedValues.Positive
+            };
+
+            return UnitFormatUtils.TryParse(units, UnitType.UT_Length, stringToParse, valueParsingOptions, out value);
         }
     }
 }
