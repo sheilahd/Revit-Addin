@@ -55,7 +55,7 @@ namespace Hazen.Commands
             UIDocument uidoc = app.ActiveUIDocument;
 
             ViewFamilyType viewFamilyType = GetViewFamiliyType(doc);
-
+            
             using (Transaction t = new Transaction(doc))
             {
                 if (t.Start("Create Basic House") == TransactionStatus.Started)
