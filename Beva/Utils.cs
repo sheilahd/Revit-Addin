@@ -58,7 +58,7 @@ namespace Beva
         {
             FilteredElementCollector collector = new FilteredElementCollector(doc);
 
-            collector.OfCategory(bic);
+            //collector.OfCategory(bic);
             collector.OfClass(type);
 
             return collector;
