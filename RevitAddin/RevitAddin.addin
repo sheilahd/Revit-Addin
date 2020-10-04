@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>Command RevitAddin</Text>
+    <Description>Some description for RevitAddin</Description>
+    <Assembly>
+      D:\Trabajo Personal Web\Revit\Proyectos\Revit-Addin\RevitAddin\bin\Debug\RevitAddin.dll
+    </Assembly>
+    <FullClassName>RevitAddin.Command</FullClassName>
+    <ClientId>3dbdd8e9-4e62-43e6-99f9-835da92cb26b</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>
