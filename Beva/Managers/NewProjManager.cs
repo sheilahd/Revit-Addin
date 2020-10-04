@@ -52,5 +52,7 @@ namespace Beva.Managers
                 return new ReadOnlyCollection<WallType>(m_wallTypes);
             }
         }
+
+        public ExternalCommandData CommandData => m_commandData;
     }
 }

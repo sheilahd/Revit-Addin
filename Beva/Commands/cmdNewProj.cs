@@ -73,8 +73,6 @@ namespace Beva.Commands
 
                     List<Wall> walls = CreateWalls(doc, ref corners, data, ref levelBottom, ref levelTop);
 
-                    ChangeOrientationWall(doc, walls);
-
                     double wallThickness = walls[0].WallType.Width;
 
                     if (data.DrawingSlab)
@@ -128,9 +126,9 @@ namespace Beva.Commands
             double zParam = 0;
 
             corners.Add(new XYZ(xParam, yParam, zParam));
-            corners.Add(new XYZ(xParam, (widthParam + yParam), zParam));
-            corners.Add(new XYZ((depthParam + xParam), (widthParam + yParam), zParam));
-            corners.Add(new XYZ((depthParam + xParam), yParam, zParam));
+            corners.Add(new XYZ(xParam, (widthParam - yParam), zParam));
+            corners.Add(new XYZ((depthParam - xParam), (widthParam - yParam), zParam));
+            corners.Add(new XYZ((depthParam - xParam), yParam, zParam));
 
             BuiltInParameter topLevelParam = BuiltInParameter.WALL_HEIGHT_TYPE;
             //levelBottom.Elevation = formData.Z;
@@ -150,6 +148,8 @@ namespace Beva.Commands
                 Parameter param = wall.get_Parameter(topLevelParam);
                 param.Set(topLevelId);
                 //wall.get_Parameter(BuiltInParameter.WALL_BASE_OFFSET).Set(formData.Z);
+                Parameter paramLocation = wall.get_Parameter(BuiltInParameter.WALL_KEY_REF_PARAM);
+                paramLocation.Set(2);
                 wall.WallType = wallType;
 
                 walls.Add(wall);
@@ -243,14 +243,6 @@ namespace Beva.Commands
             {
                 aRoof.set_DefinesSlope(modelCurve, true);
                 aRoof.set_SlopeAngle(modelCurve, 0.8);
-            }
-        }
-
-        private void ChangeOrientationWall(Document doc, List<Wall> walls)
-        {
-            foreach (var item in walls)
-            {
-                item.get_Parameter(BuiltInParameter.WALL_KEY_REF_PARAM).Set(2);
             }
         }
 
