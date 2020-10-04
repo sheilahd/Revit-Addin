@@ -73,8 +73,6 @@ namespace Hazen.Commands
 
                     List<Wall> walls = CreateWalls(doc, ref corners, data, ref levelBottom, ref levelTop);
 
-                    ChangeOrientationWall(doc, walls);
-
                     double wallThickness = walls[0].WallType.Width;
 
                     CreateFloor(doc, data, levelBottom, wallThickness, ref corners);
@@ -82,7 +80,7 @@ namespace Hazen.Commands
                     if (data.DrawingRoof)
                     {
                         AddRoof(doc, data, walls);
-                    }                    
+                    }
 
                     if (TransactionStatus.Committed != t.Commit())
                     {
@@ -125,9 +123,9 @@ namespace Hazen.Commands
             double zParam = 0;
 
             corners.Add(new XYZ(xParam, yParam, zParam));
-            corners.Add(new XYZ(xParam, (widthParam + yParam), zParam));
-            corners.Add(new XYZ((depthParam + xParam), (widthParam + yParam), zParam));
-            corners.Add(new XYZ((depthParam + xParam), yParam, zParam));            
+            corners.Add(new XYZ(xParam, (widthParam - yParam), zParam));
+            corners.Add(new XYZ((depthParam - xParam), (widthParam - yParam), zParam));
+            corners.Add(new XYZ((depthParam - xParam), yParam, zParam));            
             
             BuiltInParameter topLevelParam = BuiltInParameter.WALL_HEIGHT_TYPE;
             //levelBottom.Elevation = formData.Z;
@@ -147,6 +145,8 @@ namespace Hazen.Commands
                 Parameter param = wall.get_Parameter(topLevelParam);
                 param.Set(topLevelId);
                 //wall.get_Parameter(BuiltInParameter.WALL_BASE_OFFSET).Set(formData.Z);
+                Parameter paramOrientation = wall.get_Parameter(BuiltInParameter.WALL_KEY_REF_PARAM);
+                paramOrientation.Set(2);
                 wall.WallType = wallType;
 
                 walls.Add(wall);
@@ -243,14 +243,6 @@ namespace Hazen.Commands
             }
         }
 
-        private void ChangeOrientationWall(Document doc, List<Wall> walls)
-        {
-            foreach (var item in walls)
-            {
-                item.get_Parameter(BuiltInParameter.WALL_KEY_REF_PARAM).Set(2);
-            }
-        }
-
         private void GetSetProjectLocation(ExternalCommandData commandData, NewProjData data)
         {
             UIApplication app = commandData.Application;
@@ -334,6 +326,6 @@ namespace Hazen.Commands
                 Level level = Level.Create(doc, elevation);
                 level.Name = "Level 2";
             }
-        }
+        }        
     }
 }
