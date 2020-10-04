@@ -1,4 +1,4 @@
-﻿namespace Hazen.Forms
+﻿namespace Beva.Forms
 {
     partial class frmNewSheet
     {

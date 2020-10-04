@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Hazen.Forms
+namespace Beva.Forms
 {
     public partial class frmNewSheet : Form
     {

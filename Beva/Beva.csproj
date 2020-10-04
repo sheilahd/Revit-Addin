@@ -13,8 +13,8 @@
     <ProjectGuid>{A6D27272-3DE4-438E-9554-E47FBBEEC8B3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hazen</RootNamespace>
-    <AssemblyName>Hazen</AssemblyName>
+    <RootNamespace>Beva</RootNamespace>
+    <AssemblyName>Beva</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -80,19 +80,14 @@
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Hazen.addin">
+    <Content Include="Beva.addin">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Images\HazenIcon.jpg" />
-    <Content Include="Images\HazenIcon.png" />
-    <Content Include="Images\HazenIcon1.png" />
-    <Content Include="Images\HazenIcon32x32.png" />
-    <Content Include="Images\HazenIcon64x64.png" />
-    <Content Include="Images\HazenIcon96x96.png" />
+    <Content Include="Images\NewProjectIcon96x96.png" />
     <Content Include="Images\NewSheetIcon96x96.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Hazen.chm" />
+    <None Include="Beva.chm" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\frmNewProj.resx">
@@ -103,10 +98,14 @@
   <PropertyGroup>
     <PostBuildEvent>if exist "$(AppData)\Autodesk\REVIT\Addins\2019" copy "$(ProjectDir)*.addin" "$(AppData)\Autodesk\REVIT\Addins\2019"
 if exist "$(AppData)\Autodesk\REVIT\Addins\2019" copy "$(ProjectDir)$(OutputPath)*.dll" "$(AppData)\Autodesk\REVIT\Addins\2019"
-if not exist "$(AppData)\Autodesk\REVIT\Addins\2019\Images" mkdir "$(AppData)\Autodesk\REVIT\Addins\2019\Images"
-copy "$(ProjectDir)Images" "$(AppData)\Autodesk\REVIT\Addins\2019\Images"
 if exist "$(AppData)\Autodesk\REVIT\Addins\2019" copy "$(ProjectDir)*.chm" "$(AppData)\Autodesk\REVIT\Addins\2019"
-</PostBuildEvent>
+if exist "$(AppData)\Autodesk\REVIT\Addins\2019" if not exist "$(AppData)\Autodesk\REVIT\Addins\2019\Images" mkdir "$(AppData)\Autodesk\REVIT\Addins\2019\Images"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2019\Images" copy "$(ProjectDir)Images" "$(AppData)\Autodesk\REVIT\Addins\2019\Images"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020" copy "$(ProjectDir)*.addin" "$(AppData)\Autodesk\REVIT\Addins\2020"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020" copy "$(ProjectDir)$(OutputPath)*.dll" "$(AppData)\Autodesk\REVIT\Addins\2020"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020" copy "$(ProjectDir)*.chm" "$(AppData)\Autodesk\REVIT\Addins\2020"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020" if not exist "$(AppData)\Autodesk\REVIT\Addins\2020\Images" mkdir "$(AppData)\Autodesk\REVIT\Addins\2020\Images"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020\Images" copy "$(ProjectDir)Images" "$(AppData)\Autodesk\REVIT\Addins\2020\Images"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,15 +1,15 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Hazen.FormData;
-using Hazen.Forms;
-using Hazen.Managers;
+using Beva.FormData;
+using Beva.Forms;
+using Beva.Managers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Hazen.Commands
+namespace Beva.Commands
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -55,7 +55,7 @@ namespace Hazen.Commands
             UIDocument uidoc = app.ActiveUIDocument;
 
             ViewFamilyType viewFamilyType = GetViewFamiliyType(doc);
-            
+
             using (Transaction t = new Transaction(doc))
             {
                 if (t.Start("Create Basic House") == TransactionStatus.Started)
@@ -75,7 +75,10 @@ namespace Hazen.Commands
 
                     double wallThickness = walls[0].WallType.Width;
 
-                    CreateFloor(doc, data, levelBottom, wallThickness, ref corners);
+                    if (data.DrawingSlab)
+                    {
+                        CreateFloor(doc, data, levelBottom, wallThickness, ref corners);
+                    }
 
                     if (data.DrawingRoof)
                     {
@@ -86,14 +89,14 @@ namespace Hazen.Commands
                     {
                         TaskDialog.Show("Failure", "Transaction could not be commited");
                     }
-                    
-                } else
+                }
+                else
                 {
                     t.RollBack();
                 }
             }
 
-            SetActiveView3D(uidoc, doc);            
+            SetActiveView3D(uidoc, doc);
         }
 
         private List<Wall> CreateWalls(Document doc, ref List<XYZ> corners, NewProjData formData, ref Level levelBottom, ref Level levelTop)
@@ -125,8 +128,8 @@ namespace Hazen.Commands
             corners.Add(new XYZ(xParam, yParam, zParam));
             corners.Add(new XYZ(xParam, (widthParam - yParam), zParam));
             corners.Add(new XYZ((depthParam - xParam), (widthParam - yParam), zParam));
-            corners.Add(new XYZ((depthParam - xParam), yParam, zParam));            
-            
+            corners.Add(new XYZ((depthParam - xParam), yParam, zParam));
+
             BuiltInParameter topLevelParam = BuiltInParameter.WALL_HEIGHT_TYPE;
             //levelBottom.Elevation = formData.Z;
             ElementId levelBottomId = levelBottom.Id;
@@ -134,19 +137,19 @@ namespace Hazen.Commands
             ElementId topLevelId = levelTop.Id;
             List<Wall> walls = new List<Wall>(4);
 
-            
+
             List<Curve> geomLine = new List<Curve>();
 
             for (int i = 0; i < 4; ++i)
             {
                 Line line = Line.CreateBound(corners[i], corners[3 == i ? 0 : i + 1]);
                 Wall wall = Wall.Create(doc, line, levelBottomId, false); // 2013
-                
+
                 Parameter param = wall.get_Parameter(topLevelParam);
                 param.Set(topLevelId);
                 //wall.get_Parameter(BuiltInParameter.WALL_BASE_OFFSET).Set(formData.Z);
-                Parameter paramOrientation = wall.get_Parameter(BuiltInParameter.WALL_KEY_REF_PARAM);
-                paramOrientation.Set(2);
+                Parameter paramLocation = wall.get_Parameter(BuiltInParameter.WALL_KEY_REF_PARAM);
+                paramLocation.Set(2);
                 wall.WallType = wallType;
 
                 walls.Add(wall);
@@ -166,7 +169,7 @@ namespace Hazen.Commands
                 corners[1] -= w * (XYZ.BasisX - XYZ.BasisY);
                 corners[2] += w * (XYZ.BasisX + XYZ.BasisY);
                 corners[3] += w * (XYZ.BasisX - XYZ.BasisY);
-                                
+
                 CurveArray profile = new CurveArray();
                 for (int i = 0; i < 4; ++i)
                 {
@@ -212,7 +215,7 @@ namespace Hazen.Commands
             dts.Add(new XYZ(-dt, -dt, 0.0));
             dts.Add(new XYZ(-dt, dt, 0.0));
             dts.Add(new XYZ(dt, dt, 0.0));
-            dts.Add(new XYZ(dt, -dt, 0.0));           
+            dts.Add(new XYZ(dt, -dt, 0.0));
             dts.Add(dts[0]);
 
             CurveArray footPrint = new CurveArray();
@@ -287,17 +290,17 @@ namespace Hazen.Commands
 
             return null;
         }
-                
+
         private void SetActiveView3D(UIDocument uidoc, Document doc)
-        {            
+        {
             View3D view = Get3dView(doc);
             if (null == view)
             {
-                TaskDialog.Show("View 3D", "Sorry, not suitable 3D view found");               
+                TaskDialog.Show("View 3D", "Sorry, not suitable 3D view found");
             }
             else
             {
-                uidoc.ActiveView = view;                
+                uidoc.ActiveView = view;
             }
         }
 
@@ -321,11 +324,12 @@ namespace Hazen.Commands
 
                 Level level2 = Level.Create(doc, elevation);
                 level2.Name = "Level 2";
-            } else if (levelsCount == 1)
+            }
+            else if (levelsCount == 1)
             {
                 Level level = Level.Create(doc, elevation);
                 level.Name = "Level 2";
             }
-        }        
+        }
     }
 }
