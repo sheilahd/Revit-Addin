@@ -37,6 +37,8 @@ namespace Beva.Forms
 
             this.cbWallType.DataSource = newProjManager.WallTypes;
             this.cbWallType.DisplayMember = "Name";
+
+            this.btnOk.Enabled = !newProjManager.CommandData.Application.ActiveUIDocument.Document.IsModified;
         }
 
         private void chbRoofType_CheckedChanged(object sender, EventArgs e)
