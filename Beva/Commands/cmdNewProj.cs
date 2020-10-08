@@ -117,10 +117,10 @@ namespace Beva.Commands
                 TaskDialog.Show("Create walls", "Unable to determine wall type.");
                 return null;
             }
-
-            double widthParam = formData.Width; //* Constants.MeterToFeet;
-            double depthParam = formData.Length; //* Constants.MeterToFeet;
-            double heightParam = formData.Height; //* Constants.MeterToFeet;
+            
+            double widthParam = formData.Width;//UnitUtils.Convert(formData.Width, DisplayUnitType.DUT_MILLIMETERS, DisplayUnitType.DUT_METERS);
+            double depthParam = formData.Length;
+            double heightParam = formData.Height;
             double xParam = wallThickness;
             double yParam = wallThickness;
             double zParam = 0;
@@ -131,27 +131,23 @@ namespace Beva.Commands
             corners.Add(new XYZ((depthParam - xParam), yParam, zParam));
 
             BuiltInParameter topLevelParam = BuiltInParameter.WALL_HEIGHT_TYPE;
-            //levelBottom.Elevation = formData.Z;
             ElementId levelBottomId = levelBottom.Id;
-            levelTop.Elevation = heightParam; //UnitUtils.Convert(heightParam, DisplayUnitType.DUT_METERS, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES);
+            levelTop.Elevation = heightParam;
             ElementId topLevelId = levelTop.Id;
             List<Wall> walls = new List<Wall>(4);
-
-
+            
             List<Curve> geomLine = new List<Curve>();
 
             for (int i = 0; i < 4; ++i)
             {
                 Line line = Line.CreateBound(corners[i], corners[3 == i ? 0 : i + 1]);
-                Wall wall = Wall.Create(doc, line, levelBottomId, false); // 2013
+                Wall wall = Wall.Create(doc, line, levelBottomId, false);
 
                 Parameter param = wall.get_Parameter(topLevelParam);
                 param.Set(topLevelId);
-                //wall.get_Parameter(BuiltInParameter.WALL_BASE_OFFSET).Set(formData.Z);
                 Parameter paramLocation = wall.get_Parameter(BuiltInParameter.WALL_KEY_REF_PARAM);
                 paramLocation.Set(2);
                 wall.WallType = wallType;
-
                 walls.Add(wall);
             }
 
@@ -228,14 +224,11 @@ namespace Beva.Commands
                 footPrint.Append(line);
             }
 
-            // Get the level2 from the wall 
-
             ElementId idLevel2 = walls[0].get_Parameter(BuiltInParameter.WALL_HEIGHT_TYPE).AsElementId();
-            //Level level2 = (Level)_doc.get_Element(idLevel2); // 2012
             Level level2 = (Level)doc.GetElement(idLevel2); // since 2013
 
             ModelCurveArray mapping = new ModelCurveArray();
-
+                        
             FootPrintRoof aRoof = doc.Create.NewFootPrintRoof(
               footPrint, level2, roofType, out mapping);
 

@@ -38,7 +38,7 @@ namespace Beva.Forms
             this.cbWallType.DataSource = newProjManager.WallTypes;
             this.cbWallType.DisplayMember = "Name";
 
-            this.btnOk.Enabled = !newProjManager.CommandData.Application.ActiveUIDocument.Document.IsModified;
+            //this.btnOk.Enabled = !newProjManager.CommandData.Application.ActiveUIDocument.Document.IsModified;
         }
 
         private void chbRoofType_CheckedChanged(object sender, EventArgs e)
@@ -80,11 +80,35 @@ namespace Beva.Forms
 
             var docUnits = newProjManager.CommandData.Application.ActiveUIDocument.Document.GetUnits();
             var units = newProjManager.CommandData.Application.ActiveUIDocument.Document.DisplayUnitSystem;
-
+            WallType wallSelected = this.cbWallType.SelectedValue as WallType;
+            
             if (!TryParse(docUnits, txtLength.Text, out double length))
-            {
+            {   
                 TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The project is in " + units.ToString() + " units.");
                 return;
+            } else
+            {   
+                if (units.ToString().ToLower().Equals(Convert.ToString("Imperial").ToLower()))
+                {
+                    TryParse(docUnits, "1/256\"", out double valor);
+                    var widthWallMin = wallSelected.Width + valor; //1/256;
+
+                    if (length < widthWallMin)
+                    {
+                        TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The length dimension must be minimum " + widthWallMin.ToString());
+                        return;
+                    }
+                }
+                else if (units.ToString().ToLower().Equals(Convert.ToString("Metric").ToLower()))
+                {
+                    var widthWallMin = wallSelected.Width + 0.001;
+
+                    if (length < widthWallMin)
+                    {
+                        TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The length dimension must be minimum " + widthWallMin.ToString());
+                        return;
+                    }
+                }
             }
 
             if (!TryParse(docUnits, txtWidth.Text, out double width))
@@ -92,11 +116,58 @@ namespace Beva.Forms
                 TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The project is in " + units.ToString() + " units.");
                 return;
             }
+            else
+            {
+                if (units.ToString().ToLower().Equals(Convert.ToString("Imperial").ToLower()))
+                {
+                    TryParse(docUnits, "1/256\"", out double valor);
+                    var widthWallMin = wallSelected.Width + valor;
+
+                    if (width < widthWallMin)
+                    {
+                        TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The length dimension must be minimum " + widthWallMin.ToString());
+                        return;
+                    }
+                }
+                else if (units.ToString().ToLower().Equals(Convert.ToString("Metric").ToLower()))
+                {
+                    var widthWallMin = wallSelected.Width + 0.001;
+
+                    if (width < widthWallMin)
+                    {
+                        TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The width dimension must be minimum " + widthWallMin.ToString());
+                        return;
+                    }
+                }
+            }
 
             if (!TryParse(docUnits, txtHeight.Text, out double height))
             {
                 TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The project is in " + units.ToString() + " units.");
                 return;
+            } else
+            {
+                if (wallSelected.Id.IntegerValue == 1643)
+                {
+                    if (units.ToString().ToLower().Equals(Convert.ToString("Imperial").ToLower()))
+                    {
+                        TryParse(docUnits, "10'0\"", out double minHeight);
+                        if (height < minHeight)
+                        {
+                            TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The height dimension must be minimum 10'0\" for this construction type selected");
+                            return;
+                        }
+                    }
+                    else if (units.ToString().ToLower().Equals(Convert.ToString("Metric").ToLower()))
+                    {
+                        TryParse(docUnits, "3000", out double minHeight);
+                        if (height < minHeight)
+                        {
+                            TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The height dimension must be minimum 3000 for this construction type selected");
+                            return;
+                        }
+                    }
+                }                
             }
 
             FormData = new NewProjData
