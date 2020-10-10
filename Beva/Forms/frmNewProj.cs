@@ -60,21 +60,48 @@ namespace Beva.Forms
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtX.Text) || !double.TryParse(txtX.Text, out double x))
+            double x = 0.0;
+            double y = 0.0;
+            double z = 0.0;
+
+            if (!string.IsNullOrWhiteSpace(txtX.Text))
+            { 
+                if (!double.TryParse(txtX.Text, out x))
+                {
+                    TaskDialog.Show("Data validation", "Please fix the value of the X at the insertion point. The value is wrong.");
+                    return;
+                }
+            } else
             {
-                TaskDialog.Show("Data validation", "Please, fix the insertion point. There are some invalid values.");
+                TaskDialog.Show("Data validation", "Please fix the value of the X at the insertion point. It cannot be null or blank.");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtY.Text) || !double.TryParse(txtY.Text, out double y))
+            if (!string.IsNullOrWhiteSpace(txtY.Text))
             {
-                TaskDialog.Show("Data validation", "Please, fix the insertion point. There are some invalid values.");
+                if (!double.TryParse(txtY.Text, out y))
+                {
+                    TaskDialog.Show("Data validation", "Please fix the value of the Y at the insertion point. The value is wrong.");
+                    return;
+                }
+            }
+            else
+            {
+                TaskDialog.Show("Data validation", "Please fix the value of the Y at the insertion point. It cannot be null or blank.");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtZ.Text) || !double.TryParse(txtZ.Text, out double z))
+            if (!string.IsNullOrWhiteSpace(txtZ.Text))
             {
-                TaskDialog.Show("Data validation", "Please, fix the insertion point. There are some invalid values.");
+                if (!double.TryParse(txtZ.Text, out z))
+                {
+                    TaskDialog.Show("Data validation", "Please fix the value of the Z at the insertion point. The value is wrong.");
+                    return;
+                }
+            }
+            else
+            {
+                TaskDialog.Show("Data validation", "Please fix the value of the Z at the insertion point. It cannot be null or blank.");
                 return;
             }
 
