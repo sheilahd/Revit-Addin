@@ -1,4 +1,5 @@
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
 using Beva.Commands;
@@ -16,9 +17,13 @@ namespace Beva
 
         void onViewActivated(object sender, ViewActivatedEventArgs e)
         {
-            View vCurrent = e.CurrentActiveView;
             Document doc = e.Document;
+            EnabledTabItem(doc);
+        }
 
+        void OnDocChanged(object sender, DocumentChangedEventArgs e)
+        {
+            Document doc = e.GetDocument();
             EnabledTabItem(doc);
         }
 
@@ -53,7 +58,8 @@ namespace Beva
 
             _buttom.Add(pushButton2);
 
-            a.ViewActivated += new EventHandler<Autodesk.Revit.UI.Events.ViewActivatedEventArgs>(onViewActivated);
+            a.ControlledApplication.DocumentChanged += new EventHandler<DocumentChangedEventArgs>(OnDocChanged);
+            a.ViewActivated += new EventHandler<ViewActivatedEventArgs>(onViewActivated);
 
             return Result.Succeeded;
         }
@@ -71,6 +77,10 @@ namespace Beva
                 {
                     RibbonItem ribbItem = _buttom[0];
                     ribbItem.Enabled = false;
+                } else
+                {
+                    RibbonItem ribbItem = _buttom[0];
+                    ribbItem.Enabled = true;
                 }
             }
             else
