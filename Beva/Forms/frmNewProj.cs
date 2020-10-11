@@ -37,8 +37,6 @@ namespace Beva.Forms
 
             this.cbWallType.DataSource = newProjManager.WallTypes;
             this.cbWallType.DisplayMember = "Name";
-
-            //this.btnOk.Enabled = !newProjManager.CommandData.Application.ActiveUIDocument.Document.IsModified;
         }
 
         private void chbRoofType_CheckedChanged(object sender, EventArgs e)
@@ -64,11 +62,14 @@ namespace Beva.Forms
             double y = 0.0;
             double z = 0.0;
 
+            var docUnits = newProjManager.CommandData.Application.ActiveUIDocument.Document.GetUnits();
+            var units = newProjManager.CommandData.Application.ActiveUIDocument.Document.DisplayUnitSystem;
+
             if (!string.IsNullOrWhiteSpace(txtX.Text))
             { 
-                if (!double.TryParse(txtX.Text, out x))
+                if (!TryParse(docUnits, txtX.Text, out x))
                 {
-                    TaskDialog.Show("Data validation", "Please fix the value of the X at the insertion point. The value is wrong.");
+                    TaskDialog.Show("Data validation", "Please fix the value of the X at the insertion point. The value is incorrect for " + units.ToString() + " units.");
                     return;
                 }
             } else
@@ -79,9 +80,9 @@ namespace Beva.Forms
 
             if (!string.IsNullOrWhiteSpace(txtY.Text))
             {
-                if (!double.TryParse(txtY.Text, out y))
+                if (!TryParse(docUnits, txtY.Text, out y))
                 {
-                    TaskDialog.Show("Data validation", "Please fix the value of the Y at the insertion point. The value is wrong.");
+                    TaskDialog.Show("Data validation", "Please fix the value of the Y at the insertion point. The value is incorrect for " + units.ToString() + " units.");
                     return;
                 }
             }
@@ -93,9 +94,9 @@ namespace Beva.Forms
 
             if (!string.IsNullOrWhiteSpace(txtZ.Text))
             {
-                if (!double.TryParse(txtZ.Text, out z))
+                if (!TryParse(docUnits, txtZ.Text, out z))
                 {
-                    TaskDialog.Show("Data validation", "Please fix the value of the Z at the insertion point. The value is wrong.");
+                    TaskDialog.Show("Data validation", "Please fix the value of the Z at the insertion point. The value is incorrect for " + units.ToString() + " units.");
                     return;
                 }
             }
@@ -105,8 +106,6 @@ namespace Beva.Forms
                 return;
             }
 
-            var docUnits = newProjManager.CommandData.Application.ActiveUIDocument.Document.GetUnits();
-            var units = newProjManager.CommandData.Application.ActiveUIDocument.Document.DisplayUnitSystem;
             WallType wallSelected = this.cbWallType.SelectedValue as WallType;
 
             if (!TryParse(docUnits, txtLength.Text, out double length))
