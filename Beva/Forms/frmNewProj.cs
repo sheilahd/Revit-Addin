@@ -67,7 +67,7 @@ namespace Beva.Forms
 
             if (!string.IsNullOrWhiteSpace(txtX.Text))
             { 
-                if (!TryParse(docUnits, txtX.Text, out x))
+                if (!TryParse(docUnits, txtX.Text, AllowedValues.All, out x))
                 {
                     TaskDialog.Show("Data validation", "Please fix the value of the X at the insertion point. The value is incorrect for " + units.ToString() + " units.");
                     return;
@@ -80,7 +80,7 @@ namespace Beva.Forms
 
             if (!string.IsNullOrWhiteSpace(txtY.Text))
             {
-                if (!TryParse(docUnits, txtY.Text, out y))
+                if (!TryParse(docUnits, txtY.Text, AllowedValues.All, out y))
                 {
                     TaskDialog.Show("Data validation", "Please fix the value of the Y at the insertion point. The value is incorrect for " + units.ToString() + " units.");
                     return;
@@ -94,7 +94,7 @@ namespace Beva.Forms
 
             if (!string.IsNullOrWhiteSpace(txtZ.Text))
             {
-                if (!TryParse(docUnits, txtZ.Text, out z))
+                if (!TryParse(docUnits, txtZ.Text, AllowedValues.All, out z))
                 {
                     TaskDialog.Show("Data validation", "Please fix the value of the Z at the insertion point. The value is incorrect for " + units.ToString() + " units.");
                     return;
@@ -108,7 +108,7 @@ namespace Beva.Forms
 
             WallType wallSelected = this.cbWallType.SelectedValue as WallType;
 
-            if (!TryParse(docUnits, txtLength.Text, out double length))
+            if (!TryParse(docUnits, txtLength.Text, AllowedValues.Positive, out double length))
             {
                 TaskDialog.Show("Data validation", "Please, fix the dimensions. Length contains invalid values. Values ​​cannot be negative and must be valid for use in " + units.ToString() + " units.");
                 return;
@@ -117,7 +117,7 @@ namespace Beva.Forms
             {
                 if (units.ToString().ToLower().Equals(Convert.ToString("Imperial").ToLower()))
                 {
-                    TryParse(docUnits, "1/256\"", out double valor);
+                    TryParse(docUnits, "1/256\"", AllowedValues.Positive, out double valor);
                     var widthWallMin = wallSelected.Width + valor; //1/256;
 
                     if (length < widthWallMin)
@@ -138,7 +138,7 @@ namespace Beva.Forms
                 }
             }
 
-            if (!TryParse(docUnits, txtWidth.Text, out double width))
+            if (!TryParse(docUnits, txtWidth.Text, AllowedValues.Positive, out double width))
             {
                 TaskDialog.Show("Data validation", "Please, fix the dimensions. Width contains invalid values. Values ​​cannot be negative and must be valid for use in " + units.ToString() + " units.");
                 return;
@@ -147,7 +147,7 @@ namespace Beva.Forms
             {
                 if (units.ToString().ToLower().Equals(Convert.ToString("Imperial").ToLower()))
                 {
-                    TryParse(docUnits, "1/256\"", out double valor);
+                    TryParse(docUnits, "1/256\"", AllowedValues.Positive, out double valor);
                     var widthWallMin = wallSelected.Width + valor;
 
                     if (width < widthWallMin)
@@ -168,7 +168,7 @@ namespace Beva.Forms
                 }
             }
 
-            if (!TryParse(docUnits, txtHeight.Text, out double height))
+            if (!TryParse(docUnits, txtHeight.Text, AllowedValues.Positive, out double height))
             {
                 TaskDialog.Show("Data validation", "Please, fix the dimensions. Height contains invalid values. Values ​​cannot be negative and must be valid for use in " + units.ToString() + " units.");
                 return;
@@ -181,7 +181,7 @@ namespace Beva.Forms
                     {
                         if (units.ToString().ToLower().Equals(Convert.ToString("Imperial").ToLower()))
                         {
-                            TryParse(docUnits, "10'0\"", out double minHeight);
+                            TryParse(docUnits, "10'0\"", AllowedValues.Positive, out double minHeight);
                             if (height < minHeight)
                             {
                                 TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The height dimension must be minimum 10'0\" for this construction type selected");
@@ -190,7 +190,7 @@ namespace Beva.Forms
                         }
                         else if (units.ToString().ToLower().Equals(Convert.ToString("Metric").ToLower()))
                         {
-                            TryParse(docUnits, "3000", out double minHeight);
+                            TryParse(docUnits, "3000", AllowedValues.Positive, out double minHeight);
                             if (height < minHeight)
                             {
                                 TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The height dimension must be minimum 3000 for this construction type selected");
@@ -223,7 +223,7 @@ namespace Beva.Forms
             Close();
         }
 
-        private bool TryParse(Units units, string stringToParse, out double value)
+        private bool TryParse(Units units, string stringToParse, AllowedValues allowValue, out double value)
         {
             value = 0;
 
@@ -234,7 +234,7 @@ namespace Beva.Forms
 
             var valueParsingOptions = new ValueParsingOptions()
             {
-                AllowedValues = AllowedValues.Positive
+                AllowedValues = allowValue
             };
 
             return UnitFormatUtils.TryParse(units, UnitType.UT_Length, stringToParse, valueParsingOptions, out value);
