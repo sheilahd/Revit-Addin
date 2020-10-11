@@ -26,7 +26,7 @@ namespace Beva
         {
             // Create a ribbon tab
             string tabName = "Beva";
-            
+
             a.CreateRibbonTab(tabName);
 
             // Create a ribbon panel inside the tab
@@ -72,7 +72,8 @@ namespace Beva
                     RibbonItem ribbItem = _buttom[0];
                     ribbItem.Enabled = false;
                 }
-            } else
+            }
+            else
             {
                 RibbonItem ribbItem = _buttom[0];
                 ribbItem.Enabled = true;
