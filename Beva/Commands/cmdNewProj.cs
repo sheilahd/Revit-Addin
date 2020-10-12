@@ -67,7 +67,7 @@ namespace Beva.Commands
                     CreateLevel(doc, data.Height);
 
                     List<XYZ> corners = new List<XYZ>(4);
-                    // Determine the levels where the walls will be located:
+                    
                     Level levelBottom = null;
                     Level levelTop = null;
 
@@ -118,7 +118,7 @@ namespace Beva.Commands
                 return null;
             }
             
-            double widthParam = formData.Width;//UnitUtils.Convert(formData.Width, DisplayUnitType.DUT_MILLIMETERS, DisplayUnitType.DUT_METERS);
+            double widthParam = formData.Width;
             double depthParam = formData.Length;
             double heightParam = formData.Height;
             double xParam = wallThickness;
@@ -179,14 +179,12 @@ namespace Beva.Commands
 
                 Debug.Assert(0 < floorTypes.Count, "expected at least one floor type" + " to be loaded into project");
 
-                FloorType floorType = floorTypes.Cast<FloorType>().FirstOrDefault(); //First<Element>(ft => ft.Id == floorTypeSelect.Id) as FloorType;
+                FloorType floorType = floorTypes.Cast<FloorType>().FirstOrDefault();
 
                 XYZ normal = XYZ.BasisZ;
 
                 bool structural = false;
                 Floor floor = createDoc.NewFloor(profile, floorType, levelBottom, structural, normal);
-                //Parameter p1 = floor.get_Parameter(BuiltInParameter.FLOOR_HEIGHTABOVELEVEL_PARAM);
-                //p1.Set(formData.Z);
             }
             catch (Exception ex)
             {
@@ -225,7 +223,7 @@ namespace Beva.Commands
             }
 
             ElementId idLevel2 = walls[0].get_Parameter(BuiltInParameter.WALL_HEIGHT_TYPE).AsElementId();
-            Level level2 = (Level)doc.GetElement(idLevel2); // since 2013
+            Level level2 = (Level)doc.GetElement(idLevel2);
 
             ModelCurveArray mapping = new ModelCurveArray();
                         
@@ -251,7 +249,6 @@ namespace Beva.Commands
                 ProjectLocation currentLocation = doc.ActiveProjectLocation;
 
                 XYZ newOrigin = new XYZ(0, 0, 0);
-                //const double angleRatio = Math.PI / 180;
 
                 ProjectPosition projectPosition = currentLocation.GetProjectPosition(newOrigin);
 

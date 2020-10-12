@@ -118,7 +118,7 @@ namespace Beva.Forms
                 if (units.ToString().ToLower().Equals(Convert.ToString("Imperial").ToLower()))
                 {
                     TryParse(docUnits, "1/256\"", AllowedValues.Positive, out double valor);
-                    var widthWallMin = wallSelected.Width + valor; //1/256;
+                    var widthWallMin = wallSelected.Width + valor; 
 
                     if (length < widthWallMin)
                     {
