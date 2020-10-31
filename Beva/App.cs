@@ -30,6 +30,7 @@ namespace Beva
         public Result OnStartup(UIControlledApplication a)
         {
             string tabName = "Beva";
+            string tooltipContent = "Create a new sheet by collecting data from the user. Once you have filled out the form, a new populated sheet will automatically be created";
 
             a.CreateRibbonTab(tabName);
 
@@ -50,7 +51,8 @@ namespace Beva
             PushButtonData button2 = new PushButtonData("btnNewSheet", "New Sheet", thisAssemblyPath, typeof(cmdNewSheet).FullName);
             PushButton pushButton2 = panel.AddItem(button2) as PushButton;
             pushButton2.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "Xpress-Bldg_Btn32x32.png")));
-            pushButton2.ToolTip = "Create a new sheet by collecting data from the user. Once you have filled out the form, a new populated sheet will automatically be created";
+            pushButton2.ToolTip = tooltipContent;
+            // pushButton2.ToolTip = "Create a new sheet by collecting data from the user. Once you have filled out the form, a new populated sheet will automatically be created";
             pushButton2.SetContextualHelp(new ContextualHelp(ContextualHelpType.ChmFile, Path.Combine(helpPath, "Beva.chm")));
 
             _button.Add(pushButton2);

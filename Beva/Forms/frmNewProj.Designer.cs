@@ -214,7 +214,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(102, 13);
             this.label3.TabIndex = 23;
-            this.label3.Text = "INSERTION POINT";
+            this.label3.Text = "PROJECT BASE POINT";
             // 
             // cbRoofType
             // 
@@ -250,7 +250,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(124, 13);
             this.label1.TabIndex = 19;
-            this.label1.Text = "CONSTRUCTION TYPE";
+            this.label1.Text = "WALL TYPE";
             // 
             // groupBox1
             // 
