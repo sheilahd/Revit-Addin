@@ -30,7 +30,24 @@ namespace Beva
         public Result OnStartup(UIControlledApplication a)
         {
             string tabName = "Beva";
-            string tooltipContent = "Create a new sheet by collecting data from the user. Once you have filled out the form, a new populated sheet will automatically be created";
+            string tooltipContentBtn1 = "Creates a new building by collecting data from the user in a form.";
+            string tooltipDescriptionBtn1 = "<p>Use the type selector to specify the type of wall and roof or " +
+                "use the default choices and do the changes later.</p>" +
+                "<p></p>" +
+                "<p>Use the slab checkbox to create a generic floor (slab) " +
+                "at the specified height (Project Base Point = PBP => Z-axis)</p>" +
+                "<p></p>" +
+                "<p>Use the axes XYZ of PBP to locate the building in the Revit world. PBP will be placed at the lower left " +
+                "corner of the building and at the top of the slab.</p>" +
+                "<p></p>" +
+                "<p>Building horizontal dimensions are from outer edge of wall to outer edge of wall. Building height is " +
+                "from top of slab to top of wall.</p>";
+            string tooltipContentBtn2 = "Creates one or more sheets with viewports to scale showing the existing geometry";
+            string tooltipDescriptionBtn2 = "<p>lorem ipsum</p>" +
+                "<p></p>" +
+                "<p>lorem ipsum</p>" +
+                "<p></p>" +
+                "<p>lorem ipsum</p>";
 
             a.CreateRibbonTab(tabName);
 
@@ -43,7 +60,8 @@ namespace Beva
             PushButtonData button1 = new PushButtonData("btnNewProj", "EZ-Build", thisAssemblyPath, typeof(cmdNewProj).FullName);
             PushButton pushButton1 = panel.AddItem(button1) as PushButton;
             pushButton1.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "Xpress-Bldg_Btn32x32.png")));
-            pushButton1.ToolTip = "Start a new project by collecting data from the user. Once you have filled out the form, a new 3D model will automatically be created";
+            pushButton1.ToolTip = tooltipContentBtn1;
+            pushButton1.LongDescription = tooltipDescriptionBtn1;
             pushButton1.SetContextualHelp(new ContextualHelp(ContextualHelpType.ChmFile, Path.Combine(helpPath, "Beva.chm")));
 
             _button.Add(pushButton1);
@@ -51,8 +69,8 @@ namespace Beva
             PushButtonData button2 = new PushButtonData("btnNewSheet", "New Sheet", thisAssemblyPath, typeof(cmdNewSheet).FullName);
             PushButton pushButton2 = panel.AddItem(button2) as PushButton;
             pushButton2.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "Xpress-Bldg_Btn32x32.png")));
-            pushButton2.ToolTip = tooltipContent;
-            // pushButton2.ToolTip = "Create a new sheet by collecting data from the user. Once you have filled out the form, a new populated sheet will automatically be created";
+            pushButton2.ToolTip = tooltipContentBtn2;
+            pushButton2.LongDescription = tooltipDescriptionBtn2;
             pushButton2.SetContextualHelp(new ContextualHelp(ContextualHelpType.ChmFile, Path.Combine(helpPath, "Beva.chm")));
 
             _button.Add(pushButton2);
