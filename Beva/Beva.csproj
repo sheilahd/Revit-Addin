@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Beva.chm" />
+    <None Include="EZevit.chm" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\frmNewProj.resx">

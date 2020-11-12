@@ -62,7 +62,7 @@ namespace Beva
             pushButton1.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "Xpress-Bldg_Btn32x32.png")));
             pushButton1.ToolTip = tooltipContentBtn1;
             pushButton1.LongDescription = tooltipDescriptionBtn1;
-            pushButton1.SetContextualHelp(new ContextualHelp(ContextualHelpType.ChmFile, Path.Combine(helpPath, "Beva.chm")));
+            pushButton1.SetContextualHelp(new ContextualHelp(ContextualHelpType.ChmFile, Path.Combine(helpPath, "EZevit.chm")));
 
             _button.Add(pushButton1);
 
@@ -71,7 +71,7 @@ namespace Beva
             pushButton2.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "Xpress-Bldg_Btn32x32.png")));
             pushButton2.ToolTip = tooltipContentBtn2;
             pushButton2.LongDescription = tooltipDescriptionBtn2;
-            pushButton2.SetContextualHelp(new ContextualHelp(ContextualHelpType.ChmFile, Path.Combine(helpPath, "Beva.chm")));
+            pushButton2.SetContextualHelp(new ContextualHelp(ContextualHelpType.ChmFile, Path.Combine(helpPath, "EZevit.chm")));
 
             _button.Add(pushButton2);
 
