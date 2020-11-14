@@ -1,15 +1,45 @@
-﻿using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using Beva.FormData;
+using Beva.Forms;
+using Beva.Managers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Beva.Commands
 {
-    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
     public class cmdNewSheet : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            return Result.Succeeded;
-        }
+            try
+            {
+                var newSheetManager = new NewSheetManager(commandData);
+
+                DialogResult result = DialogResult.None;
+                using (frmNewSheet form = new frmNewSheet(newSheetManager))
+                {
+                    result = form.ShowDialog();
+
+                    if (result == DialogResult.OK)
+                    {
+                        return Result.Succeeded;
+                    }
+                }
+
+                return Result.Cancelled;
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+
+                return Result.Failed;
+            }
+        }                
     }
 }
