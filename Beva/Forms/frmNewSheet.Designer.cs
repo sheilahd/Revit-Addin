@@ -75,6 +75,7 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.ofdViewsTemplates = new System.Windows.Forms.OpenFileDialog();
             this.gbSheetSet.SuspendLayout();
             this.gbGeneral.SuspendLayout();
             this.SuspendLayout();
@@ -114,7 +115,7 @@
             this.gbSheetSet.Size = new System.Drawing.Size(747, 273);
             this.gbSheetSet.TabIndex = 0;
             this.gbSheetSet.TabStop = false;
-            this.gbSheetSet.Text = "SHEET SET";
+            this.gbSheetSet.Text = "Sheet Set";
             // 
             // btnBrowseEastElevationTemplate
             // 
@@ -123,7 +124,7 @@
             this.btnBrowseEastElevationTemplate.Name = "btnBrowseEastElevationTemplate";
             this.btnBrowseEastElevationTemplate.Size = new System.Drawing.Size(79, 23);
             this.btnBrowseEastElevationTemplate.TabIndex = 28;
-            this.btnBrowseEastElevationTemplate.Text = "BROWSE";
+            this.btnBrowseEastElevationTemplate.Text = "Browse";
             this.btnBrowseEastElevationTemplate.UseVisualStyleBackColor = true;
             // 
             // btnBrowseWestElevationTemplate
@@ -133,7 +134,7 @@
             this.btnBrowseWestElevationTemplate.Name = "btnBrowseWestElevationTemplate";
             this.btnBrowseWestElevationTemplate.Size = new System.Drawing.Size(79, 23);
             this.btnBrowseWestElevationTemplate.TabIndex = 27;
-            this.btnBrowseWestElevationTemplate.Text = "BROWSE";
+            this.btnBrowseWestElevationTemplate.Text = "Browse";
             this.btnBrowseWestElevationTemplate.UseVisualStyleBackColor = true;
             // 
             // btnBrowseSouthElevationTemplate
@@ -143,7 +144,7 @@
             this.btnBrowseSouthElevationTemplate.Name = "btnBrowseSouthElevationTemplate";
             this.btnBrowseSouthElevationTemplate.Size = new System.Drawing.Size(79, 23);
             this.btnBrowseSouthElevationTemplate.TabIndex = 26;
-            this.btnBrowseSouthElevationTemplate.Text = "BROWSE";
+            this.btnBrowseSouthElevationTemplate.Text = "Browse";
             this.btnBrowseSouthElevationTemplate.UseVisualStyleBackColor = true;
             // 
             // btnBrowseNorthElevationTemplate
@@ -153,7 +154,7 @@
             this.btnBrowseNorthElevationTemplate.Name = "btnBrowseNorthElevationTemplate";
             this.btnBrowseNorthElevationTemplate.Size = new System.Drawing.Size(79, 23);
             this.btnBrowseNorthElevationTemplate.TabIndex = 25;
-            this.btnBrowseNorthElevationTemplate.Text = "BROWSE";
+            this.btnBrowseNorthElevationTemplate.Text = "Browse";
             this.btnBrowseNorthElevationTemplate.UseVisualStyleBackColor = true;
             // 
             // btnBrowseRoofPlanTemplate
@@ -163,7 +164,7 @@
             this.btnBrowseRoofPlanTemplate.Name = "btnBrowseRoofPlanTemplate";
             this.btnBrowseRoofPlanTemplate.Size = new System.Drawing.Size(79, 23);
             this.btnBrowseRoofPlanTemplate.TabIndex = 24;
-            this.btnBrowseRoofPlanTemplate.Text = "BROWSE";
+            this.btnBrowseRoofPlanTemplate.Text = "Browse";
             this.btnBrowseRoofPlanTemplate.UseVisualStyleBackColor = true;
             // 
             // btnBrowseFloorPlanTemplate
@@ -173,8 +174,9 @@
             this.btnBrowseFloorPlanTemplate.Name = "btnBrowseFloorPlanTemplate";
             this.btnBrowseFloorPlanTemplate.Size = new System.Drawing.Size(79, 23);
             this.btnBrowseFloorPlanTemplate.TabIndex = 23;
-            this.btnBrowseFloorPlanTemplate.Text = "BROWSE";
+            this.btnBrowseFloorPlanTemplate.Text = "Browse";
             this.btnBrowseFloorPlanTemplate.UseVisualStyleBackColor = true;
+            this.btnBrowseFloorPlanTemplate.Click += new System.EventHandler(this.btnBrowseFloorPlanTemplate_Click);
             // 
             // cbxEastElevationTemplate
             // 
@@ -283,9 +285,9 @@
             this.chkBEastElevation.AutoSize = true;
             this.chkBEastElevation.Location = new System.Drawing.Point(9, 237);
             this.chkBEastElevation.Name = "chkBEastElevation";
-            this.chkBEastElevation.Size = new System.Drawing.Size(117, 17);
+            this.chkBEastElevation.Size = new System.Drawing.Size(93, 17);
             this.chkBEastElevation.TabIndex = 8;
-            this.chkBEastElevation.Text = "EAST ELEVATION";
+            this.chkBEastElevation.Text = "East elevation";
             this.chkBEastElevation.UseVisualStyleBackColor = true;
             this.chkBEastElevation.Click += new System.EventHandler(this.chkBEastElevation_Click);
             // 
@@ -294,9 +296,9 @@
             this.chkBWestElevation.AutoSize = true;
             this.chkBWestElevation.Location = new System.Drawing.Point(9, 201);
             this.chkBWestElevation.Name = "chkBWestElevation";
-            this.chkBWestElevation.Size = new System.Drawing.Size(121, 17);
+            this.chkBWestElevation.Size = new System.Drawing.Size(97, 17);
             this.chkBWestElevation.TabIndex = 7;
-            this.chkBWestElevation.Text = "WEST ELEVATION";
+            this.chkBWestElevation.Text = "West elevation";
             this.chkBWestElevation.UseVisualStyleBackColor = true;
             this.chkBWestElevation.Click += new System.EventHandler(this.chkBWestElevation_Click);
             // 
@@ -305,9 +307,9 @@
             this.chkBSouthElevation.AutoSize = true;
             this.chkBSouthElevation.Location = new System.Drawing.Point(9, 166);
             this.chkBSouthElevation.Name = "chkBSouthElevation";
-            this.chkBSouthElevation.Size = new System.Drawing.Size(127, 17);
+            this.chkBSouthElevation.Size = new System.Drawing.Size(100, 17);
             this.chkBSouthElevation.TabIndex = 6;
-            this.chkBSouthElevation.Text = "SOUTH ELEVATION";
+            this.chkBSouthElevation.Text = "South elevation";
             this.chkBSouthElevation.UseVisualStyleBackColor = true;
             this.chkBSouthElevation.Click += new System.EventHandler(this.chkBSouthElevation_Click);
             // 
@@ -316,9 +318,9 @@
             this.chkBNorthElevation.AutoSize = true;
             this.chkBNorthElevation.Location = new System.Drawing.Point(9, 130);
             this.chkBNorthElevation.Name = "chkBNorthElevation";
-            this.chkBNorthElevation.Size = new System.Drawing.Size(128, 17);
+            this.chkBNorthElevation.Size = new System.Drawing.Size(98, 17);
             this.chkBNorthElevation.TabIndex = 5;
-            this.chkBNorthElevation.Text = "NORTH ELEVATION";
+            this.chkBNorthElevation.Text = "North elevation";
             this.chkBNorthElevation.UseVisualStyleBackColor = true;
             this.chkBNorthElevation.Click += new System.EventHandler(this.chkBNorthElevation_Click);
             // 
@@ -327,9 +329,9 @@
             this.chkBRoofPlan.AutoSize = true;
             this.chkBRoofPlan.Location = new System.Drawing.Point(9, 95);
             this.chkBRoofPlan.Name = "chkBRoofPlan";
-            this.chkBRoofPlan.Size = new System.Drawing.Size(87, 17);
+            this.chkBRoofPlan.Size = new System.Drawing.Size(72, 17);
             this.chkBRoofPlan.TabIndex = 4;
-            this.chkBRoofPlan.Text = "ROOF PLAN";
+            this.chkBRoofPlan.Text = "Roof plan";
             this.chkBRoofPlan.UseVisualStyleBackColor = true;
             this.chkBRoofPlan.Click += new System.EventHandler(this.chkBRoofPlan_Click);
             // 
@@ -338,9 +340,9 @@
             this.chkBFloorPlan.AutoSize = true;
             this.chkBFloorPlan.Location = new System.Drawing.Point(9, 61);
             this.chkBFloorPlan.Name = "chkBFloorPlan";
-            this.chkBFloorPlan.Size = new System.Drawing.Size(93, 17);
+            this.chkBFloorPlan.Size = new System.Drawing.Size(72, 17);
             this.chkBFloorPlan.TabIndex = 3;
-            this.chkBFloorPlan.Text = "FLOOR PLAN";
+            this.chkBFloorPlan.Text = "Floor plan";
             this.chkBFloorPlan.UseVisualStyleBackColor = true;
             this.chkBFloorPlan.Click += new System.EventHandler(this.chkBFloorPlan_Click);
             // 
@@ -349,36 +351,36 @@
             this.lbTemplate.AutoSize = true;
             this.lbTemplate.Location = new System.Drawing.Point(270, 35);
             this.lbTemplate.Name = "lbTemplate";
-            this.lbTemplate.Size = new System.Drawing.Size(95, 13);
+            this.lbTemplate.Size = new System.Drawing.Size(77, 13);
             this.lbTemplate.TabIndex = 2;
-            this.lbTemplate.Text = "VIEW TEMPLATE";
+            this.lbTemplate.Text = "View Template";
             // 
             // lbDrawingNumber
             // 
             this.lbDrawingNumber.AutoSize = true;
             this.lbDrawingNumber.Location = new System.Drawing.Point(142, 35);
             this.lbDrawingNumber.Name = "lbDrawingNumber";
-            this.lbDrawingNumber.Size = new System.Drawing.Size(59, 13);
+            this.lbDrawingNumber.Size = new System.Drawing.Size(52, 13);
             this.lbDrawingNumber.TabIndex = 1;
-            this.lbDrawingNumber.Text = "DWG. NO.";
+            this.lbDrawingNumber.Text = "Dwg. No.";
             // 
             // lbDrawing
             // 
             this.lbDrawing.AutoSize = true;
             this.lbDrawing.Location = new System.Drawing.Point(29, 35);
             this.lbDrawing.Name = "lbDrawing";
-            this.lbDrawing.Size = new System.Drawing.Size(60, 13);
+            this.lbDrawing.Size = new System.Drawing.Size(46, 13);
             this.lbDrawing.TabIndex = 0;
-            this.lbDrawing.Text = "DRAWING";
+            this.lbDrawing.Text = "Drawing";
             // 
             // chkBTitleBlock
             // 
             this.chkBTitleBlock.AutoSize = true;
             this.chkBTitleBlock.Location = new System.Drawing.Point(19, 300);
             this.chkBTitleBlock.Name = "chkBTitleBlock";
-            this.chkBTitleBlock.Size = new System.Drawing.Size(94, 17);
+            this.chkBTitleBlock.Size = new System.Drawing.Size(75, 17);
             this.chkBTitleBlock.TabIndex = 4;
-            this.chkBTitleBlock.Text = "TITLE BLOCK";
+            this.chkBTitleBlock.Text = "Title block";
             this.chkBTitleBlock.UseVisualStyleBackColor = true;
             this.chkBTitleBlock.Click += new System.EventHandler(this.chkBTitleBlock_Click);
             // 
@@ -398,7 +400,7 @@
             this.btnBrowseTitleBlockTemplate.Name = "btnBrowseTitleBlockTemplate";
             this.btnBrowseTitleBlockTemplate.Size = new System.Drawing.Size(79, 23);
             this.btnBrowseTitleBlockTemplate.TabIndex = 29;
-            this.btnBrowseTitleBlockTemplate.Text = "BROWSE";
+            this.btnBrowseTitleBlockTemplate.Text = "Browse";
             this.btnBrowseTitleBlockTemplate.UseVisualStyleBackColor = true;
             // 
             // gbGeneral
@@ -420,7 +422,7 @@
             this.gbGeneral.Size = new System.Drawing.Size(746, 126);
             this.gbGeneral.TabIndex = 30;
             this.gbGeneral.TabStop = false;
-            this.gbGeneral.Text = "GENERAL";
+            this.gbGeneral.Text = "General";
             // 
             // txtApprovedBy
             // 
@@ -469,54 +471,54 @@
             this.lbApprovedBy.AutoSize = true;
             this.lbApprovedBy.Location = new System.Drawing.Point(393, 93);
             this.lbApprovedBy.Name = "lbApprovedBy";
-            this.lbApprovedBy.Size = new System.Drawing.Size(86, 13);
+            this.lbApprovedBy.Size = new System.Drawing.Size(70, 13);
             this.lbApprovedBy.TabIndex = 5;
-            this.lbApprovedBy.Text = "APPROVED BY:";
+            this.lbApprovedBy.Text = "Approved by:";
             // 
             // lbCheckedBy
             // 
             this.lbCheckedBy.AutoSize = true;
             this.lbCheckedBy.Location = new System.Drawing.Point(393, 62);
             this.lbCheckedBy.Name = "lbCheckedBy";
-            this.lbCheckedBy.Size = new System.Drawing.Size(78, 13);
+            this.lbCheckedBy.Size = new System.Drawing.Size(67, 13);
             this.lbCheckedBy.TabIndex = 4;
-            this.lbCheckedBy.Text = "CHECKED BY:";
+            this.lbCheckedBy.Text = "Checked by:";
             // 
             // lbDrawnBy
             // 
             this.lbDrawnBy.AutoSize = true;
             this.lbDrawnBy.Location = new System.Drawing.Point(393, 33);
             this.lbDrawnBy.Name = "lbDrawnBy";
-            this.lbDrawnBy.Size = new System.Drawing.Size(69, 13);
+            this.lbDrawnBy.Size = new System.Drawing.Size(55, 13);
             this.lbDrawnBy.TabIndex = 3;
-            this.lbDrawnBy.Text = "DRAWN BY:";
+            this.lbDrawnBy.Text = "Drawn by:";
             // 
             // lbDiscipline
             // 
             this.lbDiscipline.AutoSize = true;
             this.lbDiscipline.Location = new System.Drawing.Point(8, 93);
             this.lbDiscipline.Name = "lbDiscipline";
-            this.lbDiscipline.Size = new System.Drawing.Size(69, 13);
+            this.lbDiscipline.Size = new System.Drawing.Size(55, 13);
             this.lbDiscipline.TabIndex = 2;
-            this.lbDiscipline.Text = "DISCIPLINE:";
+            this.lbDiscipline.Text = "Discipline:";
             // 
             // lbProjectNumber
             // 
             this.lbProjectNumber.AutoSize = true;
             this.lbProjectNumber.Location = new System.Drawing.Point(8, 62);
             this.lbProjectNumber.Name = "lbProjectNumber";
-            this.lbProjectNumber.Size = new System.Drawing.Size(109, 13);
+            this.lbProjectNumber.Size = new System.Drawing.Size(81, 13);
             this.lbProjectNumber.TabIndex = 1;
-            this.lbProjectNumber.Text = "PROJECT NUMBER:";
+            this.lbProjectNumber.Text = "Project number:";
             // 
             // lbProjectName
             // 
             this.lbProjectName.AutoSize = true;
             this.lbProjectName.Location = new System.Drawing.Point(8, 33);
             this.lbProjectName.Name = "lbProjectName";
-            this.lbProjectName.Size = new System.Drawing.Size(93, 13);
+            this.lbProjectName.Size = new System.Drawing.Size(72, 13);
             this.lbProjectName.TabIndex = 0;
-            this.lbProjectName.Text = "PROJECT NAME:";
+            this.lbProjectName.Text = "Project name:";
             // 
             // btnOK
             // 
@@ -524,7 +526,7 @@
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(79, 23);
             this.btnOK.TabIndex = 31;
-            this.btnOK.Text = "&OK";
+            this.btnOK.Text = "&Ok";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
@@ -534,8 +536,9 @@
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(79, 23);
             this.btnClear.TabIndex = 32;
-            this.btnClear.Text = "CLEAR";
+            this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnCancel
             // 
@@ -543,9 +546,14 @@
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(79, 23);
             this.btnCancel.TabIndex = 33;
-            this.btnCancel.Text = "&CANCEL";
+            this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // ofdViewsTemplates
+            // 
+            this.ofdViewsTemplates.FileName = "ofdViewsTemplates";
+            this.ofdViewsTemplates.Filter = "Files|*.rte";
             // 
             // frmNewSheet
             // 
@@ -566,6 +574,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BEVA - SHEETS CREATION";
+            this.Load += new System.EventHandler(this.frmNewSheet_Load);
             this.gbSheetSet.ResumeLayout(false);
             this.gbSheetSet.PerformLayout();
             this.gbGeneral.ResumeLayout(false);
@@ -624,5 +633,6 @@
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.OpenFileDialog ofdViewsTemplates;
     }
 }
