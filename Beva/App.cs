@@ -75,6 +75,12 @@ namespace Beva
 
             _button.Add(pushButton2);
 
+            PushButtonData button3 = new PushButtonData("btnSupport", "Support", thisAssemblyPath, typeof(cmdNewSheet).FullName);
+            PushButton pushButton3 = panel.AddItem(button3) as PushButton;
+            pushButton3.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "Beva_32x32.png")));
+
+            _button.Add(pushButton3);
+
             a.ControlledApplication.DocumentChanged += new EventHandler<DocumentChangedEventArgs>(OnDocChanged);
             a.ViewActivated += new EventHandler<ViewActivatedEventArgs>(onViewActivated);
 
