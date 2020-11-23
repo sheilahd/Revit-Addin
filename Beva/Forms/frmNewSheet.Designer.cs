@@ -29,24 +29,18 @@
         private void InitializeComponent()
         {
             this.gbSheetSet = new System.Windows.Forms.GroupBox();
-            this.btnBrowseEastElevationTemplate = new System.Windows.Forms.Button();
-            this.btnBrowseWestElevationTemplate = new System.Windows.Forms.Button();
-            this.btnBrowseSouthElevationTemplate = new System.Windows.Forms.Button();
-            this.btnBrowseNorthElevationTemplate = new System.Windows.Forms.Button();
-            this.btnBrowseRoofPlanTemplate = new System.Windows.Forms.Button();
-            this.btnBrowseFloorPlanTemplate = new System.Windows.Forms.Button();
             this.cbxEastElevationTemplate = new System.Windows.Forms.ComboBox();
             this.cbxWestElevationTemplate = new System.Windows.Forms.ComboBox();
             this.cbxSouthElevationTemplate = new System.Windows.Forms.ComboBox();
             this.cbxNorthElevationTemplate = new System.Windows.Forms.ComboBox();
             this.cbxRoofPlanTemplate = new System.Windows.Forms.ComboBox();
             this.cbxFloorPlanTemplate = new System.Windows.Forms.ComboBox();
-            this.txtEastElevation = new System.Windows.Forms.TextBox();
-            this.txtWestElevation = new System.Windows.Forms.TextBox();
-            this.txtSouthElevation = new System.Windows.Forms.TextBox();
-            this.txtNorthElevation = new System.Windows.Forms.TextBox();
-            this.txtRoofPlan = new System.Windows.Forms.TextBox();
-            this.txtFloorPlan = new System.Windows.Forms.TextBox();
+            this.txtDwgEastElevation = new System.Windows.Forms.TextBox();
+            this.txtDwgWestElevation = new System.Windows.Forms.TextBox();
+            this.txtDwgSouthElevation = new System.Windows.Forms.TextBox();
+            this.txtDwgNorthElevation = new System.Windows.Forms.TextBox();
+            this.txtDwgRoofPlan = new System.Windows.Forms.TextBox();
+            this.txtDwgFloorPlan = new System.Windows.Forms.TextBox();
             this.chkBEastElevation = new System.Windows.Forms.CheckBox();
             this.chkBWestElevation = new System.Windows.Forms.CheckBox();
             this.chkBSouthElevation = new System.Windows.Forms.CheckBox();
@@ -58,7 +52,6 @@
             this.lbDrawing = new System.Windows.Forms.Label();
             this.chkBTitleBlock = new System.Windows.Forms.CheckBox();
             this.cbxTitleBlockTemplate = new System.Windows.Forms.ComboBox();
-            this.btnBrowseTitleBlockTemplate = new System.Windows.Forms.Button();
             this.gbGeneral = new System.Windows.Forms.GroupBox();
             this.txtApprovedBy = new System.Windows.Forms.TextBox();
             this.txtCheckedBy = new System.Windows.Forms.TextBox();
@@ -75,31 +68,26 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.ofdViewsTemplates = new System.Windows.Forms.OpenFileDialog();
+            this.btnBrowseTitleBlockTemplate = new System.Windows.Forms.Button();
+            this.ofdBrowseTitleBlockTemplate = new System.Windows.Forms.OpenFileDialog();
             this.gbSheetSet.SuspendLayout();
             this.gbGeneral.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbSheetSet
             // 
-            this.gbSheetSet.Controls.Add(this.btnBrowseEastElevationTemplate);
-            this.gbSheetSet.Controls.Add(this.btnBrowseWestElevationTemplate);
-            this.gbSheetSet.Controls.Add(this.btnBrowseSouthElevationTemplate);
-            this.gbSheetSet.Controls.Add(this.btnBrowseNorthElevationTemplate);
-            this.gbSheetSet.Controls.Add(this.btnBrowseRoofPlanTemplate);
-            this.gbSheetSet.Controls.Add(this.btnBrowseFloorPlanTemplate);
             this.gbSheetSet.Controls.Add(this.cbxEastElevationTemplate);
             this.gbSheetSet.Controls.Add(this.cbxWestElevationTemplate);
             this.gbSheetSet.Controls.Add(this.cbxSouthElevationTemplate);
             this.gbSheetSet.Controls.Add(this.cbxNorthElevationTemplate);
             this.gbSheetSet.Controls.Add(this.cbxRoofPlanTemplate);
             this.gbSheetSet.Controls.Add(this.cbxFloorPlanTemplate);
-            this.gbSheetSet.Controls.Add(this.txtEastElevation);
-            this.gbSheetSet.Controls.Add(this.txtWestElevation);
-            this.gbSheetSet.Controls.Add(this.txtSouthElevation);
-            this.gbSheetSet.Controls.Add(this.txtNorthElevation);
-            this.gbSheetSet.Controls.Add(this.txtRoofPlan);
-            this.gbSheetSet.Controls.Add(this.txtFloorPlan);
+            this.gbSheetSet.Controls.Add(this.txtDwgEastElevation);
+            this.gbSheetSet.Controls.Add(this.txtDwgWestElevation);
+            this.gbSheetSet.Controls.Add(this.txtDwgSouthElevation);
+            this.gbSheetSet.Controls.Add(this.txtDwgNorthElevation);
+            this.gbSheetSet.Controls.Add(this.txtDwgRoofPlan);
+            this.gbSheetSet.Controls.Add(this.txtDwgFloorPlan);
             this.gbSheetSet.Controls.Add(this.chkBEastElevation);
             this.gbSheetSet.Controls.Add(this.chkBWestElevation);
             this.gbSheetSet.Controls.Add(this.chkBSouthElevation);
@@ -117,74 +105,13 @@
             this.gbSheetSet.TabStop = false;
             this.gbSheetSet.Text = "Sheet Set";
             // 
-            // btnBrowseEastElevationTemplate
-            // 
-            this.btnBrowseEastElevationTemplate.Enabled = false;
-            this.btnBrowseEastElevationTemplate.Location = new System.Drawing.Point(656, 233);
-            this.btnBrowseEastElevationTemplate.Name = "btnBrowseEastElevationTemplate";
-            this.btnBrowseEastElevationTemplate.Size = new System.Drawing.Size(79, 23);
-            this.btnBrowseEastElevationTemplate.TabIndex = 28;
-            this.btnBrowseEastElevationTemplate.Text = "Browse";
-            this.btnBrowseEastElevationTemplate.UseVisualStyleBackColor = true;
-            // 
-            // btnBrowseWestElevationTemplate
-            // 
-            this.btnBrowseWestElevationTemplate.Enabled = false;
-            this.btnBrowseWestElevationTemplate.Location = new System.Drawing.Point(656, 197);
-            this.btnBrowseWestElevationTemplate.Name = "btnBrowseWestElevationTemplate";
-            this.btnBrowseWestElevationTemplate.Size = new System.Drawing.Size(79, 23);
-            this.btnBrowseWestElevationTemplate.TabIndex = 27;
-            this.btnBrowseWestElevationTemplate.Text = "Browse";
-            this.btnBrowseWestElevationTemplate.UseVisualStyleBackColor = true;
-            // 
-            // btnBrowseSouthElevationTemplate
-            // 
-            this.btnBrowseSouthElevationTemplate.Enabled = false;
-            this.btnBrowseSouthElevationTemplate.Location = new System.Drawing.Point(656, 162);
-            this.btnBrowseSouthElevationTemplate.Name = "btnBrowseSouthElevationTemplate";
-            this.btnBrowseSouthElevationTemplate.Size = new System.Drawing.Size(79, 23);
-            this.btnBrowseSouthElevationTemplate.TabIndex = 26;
-            this.btnBrowseSouthElevationTemplate.Text = "Browse";
-            this.btnBrowseSouthElevationTemplate.UseVisualStyleBackColor = true;
-            // 
-            // btnBrowseNorthElevationTemplate
-            // 
-            this.btnBrowseNorthElevationTemplate.Enabled = false;
-            this.btnBrowseNorthElevationTemplate.Location = new System.Drawing.Point(656, 126);
-            this.btnBrowseNorthElevationTemplate.Name = "btnBrowseNorthElevationTemplate";
-            this.btnBrowseNorthElevationTemplate.Size = new System.Drawing.Size(79, 23);
-            this.btnBrowseNorthElevationTemplate.TabIndex = 25;
-            this.btnBrowseNorthElevationTemplate.Text = "Browse";
-            this.btnBrowseNorthElevationTemplate.UseVisualStyleBackColor = true;
-            // 
-            // btnBrowseRoofPlanTemplate
-            // 
-            this.btnBrowseRoofPlanTemplate.Enabled = false;
-            this.btnBrowseRoofPlanTemplate.Location = new System.Drawing.Point(656, 91);
-            this.btnBrowseRoofPlanTemplate.Name = "btnBrowseRoofPlanTemplate";
-            this.btnBrowseRoofPlanTemplate.Size = new System.Drawing.Size(79, 23);
-            this.btnBrowseRoofPlanTemplate.TabIndex = 24;
-            this.btnBrowseRoofPlanTemplate.Text = "Browse";
-            this.btnBrowseRoofPlanTemplate.UseVisualStyleBackColor = true;
-            // 
-            // btnBrowseFloorPlanTemplate
-            // 
-            this.btnBrowseFloorPlanTemplate.Enabled = false;
-            this.btnBrowseFloorPlanTemplate.Location = new System.Drawing.Point(656, 57);
-            this.btnBrowseFloorPlanTemplate.Name = "btnBrowseFloorPlanTemplate";
-            this.btnBrowseFloorPlanTemplate.Size = new System.Drawing.Size(79, 23);
-            this.btnBrowseFloorPlanTemplate.TabIndex = 23;
-            this.btnBrowseFloorPlanTemplate.Text = "Browse";
-            this.btnBrowseFloorPlanTemplate.UseVisualStyleBackColor = true;
-            this.btnBrowseFloorPlanTemplate.Click += new System.EventHandler(this.btnBrowseFloorPlanTemplate_Click);
-            // 
             // cbxEastElevationTemplate
             // 
             this.cbxEastElevationTemplate.Enabled = false;
             this.cbxEastElevationTemplate.FormattingEnabled = true;
             this.cbxEastElevationTemplate.Location = new System.Drawing.Point(273, 235);
             this.cbxEastElevationTemplate.Name = "cbxEastElevationTemplate";
-            this.cbxEastElevationTemplate.Size = new System.Drawing.Size(348, 21);
+            this.cbxEastElevationTemplate.Size = new System.Drawing.Size(462, 21);
             this.cbxEastElevationTemplate.TabIndex = 22;
             // 
             // cbxWestElevationTemplate
@@ -193,7 +120,7 @@
             this.cbxWestElevationTemplate.FormattingEnabled = true;
             this.cbxWestElevationTemplate.Location = new System.Drawing.Point(273, 199);
             this.cbxWestElevationTemplate.Name = "cbxWestElevationTemplate";
-            this.cbxWestElevationTemplate.Size = new System.Drawing.Size(348, 21);
+            this.cbxWestElevationTemplate.Size = new System.Drawing.Size(462, 21);
             this.cbxWestElevationTemplate.TabIndex = 21;
             // 
             // cbxSouthElevationTemplate
@@ -202,7 +129,7 @@
             this.cbxSouthElevationTemplate.FormattingEnabled = true;
             this.cbxSouthElevationTemplate.Location = new System.Drawing.Point(273, 164);
             this.cbxSouthElevationTemplate.Name = "cbxSouthElevationTemplate";
-            this.cbxSouthElevationTemplate.Size = new System.Drawing.Size(348, 21);
+            this.cbxSouthElevationTemplate.Size = new System.Drawing.Size(462, 21);
             this.cbxSouthElevationTemplate.TabIndex = 20;
             // 
             // cbxNorthElevationTemplate
@@ -211,7 +138,7 @@
             this.cbxNorthElevationTemplate.FormattingEnabled = true;
             this.cbxNorthElevationTemplate.Location = new System.Drawing.Point(273, 128);
             this.cbxNorthElevationTemplate.Name = "cbxNorthElevationTemplate";
-            this.cbxNorthElevationTemplate.Size = new System.Drawing.Size(348, 21);
+            this.cbxNorthElevationTemplate.Size = new System.Drawing.Size(462, 21);
             this.cbxNorthElevationTemplate.TabIndex = 19;
             // 
             // cbxRoofPlanTemplate
@@ -220,7 +147,7 @@
             this.cbxRoofPlanTemplate.FormattingEnabled = true;
             this.cbxRoofPlanTemplate.Location = new System.Drawing.Point(273, 93);
             this.cbxRoofPlanTemplate.Name = "cbxRoofPlanTemplate";
-            this.cbxRoofPlanTemplate.Size = new System.Drawing.Size(348, 21);
+            this.cbxRoofPlanTemplate.Size = new System.Drawing.Size(462, 21);
             this.cbxRoofPlanTemplate.TabIndex = 18;
             // 
             // cbxFloorPlanTemplate
@@ -229,56 +156,56 @@
             this.cbxFloorPlanTemplate.FormattingEnabled = true;
             this.cbxFloorPlanTemplate.Location = new System.Drawing.Point(273, 59);
             this.cbxFloorPlanTemplate.Name = "cbxFloorPlanTemplate";
-            this.cbxFloorPlanTemplate.Size = new System.Drawing.Size(348, 21);
+            this.cbxFloorPlanTemplate.Size = new System.Drawing.Size(462, 21);
             this.cbxFloorPlanTemplate.TabIndex = 17;
             // 
-            // txtEastElevation
+            // txtDwgEastElevation
             // 
-            this.txtEastElevation.Enabled = false;
-            this.txtEastElevation.Location = new System.Drawing.Point(145, 235);
-            this.txtEastElevation.Name = "txtEastElevation";
-            this.txtEastElevation.Size = new System.Drawing.Size(89, 20);
-            this.txtEastElevation.TabIndex = 16;
+            this.txtDwgEastElevation.Enabled = false;
+            this.txtDwgEastElevation.Location = new System.Drawing.Point(145, 235);
+            this.txtDwgEastElevation.Name = "txtDwgEastElevation";
+            this.txtDwgEastElevation.Size = new System.Drawing.Size(89, 20);
+            this.txtDwgEastElevation.TabIndex = 16;
             // 
-            // txtWestElevation
+            // txtDwgWestElevation
             // 
-            this.txtWestElevation.Enabled = false;
-            this.txtWestElevation.Location = new System.Drawing.Point(145, 199);
-            this.txtWestElevation.Name = "txtWestElevation";
-            this.txtWestElevation.Size = new System.Drawing.Size(89, 20);
-            this.txtWestElevation.TabIndex = 15;
+            this.txtDwgWestElevation.Enabled = false;
+            this.txtDwgWestElevation.Location = new System.Drawing.Point(145, 199);
+            this.txtDwgWestElevation.Name = "txtDwgWestElevation";
+            this.txtDwgWestElevation.Size = new System.Drawing.Size(89, 20);
+            this.txtDwgWestElevation.TabIndex = 15;
             // 
-            // txtSouthElevation
+            // txtDwgSouthElevation
             // 
-            this.txtSouthElevation.Enabled = false;
-            this.txtSouthElevation.Location = new System.Drawing.Point(145, 164);
-            this.txtSouthElevation.Name = "txtSouthElevation";
-            this.txtSouthElevation.Size = new System.Drawing.Size(89, 20);
-            this.txtSouthElevation.TabIndex = 14;
+            this.txtDwgSouthElevation.Enabled = false;
+            this.txtDwgSouthElevation.Location = new System.Drawing.Point(145, 164);
+            this.txtDwgSouthElevation.Name = "txtDwgSouthElevation";
+            this.txtDwgSouthElevation.Size = new System.Drawing.Size(89, 20);
+            this.txtDwgSouthElevation.TabIndex = 14;
             // 
-            // txtNorthElevation
+            // txtDwgNorthElevation
             // 
-            this.txtNorthElevation.Enabled = false;
-            this.txtNorthElevation.Location = new System.Drawing.Point(145, 128);
-            this.txtNorthElevation.Name = "txtNorthElevation";
-            this.txtNorthElevation.Size = new System.Drawing.Size(89, 20);
-            this.txtNorthElevation.TabIndex = 13;
+            this.txtDwgNorthElevation.Enabled = false;
+            this.txtDwgNorthElevation.Location = new System.Drawing.Point(145, 128);
+            this.txtDwgNorthElevation.Name = "txtDwgNorthElevation";
+            this.txtDwgNorthElevation.Size = new System.Drawing.Size(89, 20);
+            this.txtDwgNorthElevation.TabIndex = 13;
             // 
-            // txtRoofPlan
+            // txtDwgRoofPlan
             // 
-            this.txtRoofPlan.Enabled = false;
-            this.txtRoofPlan.Location = new System.Drawing.Point(145, 93);
-            this.txtRoofPlan.Name = "txtRoofPlan";
-            this.txtRoofPlan.Size = new System.Drawing.Size(89, 20);
-            this.txtRoofPlan.TabIndex = 12;
+            this.txtDwgRoofPlan.Enabled = false;
+            this.txtDwgRoofPlan.Location = new System.Drawing.Point(145, 93);
+            this.txtDwgRoofPlan.Name = "txtDwgRoofPlan";
+            this.txtDwgRoofPlan.Size = new System.Drawing.Size(89, 20);
+            this.txtDwgRoofPlan.TabIndex = 12;
             // 
-            // txtFloorPlan
+            // txtDwgFloorPlan
             // 
-            this.txtFloorPlan.Enabled = false;
-            this.txtFloorPlan.Location = new System.Drawing.Point(145, 59);
-            this.txtFloorPlan.Name = "txtFloorPlan";
-            this.txtFloorPlan.Size = new System.Drawing.Size(89, 20);
-            this.txtFloorPlan.TabIndex = 11;
+            this.txtDwgFloorPlan.Enabled = false;
+            this.txtDwgFloorPlan.Location = new System.Drawing.Point(145, 59);
+            this.txtDwgFloorPlan.Name = "txtDwgFloorPlan";
+            this.txtDwgFloorPlan.Size = new System.Drawing.Size(89, 20);
+            this.txtDwgFloorPlan.TabIndex = 11;
             // 
             // chkBEastElevation
             // 
@@ -390,18 +317,8 @@
             this.cbxTitleBlockTemplate.FormattingEnabled = true;
             this.cbxTitleBlockTemplate.Location = new System.Drawing.Point(283, 298);
             this.cbxTitleBlockTemplate.Name = "cbxTitleBlockTemplate";
-            this.cbxTitleBlockTemplate.Size = new System.Drawing.Size(348, 21);
+            this.cbxTitleBlockTemplate.Size = new System.Drawing.Size(362, 21);
             this.cbxTitleBlockTemplate.TabIndex = 18;
-            // 
-            // btnBrowseTitleBlockTemplate
-            // 
-            this.btnBrowseTitleBlockTemplate.Enabled = false;
-            this.btnBrowseTitleBlockTemplate.Location = new System.Drawing.Point(666, 296);
-            this.btnBrowseTitleBlockTemplate.Name = "btnBrowseTitleBlockTemplate";
-            this.btnBrowseTitleBlockTemplate.Size = new System.Drawing.Size(79, 23);
-            this.btnBrowseTitleBlockTemplate.TabIndex = 29;
-            this.btnBrowseTitleBlockTemplate.Text = "Browse";
-            this.btnBrowseTitleBlockTemplate.UseVisualStyleBackColor = true;
             // 
             // gbGeneral
             // 
@@ -550,21 +467,31 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // ofdViewsTemplates
+            // btnBrowseTitleBlockTemplate
             // 
-            this.ofdViewsTemplates.FileName = "ofdViewsTemplates";
-            this.ofdViewsTemplates.Filter = "Files|*.rte";
+            this.btnBrowseTitleBlockTemplate.Location = new System.Drawing.Point(666, 296);
+            this.btnBrowseTitleBlockTemplate.Name = "btnBrowseTitleBlockTemplate";
+            this.btnBrowseTitleBlockTemplate.Size = new System.Drawing.Size(79, 23);
+            this.btnBrowseTitleBlockTemplate.TabIndex = 34;
+            this.btnBrowseTitleBlockTemplate.Text = "&Browse";
+            this.btnBrowseTitleBlockTemplate.UseVisualStyleBackColor = true;
+            this.btnBrowseTitleBlockTemplate.Click += new System.EventHandler(this.btnBrowseTitleBlockTemplate_Click);
+            // 
+            // ofdBrowseTitleBlockTemplate
+            // 
+            this.ofdBrowseTitleBlockTemplate.Filter = "Family Files (*.rfa)|*.rfa";
+            this.ofdBrowseTitleBlockTemplate.Title = "Browse title block template";
             // 
             // frmNewSheet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(769, 503);
+            this.Controls.Add(this.btnBrowseTitleBlockTemplate);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbGeneral);
-            this.Controls.Add(this.btnBrowseTitleBlockTemplate);
             this.Controls.Add(this.cbxTitleBlockTemplate);
             this.Controls.Add(this.chkBTitleBlock);
             this.Controls.Add(this.gbSheetSet);
@@ -587,24 +514,18 @@
         #endregion
 
         private System.Windows.Forms.GroupBox gbSheetSet;
-        private System.Windows.Forms.Button btnBrowseEastElevationTemplate;
-        private System.Windows.Forms.Button btnBrowseWestElevationTemplate;
-        private System.Windows.Forms.Button btnBrowseSouthElevationTemplate;
-        private System.Windows.Forms.Button btnBrowseNorthElevationTemplate;
-        private System.Windows.Forms.Button btnBrowseRoofPlanTemplate;
-        private System.Windows.Forms.Button btnBrowseFloorPlanTemplate;
         private System.Windows.Forms.ComboBox cbxEastElevationTemplate;
         private System.Windows.Forms.ComboBox cbxWestElevationTemplate;
         private System.Windows.Forms.ComboBox cbxSouthElevationTemplate;
         private System.Windows.Forms.ComboBox cbxNorthElevationTemplate;
         private System.Windows.Forms.ComboBox cbxRoofPlanTemplate;
         private System.Windows.Forms.ComboBox cbxFloorPlanTemplate;
-        private System.Windows.Forms.TextBox txtEastElevation;
-        private System.Windows.Forms.TextBox txtWestElevation;
-        private System.Windows.Forms.TextBox txtSouthElevation;
-        private System.Windows.Forms.TextBox txtNorthElevation;
-        private System.Windows.Forms.TextBox txtRoofPlan;
-        private System.Windows.Forms.TextBox txtFloorPlan;
+        private System.Windows.Forms.TextBox txtDwgEastElevation;
+        private System.Windows.Forms.TextBox txtDwgWestElevation;
+        private System.Windows.Forms.TextBox txtDwgSouthElevation;
+        private System.Windows.Forms.TextBox txtDwgNorthElevation;
+        private System.Windows.Forms.TextBox txtDwgRoofPlan;
+        private System.Windows.Forms.TextBox txtDwgFloorPlan;
         private System.Windows.Forms.CheckBox chkBEastElevation;
         private System.Windows.Forms.CheckBox chkBWestElevation;
         private System.Windows.Forms.CheckBox chkBSouthElevation;
@@ -616,7 +537,6 @@
         private System.Windows.Forms.Label lbDrawing;
         private System.Windows.Forms.CheckBox chkBTitleBlock;
         private System.Windows.Forms.ComboBox cbxTitleBlockTemplate;
-        private System.Windows.Forms.Button btnBrowseTitleBlockTemplate;
         private System.Windows.Forms.GroupBox gbGeneral;
         private System.Windows.Forms.TextBox txtApprovedBy;
         private System.Windows.Forms.TextBox txtCheckedBy;
@@ -633,6 +553,7 @@
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.OpenFileDialog ofdViewsTemplates;
+        private System.Windows.Forms.Button btnBrowseTitleBlockTemplate;
+        private System.Windows.Forms.OpenFileDialog ofdBrowseTitleBlockTemplate;
     }
 }

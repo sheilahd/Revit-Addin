@@ -1,4 +1,5 @@
-﻿using Beva.FormData;
+﻿using Autodesk.Revit.UI;
+using Beva.FormData;
 using Beva.Managers;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,121 @@ namespace Beva.Forms
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            if (chkBFloorPlan.Checked) {
+                if (string.IsNullOrWhiteSpace(txtDwgFloorPlan.Text))
+                {
+                    TaskDialog.Show("Data validation", "Please fix the name of the Sheet associated with the floor plan. It cannot be null or blank.");
+                    return;
+                }
+            }
+
+            if (chkBRoofPlan.Checked) {
+                if (string.IsNullOrWhiteSpace(txtDwgRoofPlan.Text))
+                {
+                    TaskDialog.Show("Data validation", "Please fix the name of the Sheet associated with the roof plan. It cannot be null or blank.");
+                    return;
+                }
+            }
+
+            if (chkBNorthElevation.Checked) {
+                if (string.IsNullOrWhiteSpace(txtDwgNorthElevation.Text))
+                {
+                    TaskDialog.Show("Data validation", "Please fix the name of the Sheet associated with the north elevation plan. It cannot be null or blank.");
+                    return;
+                }
+            }
+
+            if (chkBSouthElevation.Checked)
+            {
+                if (string.IsNullOrWhiteSpace(txtDwgSouthElevation.Text))
+                {
+                    TaskDialog.Show("Data validation", "Please fix the name of the Sheet associated with the south elevation plan. It cannot be null or blank.");
+                    return;
+                }
+            }
+
+            if (chkBWestElevation.Checked) {
+                if (string.IsNullOrWhiteSpace(txtDwgWestElevation.Text))
+                {
+                    TaskDialog.Show("Data validation", "Please fix the name of the Sheet associated with the west elevation plan. It cannot be null or blank.");
+                    return;
+                }
+            }
+
+            if (chkBEastElevation.Checked) {
+                if (string.IsNullOrWhiteSpace(txtDwgEastElevation.Text))
+                {
+                    TaskDialog.Show("Data validation", "Please fix the name of the Sheet associated with the east elevation plan. It cannot be null or blank.");
+                    return;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(txtProjectName.Text))
+            {                
+                TaskDialog.Show("Data validation", "Please fix the value associated with the project name. It cannot be null or blank.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtProjectNumber.Text))
+            {
+                TaskDialog.Show("Data validation", "Please fix the value associated with the project number. It cannot be null or blank.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtDiscipline.Text))
+            {
+                TaskDialog.Show("Data validation", "Please fix the value associated with the discipline. It cannot be null or blank.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtDrawnBy.Text))
+            {
+                TaskDialog.Show("Data validation", "Please fix the value associated with the drawn by. It cannot be null or blank.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtCheckedBy.Text))
+            {
+                TaskDialog.Show("Data validation", "Please fix the value associated with the checked by. It cannot be null or blank.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtApprovedBy.Text))
+            {
+                TaskDialog.Show("Data validation", "Please fix the value associated with the approved by. It cannot be null or blank.");
+                return;
+            }
+
+            FormData = new NewSheetData
+            {
+                SelectFloorViewTemplate = chkBFloorPlan.Checked,
+                SelectRoofViewTemplate = chkBRoofPlan.Checked,
+                SelectNorthElevationViewTemplate = chkBNorthElevation.Checked,
+                SelectSouthElevationViewTemplate = chkBSouthElevation.Checked,
+                SelectWestElevationViewTemplate = chkBWestElevation.Checked,
+                SelectEastElevationViewTemplate = chkBEastElevation.Checked,
+                NameSheetFloorViewTemplate = txtDwgFloorPlan.Text,
+                NameSheetRoofViewTemplate = txtDwgRoofPlan.Text,
+                NameSheetNorthElevationViewTemplate = txtDwgNorthElevation.Text,
+                NameSheetSouthElevationViewTemplate = txtDwgSouthElevation.Text,
+                NameSheetWestElevationViewTemplate = txtDwgWestElevation.Text,
+                NameSheetEastElevationViewTemplate = txtDwgEastElevation.Text,
+                RoofViewTemplate = cbxRoofPlanTemplate.SelectedValue as objSelectList,
+                FloorViewTemplate = cbxFloorPlanTemplate.SelectedValue as objSelectList,
+                NorthElevationViewTemplate = cbxNorthElevationTemplate.SelectedValue as objSelectList,
+                SouthElevationViewTemplate = cbxSouthElevationTemplate.SelectedValue as objSelectList,
+                WestElevationViewTemplate = cbxWestElevationTemplate.SelectedValue as objSelectList,
+                EastElevationViewTemplate = cbxEastElevationTemplate.SelectedValue as objSelectList,
+                SelectTitleBlockViewTemplate = chkBTitleBlock.Checked,
+                TitleBlockViewTemplate = cbxTitleBlockTemplate.SelectedValue as objSelectList,
+                ProjectName = txtProjectName.Text,
+                ProjectNumber = txtProjectNumber.Text,
+                Discipline = txtDiscipline.Text,
+                DrawnBy = txtDrawnBy.Text,
+                CheckedBy = txtCheckedBy.Text,
+                ApprovedBy = txtApprovedBy.Text
+            };
+
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -77,7 +193,7 @@ namespace Beva.Forms
 
         private void chkBNorthElevation_Click(object sender, EventArgs e)
         {
-            setStateNorthElevation(chkBNorthElevation.Checked);            
+            setStateNorthElevation(chkBNorthElevation.Checked);
         }
 
         private void chkBSouthElevation_Click(object sender, EventArgs e)
@@ -97,50 +213,43 @@ namespace Beva.Forms
 
         private void setStateRoofPlan(Boolean state)
         {
-            txtRoofPlan.Enabled = state;
+            txtDwgRoofPlan.Enabled = state;
             cbxRoofPlanTemplate.Enabled = state;
-            btnBrowseRoofPlanTemplate.Enabled = state;
         }
 
         private void setStateFloorPlan(Boolean state)
         {
-            txtFloorPlan.Enabled = state;
+            txtDwgFloorPlan.Enabled = state;
             cbxFloorPlanTemplate.Enabled = state;
-            btnBrowseFloorPlanTemplate.Enabled = state;
         }
 
         private void setStateNorthElevation(Boolean state)
         {
-            txtNorthElevation.Enabled = state;
+            txtDwgNorthElevation.Enabled = state;
             cbxNorthElevationTemplate.Enabled = state;
-            btnBrowseNorthElevationTemplate.Enabled = state;
         }
 
         private void setStateSouthElevation(Boolean state)
         {
-            txtSouthElevation.Enabled = state;
+            txtDwgSouthElevation.Enabled = state;
             cbxSouthElevationTemplate.Enabled = state;
-            btnBrowseSouthElevationTemplate.Enabled = state;
         }
 
         private void setStateWestElevation(Boolean state)
         {
-            txtWestElevation.Enabled = state;
+            txtDwgWestElevation.Enabled = state;
             cbxWestElevationTemplate.Enabled = state;
-            btnBrowseWestElevationTemplate.Enabled = state;
         }
 
         private void setStateEastElevation(Boolean state)
         {
-            txtEastElevation.Enabled = state;
+            txtDwgEastElevation.Enabled = state;
             cbxEastElevationTemplate.Enabled = state;
-            btnBrowseEastElevationTemplate.Enabled = state;
         }
 
         private void setStateTitleBlock(Boolean state)
         {
             cbxTitleBlockTemplate.Enabled = state;
-            btnBrowseTitleBlockTemplate.Enabled = state;
         }
 
         private void chkBTitleBlock_Click(object sender, EventArgs e)
@@ -153,19 +262,9 @@ namespace Beva.Forms
             clearAllPlans(false);
         }
 
-        private void setTitleOpenFileDialog(string title)
-        {
-            ofdViewsTemplates.Title = title;
-        }
-
         private void btnBrowseFloorPlanTemplate_Click(object sender, EventArgs e)
         {
-            setTitleOpenFileDialog("Browse floor plan template");
 
-            if (ofdViewsTemplates.ShowDialog() == DialogResult.OK)
-            {
-
-            }
         }
 
         private void frmNewSheet_Load(object sender, EventArgs e)
@@ -187,6 +286,72 @@ namespace Beva.Forms
 
             this.cbxEastElevationTemplate.DataSource = newSheetManager.ElevationViewTemplates;
             this.cbxEastElevationTemplate.DisplayMember = "Name";
+
+            this.cbxTitleBlockTemplate.DataSource = newSheetManager.TitleBlocksNamesTemplates;
+            this.cbxTitleBlockTemplate.DisplayMember = "Name";           
+        }
+
+        private void btnBrowseTitleBlockTemplate_Click(object sender, EventArgs e)
+        {
+            var app = newSheetManager.CommandData.Application.Application;
+            var doc = newSheetManager.CommandData.Application.ActiveUIDocument.Document;
+
+            if (ofdBrowseTitleBlockTemplate.ShowDialog() == DialogResult.OK)
+            {
+                List<objSelectList> listSelect = new List<objSelectList>();
+                listSelect = newSheetManager.TitleBlocksNamesTemplates;
+
+                if (listSelect.Any(c => c.Name == ofdBrowseTitleBlockTemplate.SafeFileName))
+                {
+                    MessageBox.Show("The selected title block already exist in the list.");
+                } else
+                {
+                    string value = (listSelect.Count + 1).ToString();
+                    objSelectList objS = new objSelectList
+                    {
+                        Name = ofdBrowseTitleBlockTemplate.SafeFileName,
+                        Value = value,
+                        Path = ofdBrowseTitleBlockTemplate.FileName
+                    };
+                    listSelect.Add(objS);
+                    
+                    this.cbxTitleBlockTemplate.DataSource = null;
+                    this.cbxTitleBlockTemplate.DataSource = listSelect.OrderBy(c => c.Name).ToList();
+                    this.cbxTitleBlockTemplate.DisplayMember = "Name";
+                }
+                //Autodesk.Revit.DB.Family family = null;
+                //using (Autodesk.Revit.DB.Transaction t = new Autodesk.Revit.DB.Transaction(doc))
+                //{
+                //    if (t.Start("Create Basic House") == Autodesk.Revit.DB.TransactionStatus.Started)
+                //    {
+                //        // Load the family file using LoadFamily method and then give information.
+                //        if (doc.LoadFamily(ofdBrowseTitleBlockTemplate.FileName, out family))
+                //        {
+                //            Autodesk.Revit.DB.FilteredElementCollector titleBlocksElementCollector = new Autodesk.Revit.DB.FilteredElementCollector(newSheetManager.CommandData.Application.ActiveUIDocument.Document).OfCategory(Autodesk.Revit.DB.BuiltInCategory.OST_TitleBlocks);
+                //            List<Autodesk.Revit.DB.FamilySymbol> m_titleBlocksTemplates = new List<Autodesk.Revit.DB.FamilySymbol>();
+                //            m_titleBlocksTemplates = titleBlocksElementCollector.OfClass(typeof(Autodesk.Revit.DB.FamilySymbol)).Cast<Autodesk.Revit.DB.FamilySymbol>().OrderBy(c => c.Name).ToList();
+
+                //            this.cbxTitleBlockTemplate.DataSource = m_titleBlocksTemplates;
+                //            this.cbxTitleBlockTemplate.DisplayMember = "Name";
+                //        }
+                //        else
+                //        {
+
+                //        }
+                //    }
+                //    else
+                //    {
+                //        t.RollBack();
+                //    }
+                //}
+
+                //if (!System.IO.File.Exists(fileName))
+                //{
+                //    System.IO.File.Copy(ofdBrowseTitleBlockTemplate.FileName, fileName, true);
+
+
+                //}
+            }
         }
     }
 }
