@@ -3,6 +3,7 @@ using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,10 +24,16 @@ namespace Beva.Managers
         // To store the roof views templates info in the Revit.
         private List<View> m_elevationViewTemplates;
 
+        // To store the title blocks templates info in the Revit.
+        private List<FamilySymbol> m_titleBlocksTemplates;
+
+        // To store the title blocks string name info in the Revit.
+        private List<objSelectList> m_listTitleBlocksNames;
+
         public NewSheetManager(ExternalCommandData commandData)
         {
             this.m_commandData = commandData;
-
+            
             Initialize();
         }
 
@@ -37,14 +44,81 @@ namespace Beva.Managers
             m_roofViewTemplates = new List<View>();
             m_floorViewTemplates = new List<View>();
             m_elevationViewTemplates = new List<View>();
+            m_titleBlocksTemplates = new List<FamilySymbol>();
+            m_listTitleBlocksNames = new List<objSelectList>();
 
             FilteredElementCollector templatesTypesElementCollector = Utils.GetElementsOfType(doc, typeof(View), BuiltInCategory.OST_Views);
-            var m_templatesTypes = templatesTypesElementCollector.Cast<View>().ToList();
+            var m_templatesTypes = templatesTypesElementCollector.Cast<View>().Where(v => v.IsTemplate).ToList();
 
-            FillListTemplates(m_templatesTypes);
+            FillListViewsTemplates(m_templatesTypes);
+
+            if (m_templatesTypes.Count > 0)
+            {
+                FilteredElementCollector titleBlocksElementCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_TitleBlocks);
+                m_titleBlocksTemplates = titleBlocksElementCollector.OfClass(typeof(FamilySymbol)).Cast<FamilySymbol>().OrderBy(c => c.Name).ToList();
+
+                foreach (var item in m_titleBlocksTemplates)
+                {
+                    List<objSelectList> objList = new List<objSelectList>();
+                    objSelectList obj = new objSelectList
+                    {
+                        Name = item.Name,
+                        Value = item.Id.IntegerValue.ToString(),
+                        Path = string.Empty
+                    };
+
+                    objList.Add(obj);
+
+                    m_listTitleBlocksNames = objList.OrderBy(c => c.Name).ToList();
+                }
+
+                ifTamplate = true;
+            } else
+            {
+                FileInfo[] fInfo = null;
+
+                switch (doc.DisplayUnitSystem)
+                {
+                    case DisplayUnit.METRIC:
+                        {
+                            string folder = @"C:\ProgramData\Autodesk\RVT " + doc.Application.VersionNumber + @"\Libraries\US Metric\";
+                            DirectoryInfo d = new DirectoryInfo(folder);
+                            fInfo = d.GetFiles("*.rfa", SearchOption.AllDirectories);
+                            break;
+                        }
+                    case DisplayUnit.IMPERIAL:
+                        {
+                            string folder = @"C:\ProgramData\Autodesk\RVT " + doc.Application.VersionNumber + @"\Libraries\US Imperial\";
+                            DirectoryInfo d = new DirectoryInfo(folder);
+                            fInfo = d.GetFiles("*.rfa", SearchOption.AllDirectories);
+                            break;
+                        }
+                    default:
+                        break;
+                }
+
+                List<objSelectList> objList = new List<objSelectList>();
+                foreach (var item in fInfo)
+                {
+                   if (item.Directory.Name.Equals("Titleblocks"))
+                    {
+                        objSelectList obj = new objSelectList
+                        {
+                            Name = item.Name,
+                            Value = objList.Count.ToString(),
+                            Path = item.FullName
+                        };
+
+                        objList.Add(obj);
+                    }
+                }
+
+                m_listTitleBlocksNames = objList.OrderBy(c => c.Name).ToList();
+                ifTamplate = false;
+            }           
         }
 
-        private void FillListTemplates(List<View> viewTemplates)
+        private void FillListViewsTemplates(List<View> viewTemplates)
         {
             foreach (View viewItem in viewTemplates)
             {
@@ -102,6 +176,31 @@ namespace Beva.Managers
             }
         }
 
+        public ReadOnlyCollection<FamilySymbol> TitleBlocksViewTemplates
+        {
+            get
+            {
+                return new ReadOnlyCollection<FamilySymbol>(m_titleBlocksTemplates);
+            }
+        }
+
+        public List<objSelectList> TitleBlocksNamesTemplates
+        {
+            get
+            {
+                return m_listTitleBlocksNames;
+            }
+        }
+
+        public bool ifTamplate { get; set; } = false;
+
         public ExternalCommandData CommandData => m_commandData;
+    }
+
+    public class objSelectList
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public string Path { get; set; }
     }
 }
