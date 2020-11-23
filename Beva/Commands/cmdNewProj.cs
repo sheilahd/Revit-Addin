@@ -30,6 +30,8 @@ namespace Beva.Commands
                     {
                         NewProjData data = form.FormData;
 
+                        RestoreDefaultPartialGlobalClass();
+
                         CreateHouse(commandData, data);
 
                         GetSetProjectLocation(commandData, data);
@@ -78,11 +80,17 @@ namespace Beva.Commands
                     if (data.DrawingSlab)
                     {
                         CreateFloor(doc, data, levelBottom, wallThickness, ref corners);
+
+                        GlobalData.slabDrawing = true;
                     }
+
+                    GlobalData.corners = corners;
 
                     if (data.DrawingRoof)
                     {
                         AddRoof(doc, data, walls);
+
+                        GlobalData.roofDrawing = true;
                     }
 
                     if (TransactionStatus.Committed != t.Commit())
@@ -110,8 +118,9 @@ namespace Beva.Commands
             List<Element> wallsTypes = new List<Element>(Utils.GetElementsOfType(doc, typeof(WallType), BuiltInCategory.OST_Walls));
             Debug.Assert(0 < wallsTypes.Count, "expected at least one wall type" + " to be loaded into project");
             WallType wallType = wallsTypes.Cast<WallType>().First<Element>(ft => ft.Id == formData.WallType.Id) as WallType;
+            GlobalData.wallType = wallType;
             double wallThickness = wallType.Width / 2;
-
+            
             if (wallType == null)
             {
                 TaskDialog.Show("Create walls", "Unable to determine wall type.");
@@ -124,6 +133,13 @@ namespace Beva.Commands
             double xParam = wallThickness;
             double yParam = wallThickness;
             double zParam = 0;
+
+            GlobalData.X = xParam;
+            GlobalData.Y = yParam;
+            GlobalData.Z = zParam;
+            GlobalData.Depth = depthParam;
+            GlobalData.Width = widthParam;
+            GlobalData.Height = heightParam;
 
             corners.Add(new XYZ(xParam, yParam, zParam));
             corners.Add(new XYZ(xParam, (widthParam - yParam), zParam));
@@ -141,6 +157,7 @@ namespace Beva.Commands
             for (int i = 0; i < 4; ++i)
             {
                 Line line = Line.CreateBound(corners[i], corners[3 == i ? 0 : i + 1]);
+                geomLine.Add(line);
                 Wall wall = Wall.Create(doc, line, levelBottomId, false);
 
                 Parameter param = wall.get_Parameter(topLevelParam);
@@ -150,6 +167,8 @@ namespace Beva.Commands
                 wall.WallType = wallType;
                 walls.Add(wall);
             }
+
+            GlobalData.geomLine = geomLine;
 
             return walls;
         }
@@ -182,9 +201,11 @@ namespace Beva.Commands
                 FloorType floorType = floorTypes.Cast<FloorType>().FirstOrDefault();
 
                 XYZ normal = XYZ.BasisZ;
-
                 bool structural = false;
                 Floor floor = createDoc.NewFloor(profile, floorType, levelBottom, structural, normal);
+
+                Parameter pFloor = floor.get_Parameter(BuiltInParameter.FLOOR_ATTR_THICKNESS_PARAM);
+                GlobalData.HeightFloor = pFloor.AsDouble();
             }
             catch (Exception ex)
             {
@@ -201,7 +222,7 @@ namespace Beva.Commands
             {
                 TaskDialog.Show("Add roof", "Cannot find (" + formData.RoofType + "). Maybe you use a different template? Try with DefaultMetric.rte.");
             }
-
+                        
             double wallThickness = walls[0].Width;
 
             double dt = wallThickness / 2.0;
@@ -235,6 +256,9 @@ namespace Beva.Commands
                 aRoof.set_DefinesSlope(modelCurve, true);
                 aRoof.set_SlopeAngle(modelCurve, 0.8);
             }
+
+            Parameter pRoof = aRoof.get_Parameter(BuiltInParameter.ROOF_ATTR_THICKNESS_PARAM);//ACTUAL_MAX_RIDGE_HEIGHT_PARAM);
+            GlobalData.ThicknessRoof = pRoof.AsDouble();
         }
 
         private void GetSetProjectLocation(ExternalCommandData commandData, NewProjData data)
@@ -320,6 +344,23 @@ namespace Beva.Commands
                 Level level = Level.Create(doc, elevation);
                 level.Name = "Level 2";
             }
+        }
+
+        private void RestoreDefaultPartialGlobalClass()
+        {
+            GlobalData.X = 0.0;
+            GlobalData.Y = 0.0;
+            GlobalData.Z = 0.0;
+            GlobalData.Depth = 0.0;
+            GlobalData.Width = 0.0;
+            GlobalData.Height = 0.0;
+            GlobalData.slabDrawing = false;
+            GlobalData.roofDrawing = false;
+            GlobalData.HeightFloor = 0.0;
+            GlobalData.ThicknessRoof = 0.0;
+            GlobalData.geomLine = new List<Curve>();
+            GlobalData.corners = new List<XYZ>();
+            GlobalData.wallType = null;
         }
     }
 }
