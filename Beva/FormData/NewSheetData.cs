@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using Beva.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +10,17 @@ namespace Beva.FormData
 {
     public class NewSheetData
     {
-        public View FloorViewTemplate { get; set; }
+        public string NameSheetFloorViewTemplate { get; set; }
 
-        public View RoofViewTemplate { get; set; }
+        public string NameSheetRoofViewTemplate { get; set; }
 
-        public View NorthElevationViewTemplate { get; set; }
+        public string NameSheetNorthElevationViewTemplate { get; set; }
 
-        public View SouthElevationViewTemplate { get; set; }
+        public string NameSheetSouthElevationViewTemplate { get; set; }
 
-        public View WestElevationViewTemplate { get; set; }
+        public string NameSheetWestElevationViewTemplate { get; set; }
 
-        public View EastElevationViewTemplate { get; set; }
+        public string NameSheetEastElevationViewTemplate { get; set; }
 
         public bool SelectRoofViewTemplate { get; set; }
 
@@ -32,8 +33,20 @@ namespace Beva.FormData
         public bool SelectWestElevationViewTemplate { get; set; }
 
         public bool SelectEastElevationViewTemplate { get; set; }
+        
+        public objSelectList FloorViewTemplate { get; set; }
 
-        public View TitleBlockViewTemplate { get; set; }
+        public objSelectList RoofViewTemplate { get; set; }
+
+        public objSelectList NorthElevationViewTemplate { get; set; }
+
+        public objSelectList SouthElevationViewTemplate { get; set; }
+
+        public objSelectList WestElevationViewTemplate { get; set; }
+
+        public objSelectList EastElevationViewTemplate { get; set; }
+
+        public objSelectList TitleBlockViewTemplate { get; set; }
 
         public bool SelectTitleBlockViewTemplate { get; set; }
 
