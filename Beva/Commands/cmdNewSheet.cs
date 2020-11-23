@@ -28,6 +28,8 @@ namespace Beva.Commands
 
                     if (result == DialogResult.OK)
                     {
+                        CreateSheets(commandData);
+
                         return Result.Succeeded;
                     }
                 }
@@ -40,6 +42,13 @@ namespace Beva.Commands
 
                 return Result.Failed;
             }
-        }                
+        }
+
+        private void CreateSheets(ExternalCommandData commandData)
+        {
+            UIApplication app = commandData.Application;
+            Document doc = app.ActiveUIDocument.Document;
+            UIDocument uidoc = app.ActiveUIDocument;            
+        }
     }
 }
