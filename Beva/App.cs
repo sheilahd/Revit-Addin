@@ -6,6 +6,7 @@ using Beva.Commands;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 
@@ -52,6 +53,7 @@ namespace Beva
             pushButton2.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "NewSheetIcon96x96.png")));
             pushButton2.ToolTip = "Create a new sheet by collecting data from the user. Once you have filled out the form, a new populated sheet will automatically be created";
             pushButton2.SetContextualHelp(new ContextualHelp(ContextualHelpType.ChmFile, Path.Combine(helpPath, "Beva.chm")));
+            pushButton2.Enabled = false;
 
             _button.Add(pushButton2);
 
@@ -74,16 +76,25 @@ namespace Beva
                 {
                     RibbonItem ribbItem = _button[0];
                     ribbItem.Enabled = false;
+
+                    RibbonItem ribbItemSheets = _button[1];
+                    ribbItemSheets.Enabled = true;
                 } else
                 {
                     RibbonItem ribbItem = _button[0];
                     ribbItem.Enabled = true;
+
+                    RibbonItem ribbItemSheets = _button[1];
+                    ribbItemSheets.Enabled = false;
                 }
             }
             else
             {
                 RibbonItem ribbItem = _button[0];
                 ribbItem.Enabled = true;
+
+                RibbonItem ribbItemSheets = _button[1];
+                ribbItemSheets.Enabled = false;
             }
         }
 
