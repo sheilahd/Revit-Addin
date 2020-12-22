@@ -55,8 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="Commands\cmdNewProj.cs" />
-    <Compile Include="Commands\cmdNewSheet.cs" />
+    <Compile Include="Commands\CmdNewProj.cs" />
+    <Compile Include="Commands\CmdNewSheet.cs" />
+    <Compile Include="Commands\CmdSupport.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="FormData\NewProjData.cs" />
     <Compile Include="FormData\NewSheetData.cs" />
