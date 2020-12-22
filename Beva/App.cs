@@ -15,7 +15,7 @@ namespace Beva
     {
         List<RibbonItem> _button = new List<RibbonItem>();
 
-        void onViewActivated(object sender, ViewActivatedEventArgs e)
+        void OnViewActivated(object sender, ViewActivatedEventArgs e)
         {
             Document doc = e.Document;
             EnabledTabItem(doc);
@@ -29,6 +29,7 @@ namespace Beva
 
         public Result OnStartup(UIControlledApplication a)
         {
+            // CREATES THE RIBBON TAB AND RIBBON PANEL
             string tabName = "Beva";
             string tooltipContentBtn1 = "Creates a new building by collecting data from the user in a form.";
             string tooltipDescriptionBtn1 = "<p>Use the type selector to specify the type of wall and roof or " +
@@ -53,36 +54,40 @@ namespace Beva
 
             RibbonPanel panel = a.CreateRibbonPanel(tabName, "Beva Tools");
 
+            // DEFINES VARIABLES WITH ALL REQUIRED PATHS
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             string imagePath = Path.Combine(Path.GetDirectoryName(thisAssemblyPath), "Images");
             string helpPath = Path.GetDirectoryName(thisAssemblyPath);
 
-            PushButtonData button1 = new PushButtonData("btnNewProj", "EZ-Build", thisAssemblyPath, typeof(cmdNewProj).FullName);
+            // CREATES PUSH BUTTON 1 ( EZ-BUILD )
+            PushButtonData button1 = new PushButtonData("btnNewProj", "EZ-Build", thisAssemblyPath, typeof(CmdNewProj).FullName);
             PushButton pushButton1 = panel.AddItem(button1) as PushButton;
-            pushButton1.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "Xpress-Bldg_Btn32x32.png")));
+            pushButton1.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "btn1B_EZBuild_32x32.png")));
             pushButton1.ToolTip = tooltipContentBtn1;
             pushButton1.LongDescription = tooltipDescriptionBtn1;
             pushButton1.SetContextualHelp(new ContextualHelp(ContextualHelpType.ChmFile, Path.Combine(helpPath, "EZevit.chm")));
 
             _button.Add(pushButton1);
 
-            PushButtonData button2 = new PushButtonData("btnNewSheet", "New Sheet", thisAssemblyPath, typeof(cmdNewSheet).FullName);
+            // CREATES PUSH BUTTON 2 ( EZ-SHEET )
+            PushButtonData button2 = new PushButtonData("btnNewSheet", "EZ-Sheet", thisAssemblyPath, typeof(cmdNewSheet).FullName);
             PushButton pushButton2 = panel.AddItem(button2) as PushButton;
-            pushButton2.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "Xpress-Bldg_Btn32x32.png")));
+            pushButton2.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "btn2B_EZSheets_32x32.png")));
             pushButton2.ToolTip = tooltipContentBtn2;
             pushButton2.LongDescription = tooltipDescriptionBtn2;
             pushButton2.SetContextualHelp(new ContextualHelp(ContextualHelpType.ChmFile, Path.Combine(helpPath, "EZevit.chm")));
 
             _button.Add(pushButton2);
 
+            // CREATES PUSH BUTTON 3 ( SUPPORT )
             PushButtonData button3 = new PushButtonData("btnSupport", "Support", thisAssemblyPath, typeof(cmdNewSheet).FullName);
             PushButton pushButton3 = panel.AddItem(button3) as PushButton;
-            pushButton3.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "Beva_32x32.png")));
+            pushButton3.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "btn3B_EZSupport_32x32.png")));
 
             _button.Add(pushButton3);
 
             a.ControlledApplication.DocumentChanged += new EventHandler<DocumentChangedEventArgs>(OnDocChanged);
-            a.ViewActivated += new EventHandler<ViewActivatedEventArgs>(onViewActivated);
+            a.ViewActivated += new EventHandler<ViewActivatedEventArgs>(OnViewActivated);
 
             return Result.Succeeded;
         }

@@ -13,7 +13,7 @@ namespace Beva.Commands
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-    public class cmdNewProj : IExternalCommand
+    public class CmdNewProj : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -22,7 +22,7 @@ namespace Beva.Commands
                 var newProjManager = new NewProjManager(commandData);
 
                 DialogResult result = DialogResult.None;
-                using (frmNewProj form = new frmNewProj(newProjManager))
+                using (FrmNewProj form = new FrmNewProj(newProjManager))
                 {
                     result = form.ShowDialog();
 
@@ -205,11 +205,13 @@ namespace Beva.Commands
             double wallThickness = walls[0].Width;
 
             double dt = wallThickness / 2.0;
-            List<XYZ> dts = new List<XYZ>(5);
-            dts.Add(new XYZ(-dt, -dt, 0.0));
-            dts.Add(new XYZ(-dt, dt, 0.0));
-            dts.Add(new XYZ(dt, dt, 0.0));
-            dts.Add(new XYZ(dt, -dt, 0.0));
+            List<XYZ> dts = new List<XYZ>(5)
+            {
+                new XYZ(-dt, -dt, 0.0),
+                new XYZ(-dt, dt, 0.0),
+                new XYZ(dt, dt, 0.0),
+                new XYZ(dt, -dt, 0.0)
+            };
             dts.Add(dts[0]);
 
             CurveArray footPrint = new CurveArray();

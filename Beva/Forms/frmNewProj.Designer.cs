@@ -1,6 +1,6 @@
 ﻿namespace Beva.Forms
 {
-    partial class frmNewProj
+    partial class FrmNewProj
     {
         /// <summary>
         /// Required designer variable.
@@ -134,7 +134,7 @@
             this.chbRoofType.Size = new System.Drawing.Size(18, 17);
             this.chbRoofType.TabIndex = 37;
             this.chbRoofType.UseVisualStyleBackColor = true;
-            this.chbRoofType.CheckedChanged += new System.EventHandler(this.chbRoofType_CheckedChanged);
+            this.chbRoofType.CheckedChanged += new System.EventHandler(this.ChbRoofType_CheckedChanged);
             // 
             // txtHeight
             // 
@@ -352,7 +352,7 @@
             this.btnOk.TabIndex = 0;
             this.btnOk.Text = "&OK";
             this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
             // 
             // frmNewProj
             // 
@@ -369,7 +369,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "EZBuild - Model Creation Form";
-            this.Load += new System.EventHandler(this.frmNewProj_Load);
+            this.Load += new System.EventHandler(this.FrmNewProj_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);

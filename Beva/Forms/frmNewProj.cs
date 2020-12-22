@@ -14,23 +14,23 @@ using System.Windows.Forms;
 
 namespace Beva.Forms
 {
-    public partial class frmNewProj : System.Windows.Forms.Form
+    public partial class FrmNewProj : System.Windows.Forms.Form
     {
         private readonly NewProjManager newProjManager;
 
-        public frmNewProj()
+        public FrmNewProj()
         {
             InitializeComponent();
         }
 
         public NewProjData FormData { get; set; }
 
-        public frmNewProj(NewProjManager newProjManager) : this()
+        public FrmNewProj(NewProjManager newProjManager) : this()
         {
             this.newProjManager = newProjManager;
         }
 
-        private void frmNewProj_Load(object sender, EventArgs e)
+        private void FrmNewProj_Load(object sender, EventArgs e)
         {
             this.cbRoofType.DataSource = newProjManager.RoofTypes;
             this.cbRoofType.DisplayMember = "Name";
@@ -39,12 +39,12 @@ namespace Beva.Forms
             this.cbWallType.DisplayMember = "Name";
         }
 
-        private void chbRoofType_CheckedChanged(object sender, EventArgs e)
+        private void ChbRoofType_CheckedChanged(object sender, EventArgs e)
         {
             cbRoofType.Enabled = chbRoofType.Checked;
         }
 
-        private void btnOk_Click(object sender, EventArgs e)
+        private void BtnOk_Click(object sender, EventArgs e)
         {
             if (cbWallType.SelectedIndex == -1)
             {

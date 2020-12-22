@@ -72,6 +72,12 @@
     <Compile Include="Forms\frmNewSheet.Designer.cs">
       <DependentUpon>frmNewSheet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmSupport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmSupport.Designer.cs">
+      <DependentUpon>FrmSupport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Managers\NewProjManager.cs" />
     <Compile Include="Managers\NewSheetManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +93,12 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Images\Beva_32x32.png" />
+    <Content Include="Images\btn1B_EZBuild_32x32.png" />
+    <Content Include="Images\btn1_EZBuild_32x32.png" />
+    <Content Include="Images\btn2B_EZSheets_32x32.png" />
+    <Content Include="Images\btn2_EZSheets_32x32.png" />
+    <Content Include="Images\btn3B_EZSupport_32x32.png" />
+    <Content Include="Images\btn3_EZSupport_32x32.png" />
     <Content Include="Images\NewProjectIcon96x96.png" />
     <Content Include="Images\NewSheetIcon96x96.png" />
     <Content Include="Images\Xpress-Bldg_Btn29x32.png" />
@@ -100,6 +112,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Forms\frmNewProj.resx">
       <DependentUpon>frmNewProj.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmSupport.resx">
+      <DependentUpon>FrmSupport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
