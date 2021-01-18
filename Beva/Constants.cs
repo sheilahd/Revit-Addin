@@ -8,6 +8,8 @@ namespace Beva
 
         public const double MeterToFeet = 3.2808399;
         public const double DegreesToRadians = Math.PI / 180;
+        public const double InchToCentimeter = 2.54;
+        public const double FeetToCentimeter = 30.48;
        
         #endregion
     }

@@ -34,17 +34,17 @@ namespace Beva.FormData
 
         public bool SelectEastElevationViewTemplate { get; set; }
         
-        public objSelectList FloorViewTemplate { get; set; }
+        public View FloorViewTemplate { get; set; }
 
-        public objSelectList RoofViewTemplate { get; set; }
+        public View RoofViewTemplate { get; set; }
 
-        public objSelectList NorthElevationViewTemplate { get; set; }
+        public View NorthElevationViewTemplate { get; set; }
 
-        public objSelectList SouthElevationViewTemplate { get; set; }
+        public View SouthElevationViewTemplate { get; set; }
 
-        public objSelectList WestElevationViewTemplate { get; set; }
+        public View WestElevationViewTemplate { get; set; }
 
-        public objSelectList EastElevationViewTemplate { get; set; }
+        public View EastElevationViewTemplate { get; set; }
 
         public objSelectList TitleBlockViewTemplate { get; set; }
 

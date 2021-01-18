@@ -62,7 +62,7 @@ namespace Beva.Managers
                     List<objSelectList> objList = new List<objSelectList>();
                     objSelectList obj = new objSelectList
                     {
-                        Name = item.Name,
+                        Name = item.FamilyName,
                         Value = item.Id.IntegerValue.ToString(),
                         Path = string.Empty
                     };
@@ -104,7 +104,7 @@ namespace Beva.Managers
                     {
                         objSelectList obj = new objSelectList
                         {
-                            Name = item.Name,
+                            Name = item.Name.Trim(item.Extension.ToCharArray()),
                             Value = objList.Count.ToString(),
                             Path = item.FullName
                         };
