@@ -36,6 +36,8 @@ namespace Beva.Forms
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            objSelectList objS = new objSelectList();
+            var sele = cbxRoofPlanTemplate.SelectedValue;
             FormData = new NewSheetData
             {
                 SelectFloorViewTemplate = chkBFloorPlan.Checked,
@@ -50,12 +52,12 @@ namespace Beva.Forms
                 NameSheetSouthElevationViewTemplate = txtDwgSouthElevation.Text,
                 NameSheetWestElevationViewTemplate = txtDwgWestElevation.Text,
                 NameSheetEastElevationViewTemplate = txtDwgEastElevation.Text,
-                RoofViewTemplate = cbxRoofPlanTemplate.SelectedValue as objSelectList,
-                FloorViewTemplate = cbxFloorPlanTemplate.SelectedValue as objSelectList,
-                NorthElevationViewTemplate = cbxNorthElevationTemplate.SelectedValue as objSelectList,
-                SouthElevationViewTemplate = cbxSouthElevationTemplate.SelectedValue as objSelectList,
-                WestElevationViewTemplate = cbxWestElevationTemplate.SelectedValue as objSelectList,
-                EastElevationViewTemplate = cbxEastElevationTemplate.SelectedValue as objSelectList,
+                RoofViewTemplate = cbxRoofPlanTemplate.SelectedValue as Autodesk.Revit.DB.View,
+                FloorViewTemplate = cbxFloorPlanTemplate.SelectedValue as Autodesk.Revit.DB.View,
+                NorthElevationViewTemplate = cbxNorthElevationTemplate.SelectedValue as Autodesk.Revit.DB.View,
+                SouthElevationViewTemplate = cbxSouthElevationTemplate.SelectedValue as Autodesk.Revit.DB.View,
+                WestElevationViewTemplate = cbxWestElevationTemplate.SelectedValue as Autodesk.Revit.DB.View,
+                EastElevationViewTemplate = cbxEastElevationTemplate.SelectedValue as Autodesk.Revit.DB.View,
                 SelectTitleBlockViewTemplate = chkBTitleBlock.Checked,
                 TitleBlockViewTemplate = cbxTitleBlockTemplate.SelectedValue as objSelectList,
                 ProjectName = txtProjectName.Text,
