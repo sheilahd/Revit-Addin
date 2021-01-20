@@ -13,7 +13,7 @@ namespace Beva
 {
     class App : IExternalApplication
     {
-        List<RibbonItem> _button = new List<RibbonItem>();
+        readonly List<RibbonItem> _button = new List<RibbonItem>();
 
         void OnViewActivated(object sender, ViewActivatedEventArgs e)
         {
