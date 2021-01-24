@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using Beva.FormData;
 using System;
 using System.Linq;
 
@@ -6,6 +7,8 @@ namespace Beva
 {
     public static class Utils
     {
+        const double _feet_to_mm = 25.4 * 12;
+
         /// <summary>
         /// 
         /// </summary>
@@ -73,6 +76,42 @@ namespace Beva
         public static XYZ Midpoint(XYZ p, XYZ q)
         {
             return p + 0.5 * (q - p);
+        }
+
+        public static void FillImperialScales(string vFeets, string vInch, int scaleFactor)
+        {
+            ImperialScale impSc = new ImperialScale
+            {
+                valueFeet = vFeets,
+                valueInch = vInch,
+                valueInteger = scaleFactor
+            };
+
+            GlobalImperialScale.imperialScalesList.Add(impSc);
+        }
+
+        public static void FillMetricScales(string vScales, int scaleFactor)
+        {
+            MetricScale metSc = new MetricScale
+            {
+                valueScale = vScales,
+                valueInteger = scaleFactor
+            };
+
+            GlobalMetricScale.metricScalesList.Add(metSc);
+        }
+
+        public static int ConvertFeetToMillimetres(double d)
+        {
+            //return (int) ( _feet_to_mm * d + 0.5 );
+            return (int)Math.Round(_feet_to_mm * d, MidpointRounding.AwayFromZero);
+        }
+
+        public static bool SvgFlip = true;
+
+        public static int SvgFlipY(int y)
+        {
+            return SvgFlip ? -y : y;
         }
     }
 }

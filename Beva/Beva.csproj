@@ -60,6 +60,7 @@
     <Compile Include="Commands\CmdSupport.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="FormData\NewProjData.cs" />
+    <Compile Include="FormData\NewProjGlobalData.cs" />
     <Compile Include="FormData\NewSheetData.cs" />
     <Compile Include="Forms\frmNewProj.cs">
       <SubType>Form</SubType>
@@ -113,6 +114,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Forms\frmNewProj.resx">
       <DependentUpon>frmNewProj.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmNewSheet.resx">
+      <DependentUpon>frmNewSheet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmSupport.resx">
       <DependentUpon>FrmSupport.cs</DependentUpon>
