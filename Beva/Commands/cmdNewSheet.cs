@@ -65,12 +65,15 @@ namespace Beva.Commands
                         {
                             List<ElevationMarker> elevationsMarkers = new List<ElevationMarker>();
                             elevationsMarkers = ViewsElevationMarksExists(doc);
+                            Family family = null;
                             if (elevationsMarkers.Count() == 0)
                             {
                                 CreateElevationMarkersWest(doc, uiDoc);
                                 CreateElevationMarkersNorth(doc, uiDoc);
                                 CreateElevationMarkersEast(doc, uiDoc);
                                 CreateElevationMarkersSouth(doc, uiDoc);
+
+                                family = LoadTitleBlockId(doc, data);
                             }
                             else
                             {
@@ -78,18 +81,29 @@ namespace Beva.Commands
                                 ExistElevationMarkersNorth(doc, uiDoc);
                                 ExistElevationMarkersEast(doc, uiDoc);
                                 ExistElevationMarkersSouth(doc, uiDoc);
-                            }
 
-                            LoadTitleBlockId(doc, data);
+                                FilteredElementCollector title_block_instances = new FilteredElementCollector(doc)
+                                    .OfCategory(BuiltInCategory.OST_TitleBlocks)
+                                    .OfClass(typeof(FamilySymbol));
+
+                                foreach (FamilySymbol e in title_block_instances)
+                                {
+                                    if (e.FamilyName == data.TitleBlockViewTemplate.Name)
+                                    {
+                                        family = e.Family;
+                                        break;
+                                    }
+                                }
+                            }
 
                             if (data.SelectRoofViewTemplate)
                             {
-                                GenerateRoofViewSheet(doc, data);
+                                GenerateRoofViewSheet(doc, data, family);
                             }
 
                             if (data.SelectFloorViewTemplate)
                             {
-                                GenerateFloorViewSheet(doc, data);
+                                GenerateFloorViewSheet(doc, data, family);
                             }
 
                             if (data.SelectNorthElevationViewTemplate)
@@ -110,7 +124,7 @@ namespace Beva.Commands
                             if (data.SelectEastElevationViewTemplate)
                             {
                                 GenerateEastElevationViewSheet(doc, data);
-                            }                            
+                            }
                         }
                         else
                         {
@@ -821,32 +835,26 @@ namespace Beva.Commands
             return viewElevation;
         }
 
-        private void GenerateFloorViewSheet(Document doc, NewSheetData data)
+        private void GenerateFloorViewSheet(Document doc, NewSheetData data, Family family)
         {
             Autodesk.Revit.DB.View curView = GetViewPlan(doc, ViewType.FloorPlan);
             curView = AsignViewTemplateToFloorView(curView, data);
 
-            ViewSheet newSheet = GenerateSheetAndInfoForFloorViewTemplate(doc, curView, data);
-            //Viewport vp = CreateViewPort(doc, newSheet, curView);
+            ViewSheet newSheet = family != null ? GenerateSheetAndInfoForFloorViewTemplate(doc, curView, data) : GenerateSheetAndInfoForFloorViewInstanceTemplate(doc, curView, data); //GenerateSheetAndInfoForFloorViewTemplate(doc, curView, data);
             ViewSet viewSetColl = GetAllFloorViewSet(doc);
 
-            FilteredElementCollector title_block_instances = new FilteredElementCollector(doc);
-
-            //PlaceViews(doc, viewSetColl, newSheet);
-            PlaceViews(doc, viewSetColl, newSheet, title_block_instances, data.TitleBlockViewTemplate.Name);
+            PlaceViews(doc, viewSetColl, newSheet, data.TitleBlockViewTemplate.Name);
         }
 
-        private void GenerateRoofViewSheet(Document doc, NewSheetData data)
+        private void GenerateRoofViewSheet(Document doc, NewSheetData data, Family family)
         {
             Autodesk.Revit.DB.View curView = GetViewPlan(doc, ViewType.CeilingPlan);
             curView = AsignViewTemplateToRoofView(curView, data);
 
-            ViewSheet newSheet = GenerateSheetAndInfoForRoofViewTemplate(doc, curView, data);
+            ViewSheet newSheet = family != null ? GenerateSheetAndInfoForRoofViewTemplate(doc, curView, data) : GenerateSheetAndInfoForRoofViewInstanceTemplate(doc, curView, data);
             ViewSet viewSetColl = GetAllRoofViewSet(doc);
 
-            FilteredElementCollector title_block_instances = new FilteredElementCollector(doc);
-
-            PlaceViews(doc, viewSetColl, newSheet, title_block_instances, data.TitleBlockViewTemplate.Name);
+            PlaceViews(doc, viewSetColl, newSheet, data.TitleBlockViewTemplate.Name);
         }
 
         private void GenerateNorthElevationViewSheet(Document doc, NewSheetData data)
@@ -969,7 +977,31 @@ namespace Beva.Commands
 
             foreach (FamilySymbol e in title_block_instances)
             {
-                if (e.Name == data.TitleBlockViewTemplate.Name)
+                if (e.FamilyName == data.TitleBlockViewTemplate.Name)
+                {
+                    tblockId = e.Id;
+                    break;
+                }
+            }
+
+            ViewSheet newSheet_;
+            newSheet_ = ViewSheet.Create(doc, tblockId);
+            newSheet_.Name = curView.ViewType.ToString();
+            newSheet_.SheetNumber = data.NameSheetRoofViewTemplate;
+            newSheet_ = GenerateCommonInfo(doc, newSheet_, data);
+
+            return newSheet_;
+        }
+
+        private ViewSheet GenerateSheetAndInfoForRoofViewInstanceTemplate(Document doc, Autodesk.Revit.DB.View curView, NewSheetData data)
+        {
+            ElementId tblockId = null;
+            FilteredElementCollector title_block_instances = new FilteredElementCollector(doc)
+                .OfCategory(BuiltInCategory.OST_TitleBlocks);
+
+            foreach (FamilySymbol e in title_block_instances)
+            {
+                if (e.FamilyName == data.TitleBlockViewTemplate.Name)
                 {
                     tblockId = e.Id;
                     break;
@@ -1006,6 +1038,30 @@ namespace Beva.Commands
             newSheet_.Name = curView.ViewType.ToString();
             newSheet_.SheetNumber = data.NameSheetFloorViewTemplate;
             newSheet_ = GenerateCommonInfo(doc, newSheet_, data);
+            return newSheet_;
+        }
+
+        private ViewSheet GenerateSheetAndInfoForFloorViewInstanceTemplate(Document doc, Autodesk.Revit.DB.View curView, NewSheetData data)
+        {
+            ElementId tblockId = null;
+            FilteredElementCollector title_block_instances = new FilteredElementCollector(doc)
+                .OfCategory(BuiltInCategory.OST_TitleBlocks);
+
+            foreach (FamilySymbol e in title_block_instances)
+            {
+                if (e.FamilyName == data.TitleBlockViewTemplate.Name)
+                {
+                    tblockId = e.Id;
+                    break;
+                }
+            }
+
+            ViewSheet newSheet_;
+            newSheet_ = ViewSheet.Create(doc, tblockId);
+            newSheet_.Name = curView.ViewType.ToString();
+            newSheet_.SheetNumber = data.NameSheetFloorViewTemplate;
+            newSheet_ = GenerateCommonInfo(doc, newSheet_, data);
+
             return newSheet_;
         }
 
@@ -1155,23 +1211,30 @@ namespace Beva.Commands
             }
         }
 
-        private void PlaceViews(Document doc, ViewSet views, ViewSheet sheet, FilteredElementCollector title_block_instances, string nameTitleBlock)
+        private void PlaceViews(Document doc, ViewSet views, ViewSheet sheet, string nameTitleBlock)
         {
-            title_block_instances = title_block_instances.OfCategory(BuiltInCategory.OST_TitleBlocks)
-               .OfClass(typeof(FamilyInstance));
-            FamilyInstance famInstance = title_block_instances.Where(e => e.Name.Equals(nameTitleBlock)).FirstOrDefault() as FamilyInstance;
             Parameter p;
             double width = 0.0;
             double height = 0.0;
-            if (famInstance != null)
-            {
-                p = famInstance.get_Parameter(
-              BuiltInParameter.SHEET_WIDTH);
-                width = p.AsDouble();
 
-                p = famInstance.get_Parameter(
-                  BuiltInParameter.SHEET_HEIGHT);
-                height = p.AsDouble();
+            FilteredElementCollector title_block_instances = new FilteredElementCollector(doc);
+            title_block_instances = title_block_instances.OfCategory(BuiltInCategory.OST_TitleBlocks)
+               .OfClass(typeof(FamilyInstance));
+
+            foreach (FamilyInstance e in title_block_instances)
+            {
+                string trimFamilyInstance = e.Name.Replace(" ", string.Empty);
+                string trimNameTitleBlock = nameTitleBlock.Replace(" ", string.Empty);
+                if (trimFamilyInstance == trimNameTitleBlock)
+                {
+                    p = e.get_Parameter(
+                                  BuiltInParameter.SHEET_WIDTH);
+                    width = p.AsDouble();
+
+                    p = e.get_Parameter(
+                      BuiltInParameter.SHEET_HEIGHT);
+                    height = p.AsDouble();
+                }
             }
 
             Autodesk.Revit.DB.View viewColl = null;
@@ -1185,9 +1248,9 @@ namespace Beva.Commands
                 double xDistance = 0;
                 double yDistance = 0;
                 CalculateDistance(sheet.Outline, views.Size, ref xDistance, ref yDistance);
-                
+
                 BoundingBoxUV puntoSheet = sheet.Outline;
-                viewColl.Scale = Rescale(vpX, vpY, viewColl, width, height, famInstance);
+                viewColl.Scale = Rescale(vpX, vpY, viewColl, width, height);
 
                 try
                 {
@@ -1241,7 +1304,7 @@ namespace Beva.Commands
             }
         }
 
-        private bool DistanceUp(double realX, double realY, int scale, double width, double height, FamilyInstance famInstance)
+        private bool DistanceUp(double realX, double realY, int scale, double width, double height)
         {
             bool result = false;
 
@@ -1260,7 +1323,7 @@ namespace Beva.Commands
             return result;
         }
 
-        private bool DistanceDown(double realX, double realY, int scale, double width, double height, FamilyInstance famInstance)
+        private bool DistanceDown(double realX, double realY, int scale, double width, double height)
         {
             bool result = false;
 
@@ -1418,7 +1481,7 @@ namespace Beva.Commands
             return m_allViews;
         }
 
-        private void LoadTitleBlockId(Document doc, NewSheetData data)
+        private Family LoadTitleBlockId(Document doc, NewSheetData data)
         {
             if (data.SelectTitleBlockViewTemplate)
             {
@@ -1427,6 +1490,12 @@ namespace Beva.Commands
                 {
                     doc.LoadFamily(data.TitleBlockViewTemplate.Path, out family);
                 }
+
+                return family;
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -1566,7 +1635,7 @@ namespace Beva.Commands
             view.Scale = scalePrev;
         }
 
-        private int Rescale(double vpX, double vpY, Autodesk.Revit.DB.View viewColl, double width, double height, FamilyInstance famInstance)
+        private int Rescale(double vpX, double vpY, Autodesk.Revit.DB.View viewColl, double width, double height)
         {
             double realVpX = vpX;
             double realVpY = vpY;
@@ -1584,7 +1653,7 @@ namespace Beva.Commands
                     ImperialScale impScales = new ImperialScale();
                     impScales = listImperialScales.ElementAt(index);
 
-                    if (DistanceUp((vpX * scale), (vpY * scale), impScales.valueInteger, width, height, famInstance))
+                    if (DistanceUp((vpX * scale), (vpY * scale), impScales.valueInteger, width, height))
                     {
                         scale = impScales.valueInteger;
                         break;
@@ -1602,7 +1671,7 @@ namespace Beva.Commands
                     ImperialScale impScales = new ImperialScale();
                     impScales = listImperialScales.ElementAt(index);
 
-                    if (DistanceDown((vpX * scale), (vpY * scale), impScales.valueInteger, width, height, famInstance))
+                    if (DistanceDown((vpX * scale), (vpY * scale), impScales.valueInteger, width, height))
                     {
                         break;
                     }
