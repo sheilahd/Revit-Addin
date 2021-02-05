@@ -65,14 +65,13 @@ namespace Beva.Commands
                             List<ElevationMarker> elevationsMarkers = new List<ElevationMarker>();
                             elevationsMarkers = ViewsElevationMarksExists(doc);
                             Family family = null;
+                            family = LoadTitleBlockId(doc, data);
                             if (elevationsMarkers.Count() == 0)
                             {
                                 CreateElevationMarkersWest(doc, uiDoc);
                                 CreateElevationMarkersNorth(doc, uiDoc);
                                 CreateElevationMarkersEast(doc, uiDoc);
-                                CreateElevationMarkersSouth(doc, uiDoc);
-
-                                family = LoadTitleBlockId(doc, data);
+                                CreateElevationMarkersSouth(doc, uiDoc);                                
                             }
                             else
                             {
@@ -85,15 +84,17 @@ namespace Beva.Commands
                                     .OfCategory(BuiltInCategory.OST_TitleBlocks)
                                     .OfClass(typeof(FamilySymbol));
 
+                                string nameTitleBlock = data.TitleBlockViewTemplate.Name.Split('.')[0];
+
                                 foreach (FamilySymbol e in title_block_instances)
-                                {
-                                    if (e.FamilyName == data.TitleBlockViewTemplate.Name)
+                                {                                    
+                                    if (e.FamilyName == nameTitleBlock)
                                     {
                                         family = e.Family;
                                         break;
                                     }
                                 }
-                            }
+                            }                            
 
                             if (data.SelectRoofViewTemplate)
                             {
@@ -107,7 +108,7 @@ namespace Beva.Commands
 
                             if (data.SelectNorthElevationViewTemplate)
                             {
-                                GenerateNorthElevationViewSheet(doc, data);
+                                GenerateNorthElevationViewSheet(doc, data, family);
                             }
 
                             if (data.SelectSouthElevationViewTemplate)
@@ -856,14 +857,14 @@ namespace Beva.Commands
             PlaceViews(doc, viewSetColl, newSheet, data.TitleBlockViewTemplate.Name);
         }
 
-        private void GenerateNorthElevationViewSheet(Document doc, NewSheetData data)
+        private void GenerateNorthElevationViewSheet(Document doc, NewSheetData data, Family family)
         {
             string name = "North";
             string type = "Elevation";
             Autodesk.Revit.DB.View curView = GetViewElevation(doc, ViewType.Elevation, type, name);
             curView = AsignViewTemplateToElevationView(curView, data, name);
 
-            ViewSheet newSheet = GenerateSheetAndInfoForElevationViewTemplate(doc, curView, data, name);
+            ViewSheet newSheet = family != null ? GenerateSheetAndInfoForElevationViewTemplate(doc, curView, data, name) : GenerateSheetAndInfoForElevationViewInstanceTemplate(doc, curView, data, name);
             ViewSet viewSetColl = GetAllElevationViewSet(doc, name, type);
 
             PlaceViews(doc, viewSetColl, newSheet);
@@ -1025,7 +1026,7 @@ namespace Beva.Commands
 
             foreach (FamilySymbol e in title_block_instances)
             {
-                if (e.Name == data.TitleBlockViewTemplate.Name)
+                if (e.FamilyName == data.TitleBlockViewTemplate.Name)
                 {
                     tblockId = e.Id;
                     break;
@@ -1073,7 +1074,57 @@ namespace Beva.Commands
 
             foreach (FamilySymbol e in title_block_instances)
             {
-                if (e.Name == data.TitleBlockViewTemplate.Name)
+                if (e.FamilyName == data.TitleBlockViewTemplate.Name)
+                {
+                    tblockId = e.Id;
+                    break;
+                }
+            }
+
+            ViewSheet newSheet_;
+            newSheet_ = ViewSheet.Create(doc, tblockId);
+            newSheet_.Name = nameViewElevation + " " + curView.ViewType.ToString();
+
+            switch (nameViewElevation)
+            {
+                case "North":
+                    {
+                        newSheet_.SheetNumber = data.NameSheetNorthElevationViewTemplate;
+                        break;
+                    }
+                case "South":
+                    {
+                        newSheet_.SheetNumber = data.NameSheetSouthElevationViewTemplate;
+                        break;
+                    }
+                case "West":
+                    {
+                        newSheet_.SheetNumber = data.NameSheetWestElevationViewTemplate;
+                        break;
+                    }
+                case "East":
+                    {
+                        newSheet_.SheetNumber = data.NameSheetEastElevationViewTemplate;
+                        break;
+                    }
+                default:
+                    break;
+            }
+
+            newSheet_ = GenerateCommonInfo(doc, newSheet_, data);
+
+            return newSheet_;
+        }
+
+        private ViewSheet GenerateSheetAndInfoForElevationViewInstanceTemplate(Document doc, Autodesk.Revit.DB.View curView, NewSheetData data, string nameViewElevation)
+        {
+            ElementId tblockId = null;
+            FilteredElementCollector title_block_instances = new FilteredElementCollector(doc)
+                .OfCategory(BuiltInCategory.OST_TitleBlocks);
+
+            foreach (FamilySymbol e in title_block_instances)
+            {
+                if (e.FamilyName == data.TitleBlockViewTemplate.Name)
                 {
                     tblockId = e.Id;
                     break;

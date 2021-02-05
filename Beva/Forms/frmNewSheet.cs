@@ -218,7 +218,7 @@ namespace Beva.Forms
                 List<objSelectList> listSelect = new List<objSelectList>();
                 listSelect = newSheetManager.TitleBlocksNamesTemplates;
 
-                if (listSelect.Any(c => c.Name == ofdBrowseTitleBlockTemplate.SafeFileName))
+                if (listSelect.Any(c => c.Name == ofdBrowseTitleBlockTemplate.SafeFileName.Split('.')[0]))
                 {
                     MessageBox.Show("The selected title block already exist in the list.");
                 } else
@@ -226,7 +226,7 @@ namespace Beva.Forms
                     string value = (listSelect.Count + 1).ToString();
                     objSelectList objS = new objSelectList
                     {
-                        Name = ofdBrowseTitleBlockTemplate.SafeFileName,
+                        Name = ofdBrowseTitleBlockTemplate.SafeFileName.Split('.')[0],
                         Value = value,
                         Path = ofdBrowseTitleBlockTemplate.FileName
                     };
