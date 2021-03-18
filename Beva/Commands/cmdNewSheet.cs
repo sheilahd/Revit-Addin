@@ -31,6 +31,8 @@ namespace Beva.Commands
                     {
                         NewSheetData data = form.FormData;
 
+                        CreateElevationMarkers(commandData, data);
+
                         CreateSheets(commandData, data);
 
                         return Result.Succeeded;
@@ -47,6 +49,97 @@ namespace Beva.Commands
             }
         }
 
+        private void CreateElevationMarkers(ExternalCommandData commandData, NewSheetData data)
+        {
+            UIApplication app = commandData.Application;
+            Document doc = app.ActiveUIDocument.Document;
+            UIDocument uiDoc = new UIDocument(doc);
+            using (Transaction t = new Transaction(doc))
+            {
+                if (t.Start("Create Elevation Views") == TransactionStatus.Started)
+                {
+                    try
+                    {
+                        View3D view3d = View3DExist(doc);
+
+                        if (view3d != null)
+                        {
+                            List<ElevationMarker> elevationsMarkers = new List<ElevationMarker>();
+                            elevationsMarkers = ViewsElevationMarksExists(doc);
+
+                            int countElevationMarkers = elevationsMarkers.Count();
+
+                            //si existen elevaciones creadas entonces se duplican las existentes con las mismas características que tienen; de lo contrario se crean nuevas elevaciones
+                            if (data.SelectNorthElevationViewTemplate)
+                            {
+                                if (countElevationMarkers == 0)
+                                {
+                                    CreateElevationMarkersNorth(doc, uiDoc);
+                                }
+                                else
+                                {
+                                    ExistElevationMarkersNorth(doc, uiDoc);
+                                }
+                            }
+
+                            if (data.SelectSouthElevationViewTemplate)
+                            {
+                                if (countElevationMarkers == 0)
+                                {
+                                    CreateElevationMarkersSouth(doc, uiDoc);
+                                }
+                                else
+                                {
+                                    ExistElevationMarkersSouth(doc, uiDoc);
+                                }
+                            }
+
+                            if (data.SelectWestElevationViewTemplate)
+                            {
+                                if (countElevationMarkers == 0)
+                                {
+                                    CreateElevationMarkersWest(doc, uiDoc);
+                                }
+                                else
+                                {
+                                    ExistElevationMarkersWest(doc, uiDoc);
+                                }
+                            }
+
+                            if (data.SelectEastElevationViewTemplate)
+                            {
+                                if (countElevationMarkers == 0)
+                                {
+                                    CreateElevationMarkersEast(doc, uiDoc);
+                                }
+                                else
+                                {
+                                    ExistElevationMarkersEast(doc, uiDoc);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            TaskDialog.Show("Create Elevation Views", "Dosen't exist View 3D in project.");
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        TaskDialog.Show("Create Elevation Views", ex.Message);
+                    }
+
+                    if (TransactionStatus.Committed != t.Commit())
+                    {
+                        TaskDialog.Show("Failure", "Transaction could not be commited");
+                    }
+                }
+                else
+                {
+                    t.RollBack();
+                }
+            }
+        }
+
         private void CreateSheets(ExternalCommandData commandData, NewSheetData data)
         {
             UIApplication app = commandData.Application;
@@ -58,87 +151,75 @@ namespace Beva.Commands
                 {
                     try
                     {
-                        View3D view3d = View3DExist(doc);
-
-                        if (view3d != null)
+                        if (null == commandData)
                         {
-                            List<ElevationMarker> elevationsMarkers = new List<ElevationMarker>();
-                            elevationsMarkers = ViewsElevationMarksExists(doc);
-                            Family family = null;
-                            family = LoadTitleBlockId(doc, data);
-                            if (elevationsMarkers.Count() == 0)
+                            throw new ArgumentNullException("commandData");
+                        }
+
+                        List<ElevationMarker> elevationsMarkers = new List<ElevationMarker>();
+                        elevationsMarkers = ViewsElevationMarksExists(doc);
+                        Family family = null;
+                        family = LoadTitleBlockId(doc, data);
+
+                        if (elevationsMarkers.Count() > 0)
+                        {
+                            FilteredElementCollector title_block_instances = new FilteredElementCollector(doc)
+                                .OfCategory(BuiltInCategory.OST_TitleBlocks)
+                                .OfClass(typeof(FamilySymbol));
+
+                            string nameTitleBlock = data.TitleBlockViewTemplate.Name.Split('.')[0];
+
+                            foreach (FamilySymbol e in title_block_instances)
                             {
-                                CreateElevationMarkersWest(doc, uiDoc);
-                                CreateElevationMarkersNorth(doc, uiDoc);
-                                CreateElevationMarkersEast(doc, uiDoc);
-                                CreateElevationMarkersSouth(doc, uiDoc);                                
-                            }
-                            else
-                            {
-                                ExistElevationMarkersWest(doc, uiDoc);
-                                ExistElevationMarkersNorth(doc, uiDoc);
-                                ExistElevationMarkersEast(doc, uiDoc);
-                                ExistElevationMarkersSouth(doc, uiDoc);
-
-                                FilteredElementCollector title_block_instances = new FilteredElementCollector(doc)
-                                    .OfCategory(BuiltInCategory.OST_TitleBlocks)
-                                    .OfClass(typeof(FamilySymbol));
-
-                                string nameTitleBlock = data.TitleBlockViewTemplate.Name.Split('.')[0];
-
-                                foreach (FamilySymbol e in title_block_instances)
-                                {                                    
-                                    if (e.FamilyName == nameTitleBlock)
-                                    {
-                                        family = e.Family;
-                                        break;
-                                    }
+                                if (e.FamilyName == nameTitleBlock)
+                                {
+                                    family = e.Family;
+                                    break;
                                 }
-                            }                            
-
-                            if (data.SelectRoofViewTemplate)
-                            {
-                                GenerateRoofViewSheet(doc, data, family);
-                            }
-
-                            if (data.SelectFloorViewTemplate)
-                            {
-                                GenerateFloorViewSheet(doc, data, family);
-                            }
-
-                            if (data.SelectNorthElevationViewTemplate)
-                            {
-                                GenerateNorthElevationViewSheet(doc, data, family);
-                            }
-
-                            if (data.SelectSouthElevationViewTemplate)
-                            {
-                                GenerateSouthElevationViewSheet(doc, data);
-                            }
-
-                            if (data.SelectWestElevationViewTemplate)
-                            {
-                                GenerateWestElevationViewSheet(doc, data);
-                            }
-
-                            if (data.SelectEastElevationViewTemplate)
-                            {
-                                GenerateEastElevationViewSheet(doc, data);
                             }
                         }
-                        else
+
+                        if (data.SelectFloorViewTemplate)
                         {
-                            TaskDialog.Show("Create Sheets", "Dosen't exist View 3D in project.");
+                            GenerateFloorViewSheet(doc, data, family);
                         }
-                    }
-                    catch (System.Exception ex)
-                    {
-                        TaskDialog.Show("Create Sheets", ex.Message);
-                    }
 
-                    if (TransactionStatus.Committed != t.Commit())
+                        if (data.SelectRoofViewTemplate)
+                        {
+                            GenerateRoofViewSheet(doc, data, family);
+                        }
+
+                        if (data.SelectNorthElevationViewTemplate)
+                        {
+                            GenerateNorthElevationViewSheet(doc, data, family);
+                        }
+
+                        if (data.SelectNorthElevationViewTemplate)
+                        {
+                            GenerateNorthElevationViewSheet(doc, data, family);
+                        }
+
+                        if (data.SelectSouthElevationViewTemplate)
+                        {
+                            GenerateSouthElevationViewSheet(doc, data, family);
+                        }
+
+                        if (data.SelectWestElevationViewTemplate)
+                        {
+                            GenerateWestElevationViewSheet(doc, data, family);
+                        }
+
+                        if (data.SelectEastElevationViewTemplate)
+                        {
+                            GenerateEastElevationViewSheet(doc, data, family);
+                        }
+
+                        t.Commit();
+                    }
+                    catch (Exception ex)
                     {
-                        TaskDialog.Show("Failure", "Transaction could not be commited");
+                        if ((t != null) && t.HasStarted() && !t.HasEnded())
+                            t.RollBack();
                     }
                 }
                 else
@@ -870,40 +951,40 @@ namespace Beva.Commands
             PlaceViews(doc, viewSetColl, newSheet);
         }
 
-        private void GenerateSouthElevationViewSheet(Document doc, NewSheetData data)
+        private void GenerateSouthElevationViewSheet(Document doc, NewSheetData data, Family family)
         {
             string name = "South";
             string type = "Elevation";
             Autodesk.Revit.DB.View curView = GetViewElevation(doc, ViewType.Elevation, type, name);
             curView = AsignViewTemplateToElevationView(curView, data, name);
 
-            ViewSheet newSheet = GenerateSheetAndInfoForElevationViewTemplate(doc, curView, data, name);
+            ViewSheet newSheet = family != null ? GenerateSheetAndInfoForElevationViewTemplate(doc, curView, data, name) : GenerateSheetAndInfoForElevationViewInstanceTemplate(doc, curView, data, name);
             ViewSet viewSetColl = GetAllElevationViewSet(doc, name, type);
 
             PlaceViews(doc, viewSetColl, newSheet);
         }
 
-        private void GenerateWestElevationViewSheet(Document doc, NewSheetData data)
+        private void GenerateWestElevationViewSheet(Document doc, NewSheetData data, Family family)
         {
             string name = "West";
             string type = "Elevation";
             Autodesk.Revit.DB.View curView = GetViewElevation(doc, ViewType.Elevation, type, name);
             curView = AsignViewTemplateToElevationView(curView, data, name);
 
-            ViewSheet newSheet = GenerateSheetAndInfoForElevationViewTemplate(doc, curView, data, name);
+            ViewSheet newSheet = family != null ? GenerateSheetAndInfoForElevationViewTemplate(doc, curView, data, name) : GenerateSheetAndInfoForElevationViewInstanceTemplate(doc, curView, data, name);
             ViewSet viewSetColl = GetAllElevationViewSet(doc, name, type);
 
             PlaceViews(doc, viewSetColl, newSheet);
         }
 
-        private void GenerateEastElevationViewSheet(Document doc, NewSheetData data)
+        private void GenerateEastElevationViewSheet(Document doc, NewSheetData data, Family family)
         {
             string name = "East";
             string type = "Elevation";
             Autodesk.Revit.DB.View curView = GetViewElevation(doc, ViewType.Elevation, type, name);
             curView = AsignViewTemplateToElevationView(curView, data, name);
 
-            ViewSheet newSheet = GenerateSheetAndInfoForElevationViewTemplate(doc, curView, data, name);
+            ViewSheet newSheet = family != null ? GenerateSheetAndInfoForElevationViewTemplate(doc, curView, data, name) : GenerateSheetAndInfoForElevationViewInstanceTemplate(doc, curView, data, name);
             ViewSet viewSetColl = GetAllElevationViewSet(doc, name, type);
 
             PlaceViews(doc, viewSetColl, newSheet);
