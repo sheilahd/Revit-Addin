@@ -167,7 +167,7 @@ namespace Beva.Commands
                                 .OfCategory(BuiltInCategory.OST_TitleBlocks)
                                 .OfClass(typeof(FamilySymbol));
 
-                            string nameTitleBlock = data.TitleBlockViewTemplate.Name.Split('.')[0];
+                            string nameTitleBlock = data.TitleBlockViewTemplate.Name;
 
                             foreach (FamilySymbol e in title_block_instances)
                             {
@@ -192,12 +192,7 @@ namespace Beva.Commands
                         if (data.SelectNorthElevationViewTemplate)
                         {
                             GenerateNorthElevationViewSheet(doc, data, family);
-                        }
-
-                        if (data.SelectNorthElevationViewTemplate)
-                        {
-                            GenerateNorthElevationViewSheet(doc, data, family);
-                        }
+                        }                        
 
                         if (data.SelectSouthElevationViewTemplate)
                         {
