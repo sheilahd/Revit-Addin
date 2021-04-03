@@ -214,7 +214,10 @@ namespace Beva.Commands
                     catch (Exception ex)
                     {
                         if ((t != null) && t.HasStarted() && !t.HasEnded())
+                        {
                             t.RollBack();
+                            TaskDialog.Show("Create Sheets", ex.Message);
+                        }                            
                     }
                 }
                 else
@@ -1112,7 +1115,7 @@ namespace Beva.Commands
             ViewSheet newSheet_;
             newSheet_ = ViewSheet.Create(doc, tblockId);
             newSheet_.Name = curView.ViewType.ToString();
-            newSheet_.SheetNumber = data.NameSheetFloorViewTemplate;
+            newSheet_.SheetNumber = data.NameSheetFloorViewTemplate.Equals("") ? "S/N" : data.NameSheetFloorViewTemplate;
             newSheet_ = GenerateCommonInfo(doc, newSheet_, data);
             return newSheet_;
         }
@@ -1135,7 +1138,9 @@ namespace Beva.Commands
             ViewSheet newSheet_;
             newSheet_ = ViewSheet.Create(doc, tblockId);
             newSheet_.Name = curView.ViewType.ToString();
-            newSheet_.SheetNumber = data.NameSheetFloorViewTemplate;
+            newSheet_.SheetNumber = data.NameSheetFloorViewTemplate.Equals("") ? "S/N" : data.NameSheetFloorViewTemplate;
+            //sheetNumber is an empty string or contains only whitespace.\r\nParameter name: sheetNumber
+            //Sheet number is already in use.\r\nParameter name: sheetNumber
             newSheet_ = GenerateCommonInfo(doc, newSheet_, data);
 
             return newSheet_;
