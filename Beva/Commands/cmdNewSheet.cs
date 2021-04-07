@@ -31,7 +31,7 @@ namespace Beva.Commands
                     {
                         NewSheetData data = form.FormData;
 
-                        CreateElevationMarkers(commandData, data);
+                        CreateElevationMarkers(commandData, data);                        
 
                         CreateSheets(commandData, data);
 
@@ -69,16 +69,23 @@ namespace Beva.Commands
 
                             int countElevationMarkers = elevationsMarkers.Count();
 
+                            ViewSet vSet = GetAllRoofViewSet(doc);
+                            Autodesk.Revit.DB.View view = null;
+                            foreach (Autodesk.Revit.DB.View v in vSet)
+                            {
+                                view = v;
+                            }
+
                             //si existen elevaciones creadas entonces se duplican las existentes con las mismas características que tienen; de lo contrario se crean nuevas elevaciones
                             if (data.SelectNorthElevationViewTemplate)
                             {
                                 if (countElevationMarkers == 0)
                                 {
-                                    CreateElevationMarkersNorth(doc, uiDoc);
+                                    CreateElevationMarkersNorth(doc, uiDoc, view);
                                 }
                                 else
                                 {
-                                    ExistElevationMarkersNorth(doc, uiDoc);
+                                    ExistElevationMarkersNorth(doc, uiDoc, view);
                                 }
                             }
 
@@ -86,11 +93,11 @@ namespace Beva.Commands
                             {
                                 if (countElevationMarkers == 0)
                                 {
-                                    CreateElevationMarkersSouth(doc, uiDoc);
+                                    CreateElevationMarkersSouth(doc, uiDoc, view);
                                 }
                                 else
                                 {
-                                    ExistElevationMarkersSouth(doc, uiDoc);
+                                    ExistElevationMarkersSouth(doc, uiDoc, view);
                                 }
                             }
 
@@ -98,11 +105,11 @@ namespace Beva.Commands
                             {
                                 if (countElevationMarkers == 0)
                                 {
-                                    CreateElevationMarkersWest(doc, uiDoc);
+                                    CreateElevationMarkersWest(doc, uiDoc, view);
                                 }
                                 else
                                 {
-                                    ExistElevationMarkersWest(doc, uiDoc);
+                                    ExistElevationMarkersWest(doc, uiDoc, view);
                                 }
                             }
 
@@ -110,11 +117,11 @@ namespace Beva.Commands
                             {
                                 if (countElevationMarkers == 0)
                                 {
-                                    CreateElevationMarkersEast(doc, uiDoc);
+                                    CreateElevationMarkersEast(doc, uiDoc, view);
                                 }
                                 else
                                 {
-                                    ExistElevationMarkersEast(doc, uiDoc);
+                                    ExistElevationMarkersEast(doc, uiDoc, view);
                                 }
                             }
                         }
@@ -192,7 +199,7 @@ namespace Beva.Commands
                         if (data.SelectNorthElevationViewTemplate)
                         {
                             GenerateNorthElevationViewSheet(doc, data, family);
-                        }                        
+                        }
 
                         if (data.SelectSouthElevationViewTemplate)
                         {
@@ -246,9 +253,8 @@ namespace Beva.Commands
             return collector.ToList();
         }
 
-        private void CreateElevationMarkersWest(Document doc, UIDocument uiDoc)
-        {
-            Autodesk.Revit.DB.View view = uiDoc.ActiveView;
+        private void CreateElevationMarkersWest(Document doc, UIDocument uiDoc, Autodesk.Revit.DB.View view)
+        {        
             int scale = view.Scale;
 
             ViewFamilyType vft = new FilteredElementCollector(doc).
@@ -325,9 +331,8 @@ namespace Beva.Commands
             ElementTransformUtils.RotateElement(doc, marker.Id, l, angle);
         }
 
-        private void CreateElevationMarkersNorth(Document doc, UIDocument uiDoc)
+        private void CreateElevationMarkersNorth(Document doc, UIDocument uiDoc, Autodesk.Revit.DB.View view)
         {
-            Autodesk.Revit.DB.View view = uiDoc.ActiveView;
             int scale = view.Scale;
 
             ViewFamilyType vft = new FilteredElementCollector(doc).
@@ -404,9 +409,8 @@ namespace Beva.Commands
             ElementTransformUtils.RotateElement(doc, marker.Id, l, angle);
         }
 
-        private void CreateElevationMarkersEast(Document doc, UIDocument uiDoc)
+        private void CreateElevationMarkersEast(Document doc, UIDocument uiDoc, Autodesk.Revit.DB.View view)
         {
-            Autodesk.Revit.DB.View view = uiDoc.ActiveView;
             int scale = view.Scale;
 
             ViewFamilyType vft = new FilteredElementCollector(doc).
@@ -483,9 +487,8 @@ namespace Beva.Commands
             ElementTransformUtils.RotateElement(doc, marker.Id, l, angle);
         }
 
-        private void CreateElevationMarkersSouth(Document doc, UIDocument uiDoc)
+        private void CreateElevationMarkersSouth(Document doc, UIDocument uiDoc, Autodesk.Revit.DB.View view)
         {
-            Autodesk.Revit.DB.View view = uiDoc.ActiveView;
             int scale = view.Scale;
 
             ViewFamilyType vft = new FilteredElementCollector(doc).
@@ -562,9 +565,8 @@ namespace Beva.Commands
             ElementTransformUtils.RotateElement(doc, marker.Id, l, angle);
         }
 
-        private void ExistElevationMarkersWest(Document doc, UIDocument uiDoc)
+        private void ExistElevationMarkersWest(Document doc, UIDocument uiDoc, Autodesk.Revit.DB.View view)
         {
-            Autodesk.Revit.DB.View view = uiDoc.ActiveView;
             int scale = view.Scale;
 
             ViewFamilyType vft = new FilteredElementCollector(doc).
@@ -641,9 +643,8 @@ namespace Beva.Commands
             ElementTransformUtils.RotateElement(doc, marker.Id, l, angle);
         }
 
-        private void ExistElevationMarkersNorth(Document doc, UIDocument uiDoc)
+        private void ExistElevationMarkersNorth(Document doc, UIDocument uiDoc, Autodesk.Revit.DB.View view)
         {
-            Autodesk.Revit.DB.View view = uiDoc.ActiveView;
             int scale = view.Scale;
 
             ViewFamilyType vft = new FilteredElementCollector(doc).
@@ -720,9 +721,8 @@ namespace Beva.Commands
             ElementTransformUtils.RotateElement(doc, marker.Id, l, angle);
         }
 
-        private void ExistElevationMarkersEast(Document doc, UIDocument uiDoc)
+        private void ExistElevationMarkersEast(Document doc, UIDocument uiDoc, Autodesk.Revit.DB.View view)
         {
-            Autodesk.Revit.DB.View view = uiDoc.ActiveView;
             int scale = view.Scale;
 
             ViewFamilyType vft = new FilteredElementCollector(doc).
@@ -799,9 +799,8 @@ namespace Beva.Commands
             ElementTransformUtils.RotateElement(doc, marker.Id, l, angle);
         }
 
-        private void ExistElevationMarkersSouth(Document doc, UIDocument uiDoc)
+        private void ExistElevationMarkersSouth(Document doc, UIDocument uiDoc, Autodesk.Revit.DB.View view)
         {
-            Autodesk.Revit.DB.View view = uiDoc.ActiveView;
             int scale = view.Scale;
 
             ViewFamilyType vft = new FilteredElementCollector(doc).
