@@ -124,26 +124,29 @@ namespace Beva.Managers
             {
                 if (viewItem.IsTemplate)
                 {
-                    switch (viewItem.ViewType)
-                    {
-                        case ViewType.FloorPlan:
-                            {
-                                m_floorViewTemplates.Add(viewItem);
-                                break;
-                            }
-                        case ViewType.CeilingPlan:
-                            {
-                                m_roofViewTemplates.Add(viewItem);
-                                break;
-                            }
-                        case ViewType.Elevation:
-                            {
-                                m_elevationViewTemplates.Add(viewItem);
-                                break;
-                            }
-                        default:
-                            break;
-                    }
+                    m_floorViewTemplates.Add(viewItem);
+                    m_roofViewTemplates.Add(viewItem);
+                    m_elevationViewTemplates.Add(viewItem);
+                    //switch (viewItem.ViewType)
+                    //{
+                    //    case ViewType.FloorPlan:
+                    //        {
+                    //            m_floorViewTemplates.Add(viewItem);
+                    //            break;
+                    //        }
+                    //    case ViewType.CeilingPlan:
+                    //        {
+                    //            m_roofViewTemplates.Add(viewItem);
+                    //            break;
+                    //        }
+                    //    case ViewType.Elevation:
+                    //        {
+                    //            m_elevationViewTemplates.Add(viewItem);
+                    //            break;
+                    //        }
+                    //    default:
+                    //        break;
+                    //}
                 }
             }
 
