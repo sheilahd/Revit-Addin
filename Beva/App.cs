@@ -71,7 +71,7 @@ namespace Beva
             _button.Add(pushButton1);
 
             // CREATES PUSH BUTTON 2 ( EZ-SHEET )
-            PushButtonData button2 = new PushButtonData("btnNewSheet", "EZ-Sheet", thisAssemblyPath, typeof(CmdNewSheet).FullName);
+            PushButtonData button2 = new PushButtonData("btnNewSheet", "EZ-Sheet", thisAssemblyPath, typeof(cmdNewSheet).FullName);
             PushButton pushButton2 = panel.AddItem(button2) as PushButton;
             pushButton2.LargeImage = new BitmapImage(new Uri(Path.Combine(imagePath, "btn2B_EZSheets_32x32.png")));
             pushButton2.ToolTip = tooltipContentBtn2;
