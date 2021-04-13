@@ -48,7 +48,7 @@ namespace Beva.Commands
                 return Result.Failed;
             }
         }
-
+        #region CREATE ELEVATIONS MARKERS
         private void CreateElevationMarkers(ExternalCommandData commandData, NewSheetData data)
         {
             UIApplication app = commandData.Application;
@@ -139,7 +139,9 @@ namespace Beva.Commands
                 }
             }
         }
+        #endregion
 
+        #region CREATE SHEETS
         private void CreateSheets(ExternalCommandData commandData, NewSheetData data)
         {
             UIApplication app = commandData.Application;
@@ -216,7 +218,7 @@ namespace Beva.Commands
 
                         t.Commit();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         if ((t != null) && t.HasStarted() && !t.HasEnded())
                             t.RollBack();
@@ -228,7 +230,9 @@ namespace Beva.Commands
                 }
             }
         }
+        #endregion
 
+        #region VERIFY IF 3D VIEW EXISTS (MEANING GEOMETRY EXISTS)
         private View3D View3DExist(Document doc)
         {
             var collector = new FilteredElementCollector(doc).OfClass(typeof(View3D)).Cast<View3D>();
@@ -241,6 +245,7 @@ namespace Beva.Commands
                 return null;
             }
         }
+        #endregion
 
         private List<ElevationMarker> ViewsElevationMarksExists(Document doc)
         {
