@@ -3,13 +3,6 @@ using Autodesk.Revit.UI;
 using Beva.FormData;
 using Beva.Managers;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Beva.Forms
@@ -79,23 +72,23 @@ namespace Beva.Forms
             var docUnits = newProjManager.CommandData.Application.ActiveUIDocument.Document.GetUnits();
             var units = newProjManager.CommandData.Application.ActiveUIDocument.Document.DisplayUnitSystem;
 
-            if (!TryParse(docUnits, txtLength.Text, out double length))
-            {
-                TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The project is in " + units.ToString() + " units.");
-                return;
-            }
+            //if (!TryParse(docUnits, txtLength.Text, out double length))
+            //{
+            //    TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The project is in " + units.ToString() + " units.");
+            //    return;
+            //}
 
-            if (!TryParse(docUnits, txtWidth.Text, out double width))
-            {
-                TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The project is in " + units.ToString() + " units.");
-                return;
-            }
+            //if (!TryParse(docUnits, txtWidth.Text, out double width))
+            //{
+            //    TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The project is in " + units.ToString() + " units.");
+            //    return;
+            //}
 
-            if (!TryParse(docUnits, txtHeight.Text, out double height))
-            {
-                TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The project is in " + units.ToString() + " units.");
-                return;
-            }
+            //if (!TryParse(docUnits, txtHeight.Text, out double height))
+            //{
+            //    TaskDialog.Show("Data validation", "Please, fix the dimensions. There are some invalid values. The project is in " + units.ToString() + " units.");
+            //    return;
+            //}
 
             FormData = new NewProjData
             {
@@ -104,9 +97,9 @@ namespace Beva.Forms
                 X = x,
                 Y = y,
                 Z = z,
-                Length = length,
-                Width = width,
-                Height = height,
+                //Length = length,
+                //Width = width,
+                //Height = height,
                 DrawingRoof = chbRoofType.Checked,
                 DrawingSlab = chbSlab.Checked
             };
@@ -115,21 +108,26 @@ namespace Beva.Forms
             Close();
         }
 
-        private bool TryParse(Units units, string stringToParse, out double value)
+        private void cbWallType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            value = 0;
 
-            if (string.IsNullOrWhiteSpace(stringToParse))
-            {
-                return false;
-            }
-
-            var valueParsingOptions = new ValueParsingOptions()
-            {
-                AllowedValues = AllowedValues.Positive
-            };
-
-            return UnitFormatUtils.TryParse(units, UnitType.UT_Length, stringToParse, valueParsingOptions, out value);
         }
+
+        //private bool TryParse(Units units, string stringToParse, out double value)
+        //{
+        //    value = 0;
+
+        //    if (string.IsNullOrWhiteSpace(stringToParse))
+        //    {
+        //        return false;
+        //    }
+
+        //    var valueParsingOptions = new ValueParsingOptions()
+        //    {
+        //        AllowedValues = AllowedValues.Positive
+        //    };
+
+        //    return UnitFormatUtils.TryParse(units, UnitType.UT_Length, stringToParse, valueParsingOptions, out value);
+        //}
     }
 }

@@ -42,11 +42,11 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="RevitAPI">
-      <HintPath>$(ProgramW6432)\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>$(ProgramW6432)\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -96,10 +96,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if exist "$(AppData)\Autodesk\REVIT\Addins\2019" copy "$(ProjectDir)*.addin" "$(AppData)\Autodesk\REVIT\Addins\2019"
-if exist "$(AppData)\Autodesk\REVIT\Addins\2019" copy "$(ProjectDir)$(OutputPath)*.dll" "$(AppData)\Autodesk\REVIT\Addins\2019"
-if exist "$(AppData)\Autodesk\REVIT\Addins\2019" copy "$(ProjectDir)*.chm" "$(AppData)\Autodesk\REVIT\Addins\2019"
-if exist "$(AppData)\Autodesk\REVIT\Addins\2019" if not exist "$(AppData)\Autodesk\REVIT\Addins\2019\Images" mkdir "$(AppData)\Autodesk\REVIT\Addins\2019\Images"
+    <PostBuildEvent>if exist "$(AppData)\Autodesk\REVIT\Addins\2020" copy "$(ProjectDir)*.addin" "$(AppData)\Autodesk\REVIT\Addins\2020"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020" copy "$(ProjectDir)$(OutputPath)*.dll" "$(AppData)\Autodesk\REVIT\Addins\2020"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020" copy "$(ProjectDir)*.chm" "$(AppData)\Autodesk\REVIT\Addins\2020"
+if exist "$(AppData)\Autodesk\REVIT\Addins\2020" if not exist "$(AppData)\Autodesk\REVIT\Addins\2020\Images" mkdir "$(AppData)\Autodesk\REVIT\Addins\2020\Images"
 if exist "$(AppData)\Autodesk\REVIT\Addins\2019\Images" copy "$(ProjectDir)Images" "$(AppData)\Autodesk\REVIT\Addins\2019\Images"
 if exist "$(AppData)\Autodesk\REVIT\Addins\2020" copy "$(ProjectDir)*.addin" "$(AppData)\Autodesk\REVIT\Addins\2020"
 if exist "$(AppData)\Autodesk\REVIT\Addins\2020" copy "$(ProjectDir)$(OutputPath)*.dll" "$(AppData)\Autodesk\REVIT\Addins\2020"
